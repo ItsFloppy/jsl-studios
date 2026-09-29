@@ -1,0 +1,23 @@
+# Routing for Netlify. Cloudflare Pages reads the same syntax; Apache hosts use the
+# rewrite block in .htaccess instead. Keep the three in step.
+#
+# "Pretty URLs" post-processing MUST BE DISABLED for this site
+# (Site configuration > Build & deploy > Post processing > Asset optimization).
+# It forwards /about to /about/, and a trailing slash would change every page's base
+# directory from / to /about/ — harmless for root-absolute paths, but it also puts a
+# slash in the address bar that nothing here wants. These rules state the mapping
+# explicitly rather than depending on that setting.
+
+# The old URLs keep working, so existing links and bookmarks survive.
+# `!` is required: it forces the rule even though the .html file really exists.
+/index.html                    /                              301!
+/studios.html                  /studios                       301!
+/production.html               /production                    301!
+/about.html                    /about                         301!
+/justin-souriau-levine.html    /justin-souriau-levine         301!
+
+# Serve each page at its clean path. 200 rewrites, so the address bar keeps the clean URL.
+/studios                       /studios.html                  200
+/production                    /production.html               200
+/about                         /about.html                    200
+/justin-souriau-levine         /justin-souriau-levine.html    200

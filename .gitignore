@@ -1,0 +1,10 @@
+# Copie d'avant le nettoyage du 2026-09-29 : l'historique git la remplace
+.backup-preclean/
+
+# Fichiers système
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Python (serve.py)
+__pycache__/
