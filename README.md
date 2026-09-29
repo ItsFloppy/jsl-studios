@@ -18,7 +18,24 @@ python serve.py
 Then open <http://localhost:8000/>. Pass `-p` for another port. The script serves its own
 folder whichever directory it is started from.
 
-Prefer `serve.py` while editing, for two reasons. `python -m http.server` sends `Last-Modified`
+**Use `serve.py`, not `python -m http.server`.** The stdlib server cannot rewrite URLs, so
+every clean link 404s under it while the old `/studios.html` still works - which reads as
+"the links are broken" when nothing is wrong with them.
+
+The two can also run at once with no error. `serve.py` binds `127.0.0.1`; `python -m
+http.server` binds the wildcard `::`, a different address, so it starts happily alongside -
+and since `localhost` resolves to `::1` first, it is the one that answers. Two servers, no
+warning, clean URLs silently gone.
+
+`serve.py` refuses to start when the port is taken and explains why, but it cannot stop the
+stdlib server being started second, and a copy of it left running from an earlier session
+will hold the port too. If clean URLs stop working, look at the port before the site:
+
+```
+netstat -ano | findstr :8000
+```
+
+Beyond routing, `serve.py` also fixes caching. `python -m http.server` sends `Last-Modified`
 with no `Cache-Control`, which lets the browser reuse a cached page without
 revalidating; an edit then looks as though it did nothing, because the file on
 disk is new and the page on screen is old. `serve.py` sends `no-store`, so a
