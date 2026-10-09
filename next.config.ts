@@ -70,6 +70,8 @@ const SANITY_IMAGES = SANITY_PROJECT_ID
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // The site's main address (lib/site.ts), fixed at build time: Netlify sets URL during builds.
+  env: { SITE_URL: process.env.URL ?? 'http://localhost:3000' },
   // A stray lockfile higher up the disk would otherwise be taken for the workspace root.
   turbopack: { root: __dirname },
   images: {

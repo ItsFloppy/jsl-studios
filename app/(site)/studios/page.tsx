@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'JSL Studios — Feature Films',
   description:
     'Inspired by the grandeur of classical Hollywood cinema and the power of escapism, JSL Studios creates feature films that invite audiences to leave reality behind.',
+  alternates: { canonical: '/studios' },
 }
 
 // Films come from Sanity: re-rendered at most once a minute (ISR).

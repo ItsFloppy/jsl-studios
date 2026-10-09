@@ -1,7 +1,7 @@
 import { SiteFooter } from './SiteFooter'
 import { SiteHeader } from './SiteHeader'
 
-export type PageKey = 'home' | 'studios' | 'production' | 'about' | 'justin'
+export type PageKey = 'home' | 'studios' | 'production' | 'about' | 'justin' | 'not-found'
 
 /**
  * Header, <main> and footer of a site page. The wrapper carries `data-page`, which the

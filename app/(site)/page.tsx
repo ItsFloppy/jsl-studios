@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'JSL Studios — Independent Film & Production Company',
   description:
     'JSL Studios is a New York City, Paris and Riyadh based independent film and commercial production company producing narrative feature films, commercials and branded content.',
+  alternates: { canonical: '/' },
 }
 
 export default function HomePage() {

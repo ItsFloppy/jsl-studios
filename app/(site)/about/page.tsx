@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: 'About — JSL Studios',
   description:
     'JSL Studios is an independent film studio built to bring the magic, scale and craft of cinema to a new generation of audiences. Founded in New York, 2020.',
+  alternates: { canonical: '/about' },
 }
 
 // Team and network come from Sanity: re-rendered at most once a minute (ISR).
@@ -56,15 +57,17 @@ export default async function AboutPage() {
 
       <div className="about-tabs">
       <div className="about-tabs-inner" role="tablist" aria-label="About sections">
-      <button className="tab-btn" data-tab="story" role="tab" aria-selected="true" aria-controls="panel-story">Know more about us</button>
-      <button className="tab-btn" data-tab="team" role="tab" aria-selected="false" aria-controls="panel-team">Team</button>
-      <button className="tab-btn" data-tab="network" role="tab" aria-selected="false" aria-controls="panel-network">Network</button>
-      <button className="tab-btn" data-tab="contact" role="tab" aria-selected="false" aria-controls="panel-contact">Contact</button>
+      {/* Only the selected tab is in the Tab order; the arrow keys move between tabs
+          (lib/behaviors/about.ts). */}
+      <button className="tab-btn" id="tab-story" data-tab="story" role="tab" aria-selected="true" aria-controls="panel-story" tabIndex={0}>Know more about us</button>
+      <button className="tab-btn" id="tab-team" data-tab="team" role="tab" aria-selected="false" aria-controls="panel-team" tabIndex={-1}>Team</button>
+      <button className="tab-btn" id="tab-network" data-tab="network" role="tab" aria-selected="false" aria-controls="panel-network" tabIndex={-1}>Network</button>
+      <button className="tab-btn" id="tab-contact" data-tab="contact" role="tab" aria-selected="false" aria-controls="panel-contact" tabIndex={-1}>Contact</button>
       </div>
       </div>
 
       {/* ============ Story ============ */}
-      <div id="panel-story" role="tabpanel" aria-label="Know more about us">
+      <div id="panel-story" role="tabpanel" aria-labelledby="tab-story">
 
       <section className="story-hero">
       <img src="/assets/crop/feat-cowgirls.webp" alt="Feature still" fetchPriority="high" />
@@ -175,7 +178,7 @@ export default async function AboutPage() {
       </div>
 
       {/* ============ Team ============ */}
-      <div id="panel-team" role="tabpanel" aria-label="Team" hidden>
+      <div id="panel-team" role="tabpanel" aria-labelledby="tab-team" hidden>
       <section className="wrap team-sec">
       <div className="team-layout">
 
@@ -229,7 +232,7 @@ export default async function AboutPage() {
       </div>
 
       {/* ============ Network ============ */}
-      <div id="panel-network" role="tabpanel" aria-label="Network" hidden>
+      <div id="panel-network" role="tabpanel" aria-labelledby="tab-network" hidden>
       <section className="wrap network-sec">
       <div className="network-head">
       <div className="network-head-left">
@@ -252,7 +255,7 @@ export default async function AboutPage() {
       </div>
 
       {/* ============ Contact ============ */}
-      <div id="panel-contact" role="tabpanel" aria-label="Contact" hidden>
+      <div id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" hidden>
       <section className="wrap about-contact-sec">
       <p className="about-contact-lede" data-reveal="">Tell us what you want to make.</p>
       <div className="about-contact-grid">

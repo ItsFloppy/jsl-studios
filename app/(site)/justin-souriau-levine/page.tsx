@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Justin Souriau-Levine — JSL Studios',
   description:
     'Justin Souriau-Levine is an award-winning filmmaker, producer, writer and actor, and the Founder & CEO of JSL Studios. A life built around storytelling.',
+  alternates: { canonical: '/justin-souriau-levine' },
 }
 
 export default function JustinPage() {

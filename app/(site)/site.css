@@ -302,6 +302,8 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .prod-hero-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: clamp(20px, 4vw, 60px); }
 .prod-hero h1 { margin: 0; max-width: 16ch; font-size: clamp(38px, 5.8vw, 92px); font-weight: 500; line-height: 1; letter-spacing: -.04em; text-wrap: balance; }
 .prod-hero-row p { margin: 0; max-width: 360px; font-size: clamp(15px, 1.2vw, 17px); line-height: 1.55; color: rgba(10, 10, 10, .7); text-wrap: pretty; }
+/* The 404 page (app/not-found.tsx) borrows the Production head above. */
+.not-found-actions { padding-bottom: clamp(80px, 10vw, 160px); }
 
 .prod-groups { padding-bottom: clamp(60px, 8vw, 120px); display: flex; flex-direction: column; gap: clamp(50px, 6vw, 96px); }
 .prod-group { display: flex; flex-direction: column; gap: clamp(20px, 2.6vw, 36px); }

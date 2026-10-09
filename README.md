@@ -144,9 +144,16 @@ Behaviour ported from the design's component class:
   tile, to the static site's for all eight filters. A partner without a site is a plain tile,
   not a link.
 
-Accessibility additions: the About tabs use `role="tablist"`/`aria-selected`, the network
-filters use `aria-pressed`, team rows are keyboard-focusable and respond to Enter/Space, and the
-split hero is reachable by keyboard (left and right arrows pick a side, Enter or Space opens it).
+Accessibility additions: the About tabs follow the ARIA tabs pattern (`role="tablist"`,
+`aria-selected`, panels labelled by their tab, only the selected tab in the Tab order, arrow
+keys/Home/End to move between tabs), the network filters use `aria-pressed`, team rows are
+keyboard-focusable and respond to Enter/Space, and the split hero is reachable by keyboard
+(left and right arrows pick a side, Enter or Space opens it).
+
+Search engines get a canonical URL on every page and `/sitemap.xml` (listed in `/robots.txt`),
+both built on the site's main address (`lib/site.ts`: Netlify's `URL` at build time), so the
+`*.netlify.app` copies are not indexed as duplicates. Unknown URLs get the site's own 404 page
+(`app/not-found.tsx`).
 
 ## Deploying (Netlify)
 

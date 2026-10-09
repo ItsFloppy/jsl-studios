@@ -23,7 +23,10 @@ function showTab(tab: string, scroll: boolean) {
     const btn = document.querySelector('[data-tab="' + t + '"]');
     const panel = document.getElementById('panel-' + t);
     const on = t === tab;
-    if (btn) btn.setAttribute('aria-selected', on ? 'true' : 'false');
+    if (btn) {
+      btn.setAttribute('aria-selected', on ? 'true' : 'false');
+      btn.setAttribute('tabindex', on ? '0' : '-1');
+    }
     if (panel) panel.hidden = !on;
   });
   if (tab === 'network' && ensureNetwork) ensureNetwork();
@@ -42,6 +45,25 @@ function tabsBind() {
       else window.location.hash = tab;
     });
   });
+  // Arrow keys, Home and End move between tabs and open the one they land on, as a click
+  // does (ARIA tabs pattern, automatic activation).
+  const list = document.querySelector('[role="tablist"]');
+  if (list) {
+    list.addEventListener('keydown', function (ev) {
+      const e = ev as KeyboardEvent;
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+      const from = TABS.indexOf((e.target as Element).getAttribute('data-tab') || currentTab());
+      let to = -1;
+      if (e.key === 'ArrowRight') to = (from + 1) % TABS.length;
+      else if (e.key === 'ArrowLeft') to = (from - 1 + TABS.length) % TABS.length;
+      else if (e.key === 'Home') to = 0;
+      else if (e.key === 'End') to = TABS.length - 1;
+      if (to < 0) return;
+      e.preventDefault();
+      const btn = document.querySelector<HTMLElement>('[data-tab="' + TABS[to] + '"]');
+      if (btn) { btn.focus(); btn.click(); }
+    });
+  }
   window.addEventListener('hashchange', function () { showTab(currentTab(), true); });
   showTab(currentTab(), false);
 }

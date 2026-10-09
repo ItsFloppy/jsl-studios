@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description:
     'JSL Production creates campaigns, commercials, fashion films and branded content for fashion houses, brands and cultural partners — with the scale and craft of cinema.',
   icons: { icon: { url: '/favicon-sky.svg', type: 'image/svg+xml' } },
+  alternates: { canonical: '/production' },
 }
 
 // Projects come from Sanity: re-rendered at most once a minute (ISR).
