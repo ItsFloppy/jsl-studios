@@ -89,9 +89,9 @@ function teamBind() {
     if (layers[name]) return layers[name];
     const div = document.createElement('div');
     div.className = 'portrait-layer';
+    // Without a portrait the frame stays empty.
     const slot = document.createElement('div');
     slot.className = 'portrait-ph';
-    slot.textContent = '[PORTRAIT — 4:5]';
     if (PHOTOS[name]) {
       const img = document.createElement('img');
       img.alt = name + ' — portrait';
@@ -119,8 +119,9 @@ function teamBind() {
   let active: Person | null = null;
   let bioOpen = false;
 
-  function bioFor(person: Person) {
-    return BIOS[person.name] || ('[BIO — a short presentation of ' + person.name + ', ' + person.role + ' — to be supplied]');
+  // Someone without a bio has nothing to open: the panel stays closed rather than empty.
+  function hasBio(person: Person | null) {
+    return !!person && !!BIOS[person.name];
   }
 
   function setActive(person: Person) {
@@ -132,7 +133,7 @@ function teamBind() {
     if (metaIndex) metaIndex.textContent = person.index;
     if (bioName) bioName.textContent = person.name;
     if (bioRole) bioRole.textContent = person.role;
-    if (bioText) bioText.textContent = bioFor(person);
+    if (bioText) bioText.textContent = BIOS[person.name] || '';
   }
 
   // Which row's bio is showing, so only that row reports aria-expanded="true".
@@ -142,7 +143,7 @@ function teamBind() {
     bioOpen = open;
     openRow = open ? (row || openRow) : null;
     bio.classList.toggle('open', open);
-    document.querySelectorAll('.team-row').forEach(function (r) {
+    document.querySelectorAll('.team-row[data-bio]').forEach(function (r) {
       r.setAttribute('aria-expanded', open && r === openRow ? 'true' : 'false');
     });
   }
@@ -163,17 +164,18 @@ function teamBind() {
     };
     if (person.name === CEO.name) person = { name: CEO.name, role: CEO.role, group: CEO.group, index: CEO.index };
     // While a bio is open, hovering or focusing another row shows that person's bio, so
-    // that row becomes the expanded one — and Enter on it then closes what it shows.
+    // that row becomes the expanded one — and Enter on it then closes what it shows. Over
+    // someone without a bio, the panel closes.
     const over = function () {
       setActive(person);
-      if (bioOpen) setBio(true, row);
+      if (bioOpen) setBio(hasBio(person), row);
     };
     // moveFocus only for keyboard activation: the bio that just appeared is elsewhere in
     // the DOM and nothing would announce it otherwise. Doing it on mouse clicks too would
     // yank focus away from where the pointer is.
     const open = function (moveFocus: boolean) {
       const same = active && active.name === person.name;
-      const willOpen = same ? !bioOpen : true;
+      const willOpen = hasBio(person) && (same ? !bioOpen : true);
       setActive(person);
       setBio(willOpen, row);
       if (moveFocus) (willOpen ? bio : row).focus();
@@ -191,7 +193,9 @@ function teamBind() {
     });
   });
 
-  viewer.addEventListener('click', function () { setBio(!bioOpen, openRow); });
+  viewer.addEventListener('click', function () {
+    if (bioOpen || hasBio(active)) setBio(!bioOpen, openRow);
+  });
 }
 
 /* ---------- Network mosaic ---------- */

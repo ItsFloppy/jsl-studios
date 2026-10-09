@@ -1,11 +1,13 @@
-// Static fallback content: the site exactly as it was before Sanity, in the shapes of
-// lib/types.ts. lib/sanity.queries.ts serves it whenever Sanity is not configured
-// (no NEXT_PUBLIC_SANITY_PROJECT_ID), returns nothing or fails, and scripts/seed.ts
-// pushes it into a fresh dataset. Images point at /public, so this file alone renders
-// the whole site.
+// Static fallback content: the site as it was before Sanity, in the shapes of lib/types.ts.
+// lib/sanity.queries.ts serves it whenever Sanity is not configured (no
+// NEXT_PUBLIC_SANITY_PROJECT_ID) or returns nothing, and when a build cannot reach it;
+// scripts/seed.ts pushes it into a fresh dataset. Images point at /public, so this file
+// alone renders the whole site.
 //
-// Placeholders still to replace (in the Studio once seeded): IMDb links, video links,
-// years and cast. Missing bios: John Dima, Emma Kremer, Yves Philippe, Marvin Jay Levy.
+// It holds no placeholder links: a film without its IMDb page shows no button, a project
+// without its video is a card that does not click through. Still to supply, in the
+// Studio: IMDb and video links, years and cast. Missing bios: John Dima, Emma Kremer,
+// Yves Philippe, Marvin Jay Levy.
 
 import type { Film, NetworkSector, ProductionCategory, TeamGroup } from './types'
 
@@ -20,7 +22,6 @@ export const FILMS_STATIC: Film[] = [
     ],
     genres: ['Comedy', 'Time travel'],
     directedBy: 'Justin Souriau-Levine',
-    imdbUrl: 'https://www.imdb.com',
   },
   {
     id: 'planet-of-the-astronauts',
@@ -30,7 +31,6 @@ export const FILMS_STATIC: Film[] = [
     ],
     genres: ['Adventure', 'Sci-fi'],
     directedBy: 'Justin Souriau-Levine',
-    imdbUrl: 'https://www.imdb.com',
   },
   {
     id: 'the-greatest-race',
@@ -40,7 +40,6 @@ export const FILMS_STATIC: Film[] = [
     ],
     genres: ['Adventure', 'Western'],
     directedBy: 'Justin Souriau-Levine',
-    imdbUrl: 'https://www.imdb.com',
   },
 ]
 
@@ -56,7 +55,6 @@ export const PRODUCTION_STATIC: ProductionCategory[] = [
         title: 'Collection film',
         thumbnail: { src: '/assets/crop/fash-red-suit.webp', alt: 'LAQUAN SMITH' },
         year: 2026,
-        videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       },
       {
         id: 'gfc-fw26-runway-cut',
@@ -64,7 +62,6 @@ export const PRODUCTION_STATIC: ProductionCategory[] = [
         title: 'Runway cut',
         thumbnail: { src: '/assets/crop/fash-runway-dark.webp', alt: 'GFC FW26' },
         year: 2026,
-        videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       },
       {
         id: 'gfc-fw26-next-generation',
@@ -72,7 +69,6 @@ export const PRODUCTION_STATIC: ProductionCategory[] = [
         title: 'Next generation',
         thumbnail: { src: '/assets/crop/fash-kid-runway.webp', alt: 'GFC FW26' },
         year: 2026,
-        videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       },
     ],
   },
@@ -87,7 +83,6 @@ export const PRODUCTION_STATIC: ProductionCategory[] = [
         title: 'Campaign film',
         thumbnail: { src: '/assets/crop/bts-apartment-shoot.webp', alt: 'PUBLIC SERV-CE' },
         year: 2026,
-        videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       },
       {
         id: 'gfc-ss27-headpiece-series',
@@ -95,7 +90,6 @@ export const PRODUCTION_STATIC: ProductionCategory[] = [
         title: 'Headpiece series',
         thumbnail: { src: '/assets/crop/fash-hats-trio.webp', alt: 'GFC SS27' },
         year: 2027,
-        videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       },
     ],
   },
@@ -109,21 +103,18 @@ export const PRODUCTION_STATIC: ProductionCategory[] = [
         client: 'VOSITA',
         title: 'A sonogram to remember',
         thumbnail: { src: '/assets/crop/vosita-sonogram.webp', alt: 'VOSITA — A sonogram to remember' },
-        videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       },
       {
         id: 'vosita-the-date',
         client: 'VOSITA',
         title: 'The date',
         thumbnail: { src: '/assets/crop/vosita-date.webp', alt: 'VOSITA — The date' },
-        videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       },
       {
         id: 'vosita-three-doctors-and-a-dog',
         client: 'VOSITA',
         title: 'Three doctors and a dog',
         thumbnail: { src: '/assets/crop/vosita-doctors-dog.webp', alt: 'VOSITA — Three doctors and a dog' },
-        videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       },
     ],
   },

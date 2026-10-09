@@ -17,13 +17,8 @@ export function SiteFooter() {
               <a className="foot-link sky" href="/production">Production</a>
               <a className="foot-link" href="/about">About</a>
             </div>
-            <div className="foot-col">
-              <span className="foot-col-label">Follow</span>
-              <a className="foot-ext" href="https://www.imdb.com" target="_blank" rel="noopener">IMDb ↗</a>
-              <a className="foot-ext" href="https://www.instagram.com" target="_blank" rel="noopener">Instagram ↗</a>
-              <a className="foot-ext" href="https://www.linkedin.com" target="_blank" rel="noopener">LinkedIn ↗</a>
-              <a className="foot-ext" href="https://www.youtube.com" target="_blank" rel="noopener">YouTube ↗</a>
-            </div>
+            {/* A "Follow" column (IMDb, Instagram, LinkedIn, YouTube) goes here once JSL's own
+                profile URLs are known; .foot-ext in site.css styles its links. */}
             <div className="foot-col wide">
               <span className="foot-col-label">Offices</span>
               <span className="foot-plain">New York</span>

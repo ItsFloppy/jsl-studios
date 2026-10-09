@@ -56,9 +56,14 @@ and copy it, unless a constraint below says otherwise.
   → `sanity/structure/index.ts` (or it shows nowhere in the Studio) → `lib/types.ts` →
   `lib/sanity.queries.ts` (query + normalise + static fallback) → `lib/data.ts` →
   `scripts/seed.ts`.
-- Every `getX()` falls back to `lib/data.ts` when Sanity is unset, empty or failing, and
-  normalises whatever comes back: a field can always arrive null through GROQ, and a render
-  that throws freezes the page in ISR (the old copy stays cached, every regeneration fails).
+- Every `getX()` falls back to `lib/data.ts` when Sanity is unset or empty. A failing fetch
+  falls back too during a build and in dev, but on the live site it throws: ISR then keeps the
+  last good page and retries a minute later, rather than putting the static content back
+  online (`fetchOr()` in `lib/sanity.queries.ts`). So `lib/data.ts` must never hold
+  placeholders a visitor could see.
+- `getX()` also normalises whatever comes back: a field can always arrive null through GROQ,
+  and a render that throws freezes the page in ISR (the old copy stays cached, every
+  regeneration fails). Links are kept only if http(s) (`url()`), SVG images are dropped.
 - **Deploy code before changing the shape of data in the dataset**, for the same reason.
 - Icons come from per-icon subpaths: `import { UserIcon } from '@sanity/icons/User'`. The root
   entry of `@sanity/icons` v5 no longer exports them (it type-checks, as `never`, but breaks the

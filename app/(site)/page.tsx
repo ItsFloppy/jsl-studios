@@ -129,15 +129,12 @@ export default function HomePage() {
       <span className="contact-city-name">New York</span>
       <div className="contact-city-meta">
       <span>172E, 95th Street 10128 NY, NY</span>
-      <span>[PHONE]</span>
       </div>
       </div>
       <div className="contact-city" data-reveal="" data-delay="110">
       <span className="contact-city-name">Paris</span>
-      <div className="contact-city-meta">
-      <span>[ADDRESS]</span>
-      <span>[PHONE]</span>
-      </div>
+      {/* The Paris address and both phone numbers are still to supply. */}
+      <div className="contact-city-meta"></div>
       </div>
       <div className="contact-city no-edge" data-reveal="">
       <span className="contact-city-name">Write to us</span>

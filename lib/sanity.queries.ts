@@ -1,4 +1,5 @@
 import type { SanityImageSource } from '@sanity/image-url'
+import { PHASE_PRODUCTION_BUILD } from 'next/constants'
 import { FILMS_STATIC, NETWORK_STATIC, PRODUCTION_STATIC, TEAM_STATIC } from './data'
 import { isSanityConfigured, sanityClient } from './sanity.client'
 import { croppedUrl, fullUrl } from './sanity.image'
@@ -15,10 +16,10 @@ import {
   type TeamMember,
 } from './types'
 
-// Each getX() follows the same contract: the static content of lib/data.ts when Sanity is
-// not configured, returns nothing or fails; otherwise Sanity's content, normalised to the
-// shapes of lib/types.ts. Pages re-render at most once a minute (ISR), so a publish in the
-// Studio shows on the site within about 60 s, with no rebuild.
+// Each getX() follows the same contract: Sanity's content, normalised to the shapes of
+// lib/types.ts; the static content of lib/data.ts when Sanity is not configured or returns
+// nothing. Pages re-render at most once a minute (ISR), so a publish in the Studio shows on
+// the site within about 60 s, with no rebuild. A failing fetch: see fetchOr().
 const REVALIDATE = { next: { revalidate: 60 } }
 
 // Source sizes asked of Sanity, with the crop and hotspot applied. next/image then serves
@@ -38,8 +39,15 @@ async function fetchOr<T>(label: string, query: string, normalise: (raw: unknown
     // An empty dataset (before the first seed) keeps the site whole rather than blank.
     return items.length ? items : fallback
   } catch (err) {
-    // A render that throws freezes the page in ISR: the old copy stays cached and every
-    // regeneration fails. Falling back keeps the site up while the error is logged.
+    // On the live site, let the regeneration fail: ISR then keeps serving the last good page
+    // and tries again a minute later. Falling back here would put lib/data.ts back online,
+    // with whatever the editors have since corrected or removed. There is no previous page
+    // during a build (or in dev): fall back so the deploy goes through, the next regeneration
+    // replaces it.
+    if (process.env.NODE_ENV === 'production' && process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD) {
+      console.error(`[sanity] ${label}: fetch failed, keeping the last good page`, err)
+      throw err
+    }
     console.error(`[sanity] ${label}: falling back to static content`, err)
     return fallback
   }

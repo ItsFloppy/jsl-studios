@@ -24,8 +24,9 @@ export function TeamGroup({ group, index }: { group: Group; index: number }) {
           className="team-row"
           role="button"
           tabIndex={0}
-          aria-expanded="false"
-          aria-controls="team-bio"
+          // Only a row with a bio opens the panel (lib/behaviors/about.ts).
+          aria-expanded={m.bio ? false : undefined}
+          aria-controls={m.bio ? 'team-bio' : undefined}
           data-reveal=""
           data-delay={i ? i * 70 : undefined}
           data-name={m.name}
