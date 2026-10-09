@@ -32,7 +32,9 @@ const STUDIO_CSP = [
   "media-src 'self' blob: https://cdn.sanity.io",
   // The Studio's UI font (Inter) comes from design-system-static.sanity.io.
   "font-src 'self' data: https://*.sanity.io",
-  "connect-src 'self' https://*.sanity.io wss://*.sanity.io",
+  // sanity-cdn.com: Sanity's module CDN, which the Studio asks for its latest version (the
+  // "new version available" notice); blocked, it logs "Failed to fetch version for package".
+  "connect-src 'self' https://*.sanity.io wss://*.sanity.io https://sanity-cdn.com https://*.sanity-cdn.com",
   "frame-src 'self' https://*.sanity.io",
   "worker-src 'self' blob:",
   "form-action 'self' https://*.sanity.io",
