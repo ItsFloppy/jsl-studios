@@ -1,10 +1,15 @@
-# Copie d'avant le nettoyage du 2026-09-29 : l'historique git la remplace
-.backup-preclean/
+# Dépendances et builds
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+.netlify/
+
+# Secrets locaux (le modèle est .env.local.example)
+.env*.local
 
 # Fichiers système
 Thumbs.db
 desktop.ini
 .DS_Store
-
-# Python (serve.py)
-__pycache__/

@@ -1,267 +1,209 @@
 # JSL Studios — website
 
-A static implementation of the JSL Studios design from
-[the design project](https://claude.ai/design/p/8ac94c6f-5896-42b3-ba35-986f3650a647). The
-source design lives there; its exported `.dc.html` and that file's runtime are no longer kept
-in this folder.
+The JSL Studios site, built from
+[the design project](https://claude.ai/design/p/8ac94c6f-5896-42b3-ba35-986f3650a647), as a
+Next.js (App Router, TypeScript) app with an embedded Sanity Studio at **`/studio`**.
 
-The design is a single-file prototype: one document with `sc-if` / `sc-for` template
-directives and a `DCLogic` component class driving five screens through `state.page`.
-This build turns it into a plain multi-page static site — no framework, no build step.
+Films, production projects, the team and the network are edited in the Studio and appear on
+the site within about a minute, with no rebuild. The rest of the copy (home page, story,
+Justin's page, contact) lives in the page components. The architecture mirrors
+`Perso/chantemiel-v2`; `CLAUDE.md` is the reference for working on the code.
 
 ## Running it
 
 ```
-python serve.py
+npm install
+cp .env.local.example .env.local   # then fill in the Sanity project ID
+npm run dev
 ```
 
-Then open <http://localhost:8000/>. Pass `-p` for another port. The script serves its own
-folder whichever directory it is started from.
+Open <http://localhost:3000/>; the Studio is at <http://localhost:3000/studio>. Node 22.12 or
+newer is required (Sanity's minimum).
 
-**Use `serve.py`, not `python -m http.server`.** The stdlib server cannot rewrite URLs, so
-every clean link 404s under it while the old `/studios.html` still works - which reads as
-"the links are broken" when nothing is wrong with them.
+Without `NEXT_PUBLIC_SANITY_PROJECT_ID` the site still runs, entirely on the static content of
+`lib/data.ts` (the site as it was before Sanity); `/studio` then says what is missing.
 
-The two can also run at once with no error. `serve.py` binds `127.0.0.1`; `python -m
-http.server` binds the wildcard `::`, a different address, so it starts happily alongside -
-and since `localhost` resolves to `::1` first, it is the one that answers. Two servers, no
-warning, clean URLs silently gone.
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Development server with hot reload |
+| `npm run build` then `npm start` | Production build, served locally. ISR (the 60 s refresh) only runs in this mode, not in `dev` |
+| `npm run lint` / `npm run typecheck` | ESLint / TypeScript |
+| `npm run seed` | Dry run of the dataset seed; `npm run seed -- --yes` writes it (see below) |
 
-`serve.py` refuses to start when the port is taken and explains why, but it cannot stop the
-stdlib server being started second, and a copy of it left running from an earlier session
-will hold the port too. If clean URLs stop working, look at the port before the site:
+## Editing content
 
-```
-netstat -ano | findstr :8000
-```
+Everything is under <https://the-site/studio>, after signing in with a Sanity account invited to
+the project:
 
-Beyond routing, `serve.py` also fixes caching. `python -m http.server` sends `Last-Modified`
-with no `Cache-Control`, which lets the browser reuse a cached page without
-revalidating; an edit then looks as though it did nothing, because the file on
-disk is new and the page on screen is old. `serve.py` sends `no-store`, so a
-plain reload always reflects what is on disk.
+| Studio section | On the site |
+| --- | --- |
+| **Studio → Films** | `/studios`: one card per film, alternating left and right |
+| **Production → Projets / Catégories** | `/production`: one section per category, one card per project |
+| **Équipe → Groupes / Personnes** | `/about#team`: the groups (Board, Team, Consultants) and the people in them |
+| **Network → Partenaires / Secteurs** | `/about#network`: the mosaic and its filter buttons |
 
-`no-store` only governs responses from that point on, so `serve.py` also sends
-`Clear-Site-Data: "cache"` with each page. That matters when an asset is deleted
-or replaced: without it the browser can go on rendering a copy of a file that is
-no longer there — a deleted image keeps appearing instead of falling back to its
-placeholder. Both behaviours are verified against a live browser rather than
-assumed.
+- **Publishing.** Changes go live when published (not while in draft), within about 60 s.
+- **Order.** Lists follow their `Ordre` field, smallest first; leave gaps (10, 20, 30…) to slot
+  things in. Members of a team group follow the order of the group's list (drag and drop).
+- **People and roles.** A person is entered once (name, portrait, bio); the role belongs to
+  the group membership, because the same person can have a different role in each group.
+  A new person can be created straight from a group's member list.
+- **Partners.** The tile size comes from *Relation* (client is largest) plus *Notoriété*
+  (1–5). A light logo drawn for dark backgrounds needs *Inverser les couleurs du logo*. With
+  no logo, the tile shows the name in type.
+- **Images.** Set the hotspot (focal point) on stills, thumbnails and portraits: the site crops
+  them to 16:9 or 4:5 around it. An empty optional field (year, cast, IMDb or Watch Now link,
+  video link) leaves its line or button out.
 
-`serve.py` is for development only. It answers requests in parallel, gives up on idle
-connections after 10 seconds, and returns 404 for a folder URL instead of listing it, as
-the production hosts do. One side effect of `no-store`: the browser never keeps these pages
-in its back/forward cache, so the Back-button restore handled in `js/site.js` can only be
-exercised against a caching server (`python -m http.server` does).
+Editors are invited from sanity.io/manage (the free plan has 20 seats).
+
+### Seeding a fresh dataset
+
+`scripts/seed.ts` pushes the content of `lib/data.ts` into the dataset and uploads its images
+from `public/`. It needs an Editor token in `.env.local` (`SANITY_API_TOKEN`). Documents get
+stable IDs (`film-back-to-the-present`, `person-gordon-caplan`…) and are created with
+`createIfNotExists`, so running it again never overwrites what was edited in the Studio.
 
 ## Layout
 
 | Path | What it is |
 | --- | --- |
-| `index.html` → `/` | Home — split hero, "who we are", frame reel, newsletter, contact |
-| `studios.html` → `/studios` | JSL Studios — feature films |
-| `production.html` → `/production` | JSL Production — fashion films, campaigns, commercials |
-| `about.html` → `/about` | About — four tabs (story / team / network / contact) |
-| `justin-souriau-levine.html` → `/justin-souriau-levine` | Founder profile |
-| `css/site.css` | All styling, including the `@font-face` rules |
-| `js/site.js` | Shared behaviour — split hero, scroll reveal, image cycling, frame reel, newsletter |
-| `js/about.js` | About page — tabs, team credits viewer, network mosaic |
-| `assets/` | Images (crops, team portraits, partner logos) |
-| `fonts/` | Self-hosted WOFF2 fonts — Syne and Cormorant Garamond italic (latin subset) |
-| `favicon.svg`, `favicon-sky.svg` | Favicons (gold; sky blue on the Production page) |
-| `_headers` | Security and cache headers for Netlify / Cloudflare Pages |
-| `_redirects` | Clean-URL routing for Netlify / Cloudflare Pages |
-| `.htaccess` | The same headers, plus compression, for Apache hosts |
-| `serve.py` | Development server (static files, caching disabled) |
+| `app/(site)/page.tsx` → `/` | Home: split hero, "who we are", frame reel, newsletter, contact |
+| `app/(site)/studios/page.tsx` → `/studios` | Feature films (Sanity) |
+| `app/(site)/production/page.tsx` → `/production` | Production projects by category (Sanity) |
+| `app/(site)/about/page.tsx` → `/about` | Four tabs: story, team (Sanity), network (Sanity), contact |
+| `app/(site)/justin-souriau-levine/page.tsx` | Founder profile |
+| `app/(site)/site.css` | All site styling, including the `@font-face` rules |
+| `app/studio/[[...tool]]/` | The embedded Studio |
+| `components/` | Header, footer, page shell, cards, team group, network filter, `Behaviors` |
+| `lib/sanity.queries.ts` | `getFilms()`, `getProductionCategories()`, `getTeamGroups()`, `getNetwork()` |
+| `lib/data.ts`, `lib/types.ts` | Static fallback content, and the shapes pages render |
+| `lib/behaviors/` | The page scripts (hero, reveal, cycling stills, tabs, team viewer, mosaic) |
+| `sanity/` | Studio schema, structure and navbar; `sanity.config.ts` at the root |
+| `scripts/seed.ts` | Dataset seed |
+| `public/` | Fonts, images (crops, team portraits, partner logos), favicons |
+| `next.config.ts` | Security headers, cache headers, redirects from the old `.html` URLs |
 
-## URLs
+## How it works
 
-Pages are served without the `.html` extension: `/`, `/studios`, `/production`, `/about`,
-`/justin-souriau-levine`. The old `.html` addresses 301 to these, so existing links keep
-working and only one URL is canonical.
-
-Three files express the same routing, one per host, and they must be kept in step:
-`_redirects` (Netlify, Cloudflare Pages), the `mod_rewrite` block in `.htaccess` (Apache),
-and `send_head()` in `serve.py` (local). `serve.py` implements it precisely so that a clean
-URL is never something that only works once deployed.
-
-**On Netlify, "Pretty URLs" must be disabled** — Site configuration → Build & deploy → Post
-processing → Asset optimization. Left on, it forwards `/about` to `/about/`, and the trailing
-slash both fights the rules in `_redirects` and puts a slash in the address bar that nothing
-here wants.
-
-**Asset paths are root-absolute on purpose** (`/css/site.css`, `/assets/crop/x.webp`), rather
-than relative as they were before clean URLs. A relative path resolves against the document's
-directory, so under a trailing-slash URL like `/about/` every one of them would point a level
-too deep and the stylesheet, fonts, favicon and all 55 images would 404 at once — a total
-failure that appears only in production. Root-absolute paths make the site indifferent to the
-URL shape. The three `url()` values in `css/site.css` are the exception and stay relative:
-CSS resolves those against the stylesheet's own location, so they are already correct.
-`<base href="/">` is not an option here — the CSP sets `base-uri 'none'`.
-
-Adding a page means: create `name.html`, add a `/name` rewrite and a `/name.html` 301 to
-`_redirects`, and link it as `/name`.
+- **Data.** Each `getX()` returns Sanity's published content, normalised to `lib/types.ts`. It
+  falls back to `lib/data.ts` when Sanity is not configured, returns nothing or fails, so a bad
+  document can never take a page down (a render that throws would freeze it in ISR).
+- **Freshness.** `/studios`, `/production` and `/about` set `revalidate = 60`: a page is
+  regenerated at most once a minute, on the next visit after the minute has passed. No
+  webhook, no rebuild, no deploy credit spent on a publish.
+- **Images.** Sanity images are requested with the editor's crop and hotspot applied, then
+  served through `/_next/image` (Netlify Image CDN on Netlify): visitors never contact
+  `cdn.sanity.io`, and get AVIF or WebP at the size they need.
+- **Page scripts.** The behaviours ported from the design manipulate the DOM directly, so
+  `components/Behaviors.tsx` starts them only once React has hydrated the page: a change made
+  before hydration would be seen by React as a mismatch and undone.
+- **Full page loads.** Internal links are plain `<a>`, not `next/link`, as on the static site:
+  the page scripts bind once per document, and background prefetching would spend Netlify
+  requests for nothing.
 
 ## How the design maps onto the build
 
-The design's `state.page` switch became separate pages, and `state.tab` on the About
-screen became `#story` / `#team` / `#network` / `#contact` hash routing, so every view has
-its own URL and the browser's back button steps back through the tabs.
+The design's `state.page` switch became separate pages, and `state.tab` on the About screen
+became `#story` / `#team` / `#network` / `#contact` hash routing, so every view has its own URL
+and the browser's back button steps back through the tabs.
 
 Behaviour ported from the design's component class:
 
-- **Split hero** (`js/site.js`) — hovering biases the clip-path 64/36; clicking wipes the
-  chosen half to full width and then navigates. On the home page the Studio and Production
-  nav links drive the same wipe, exactly as `_navGo` did; a Ctrl/Cmd/Shift/middle click on
-  them is left to the browser (new tab, new window). Coming back with the Back button can
-  restore the page from the browser's back/forward cache mid-wipe, so a `pageshow` handler
-  puts the hero back to rest.
-- **Scroll reveal** — `IntersectionObserver` with the design's `rootMargin`/threshold, its
+- **Split hero** (`lib/behaviors/site.ts`): hovering biases the clip-path 64/36; clicking wipes
+  the chosen half to full width and then navigates. The Studio and Production nav links drive
+  the same wipe; a Ctrl/Cmd/Shift/middle click on them is left to the browser. Coming back with
+  the Back button can restore the page from the back/forward cache mid-wipe, so a `pageshow`
+  handler puts the hero back to rest.
+- **Scroll reveal**: `IntersectionObserver` with the design's `rootMargin`/threshold, its
   per-element `data-delay`, the 4-second safety timeout, and the `prefers-reduced-motion`
-  bail-out. Elements inside a hidden About tab wait for their tab to open instead of being
-  counted as already on screen.
-- **Feature cards** — `data-cycle` cross-fades through a list of stills on hover, using the
-  two-image opacity swap from `_cycleBind`; each fade starts once the next still is decoded.
-  Only *Back to the Present!* carries a cycle; *Planet of the Astronauts* and *The Greatest
-  Race* have a single frame each, so they render as plain images with no hover behaviour.
-- **Frame reel** — the home page marquee pauses while it is off screen and stands still under
+  bail-out. Elements inside a hidden About tab wait for their tab to open.
+- **Feature cards**: a film with several stills cross-fades through them on hover (the
+  two-image opacity swap of the design); each fade starts once the next still is decoded.
+- **Frame reel**: the home page marquee pauses while off screen and stands still under
   `prefers-reduced-motion`.
-- **Team credits** (`js/about.js`) — a sticky portrait viewer (in the normal flow on screens
-  up to 820px wide, where it would otherwise cover the list, and scrolled into view when a
-  name is tapped there); hovering or focusing a name swaps the portrait, clicking opens the
-  bio overlay. Portraits are created lazily and a
-  person with no photo falls back to a `[PORTRAIT — 4:5]` slot.
-- **Network mosaic** (`js/about.js`) — the scoring (`SCORE` + `VISIBILITY` → tile size), the
-  seeded shuffle, the explicit dense-pack simulation with its two hole-patching passes, and
-  the FLIP animation on filter change are ported from the design so tile layout matches it.
-  The packing keeps a cell → tile index rather than scanning every tile per lookup, and each
-  filter's layout is computed once and reused; both were checked to produce exactly the same
-  layout for all eight filters. The mosaic is only built the first time the Network tab is
-  shown.
+- **Team credits** (`lib/behaviors/about.ts`): a sticky portrait viewer; hovering or focusing a
+  name swaps the portrait, clicking opens the bio. Each row carries its person's portrait and bio
+  as `data-` attributes. A person with no photo shows a `[PORTRAIT — 4:5]` slot.
+- **Network mosaic**: the scoring (relationship + visibility → tile size), the seeded shuffle,
+  the explicit dense-pack simulation with its two hole-patching passes, and the FLIP animation on
+  filter change, as in the design. With the seeded content the layout is identical, tile for
+  tile, to the static site's for all eight filters.
 
 Accessibility additions: the About tabs use `role="tablist"`/`aria-selected`, the network
-filters use `aria-pressed`, team rows are keyboard-focusable and respond to Enter/Space,
-and the split hero is reachable by keyboard — the left and right arrow keys pick a side,
-Enter or Space opens it.
+filters use `aria-pressed`, team rows are keyboard-focusable and respond to Enter/Space, and the
+split hero is reachable by keyboard (left and right arrows pick a side, Enter or Space opens it).
 
-## Deploying
+## Deploying (Netlify)
 
-Publish the five pages, `css/`, `js/`, `assets/`, `fonts/`, the two favicons and the header
-file for the host (`_headers` or `.htaccess`). Do not publish `serve.py` or this README.
-`.htaccess` refuses to serve them on Apache, but `_headers` cannot hide a file, so on
-Netlify or Cloudflare Pages publish a copy of the site without them (or move the site files
-into their own folder and point the host at it).
+`netlify.toml` builds with `npm run build` and the Next.js runtime (`@netlify/plugin-nextjs`).
+Set on Netlify:
 
-- **Security headers.** Both files set the same policy: a strict Content-Security-Policy
-  (everything from the site's own origin, nothing inline), HSTS, `nosniff`, a referrer
-  policy, a permissions policy, and framing denied. Each page also carries the CSP in a
-  `<meta>` tag, so the content rules hold even on a host that sets no headers — but not the
-  framing ban, which only works as a real header (`frame-ancestors`, `X-Frame-Options`).
-  The `<meta>` copy also leaves out `upgrade-insecure-requests`, which would break previews
-  served over plain HTTP (e.g. `serve.py -b 0.0.0.0` opened from a phone). Keep the three in
-  step.
-- **What the CSP means when editing.** No `style="…"` attributes and no inline `<script>`
-  or `<style>`: styling goes in `css/site.css`, scripts in `js/`. Setting `element.style.…`
-  from a script is fine. The policy also enables Trusted Types, so assigning an HTML string
-  to `innerHTML` / `insertAdjacentHTML` throws — build elements with `createElement` and
-  `textContent`, as the existing code does.
-- **Caching.** HTML revalidates on every visit. CSS and JS are cached for an hour and are
-  referenced with `?v=YYYY-MM-DD`; bump that value in the five pages whenever
-  `css/site.css`, `js/site.js` or `js/about.js` changes. Images are cached for a week, since
-  their names carry no content hash — give a replaced image a new file name if it must show
-  up sooner. Fonts are cached for a year.
-- **Third parties.** None. Fonts are self-hosted, so no visitor data goes to Google Fonts
-  and no consent banner is needed for them.
+- `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET`. Never `SANITY_API_TOKEN`:
+  the site only reads public content.
+
+In sanity.io/manage → API → CORS origins, add the site's origins **with credentials allowed**
+(`http://localhost:3000`, the Netlify URL, the final domain): the embedded Studio calls Sanity
+from the site's own origin.
+
+The site runs on a Netlify account of its own, on the credit-based free plan (300 credits a
+month, shared by every site on an account; once spent, the account's sites are paused until
+the next month). Publishing in the Studio costs nothing; each production deploy costs 15
+credits, so group merges into `main`; the rest goes on bandwidth (20 credits per GB) and
+requests. Netlify warns as usage passes thresholds.
+
+## Security headers
+
+Set in `next.config.ts` for every route: Content-Security-Policy, HSTS, `nosniff`, a referrer
+policy, a permissions policy, framing denied, and the cross-origin opener/resource policies.
+
+- **Site pages:** everything from the site's own origin. Next requires two concessions over the
+  static site: `script-src 'unsafe-inline'` (its pages ship inline script payloads, and a nonce is
+  impossible on static and ISR pages) and `style-src 'unsafe-inline'` (next/image sets an inline
+  style). `'unsafe-eval'` is added in development only, for React's error overlay.
+- **`/studio`:** a separate, looser policy, since the Studio talks to Sanity directly (API and
+  websockets on `*.sanity.io`, its UI font, user avatars from anywhere).
+- **Third parties.** None on the site. Fonts are self-hosted, so no visitor data goes to Google
+  Fonts and no consent banner is needed for them.
+- **Caching.** Pages follow ISR. Next's own CSS and JS have hashed names and are cached
+  forever. `/fonts` is cached for a year; `/assets` for a week, since those names carry no
+  content hash: give a replaced file a new name if it must show up sooner.
 
 ## Images
 
-Every image has been resized to what the site can actually display and re-encoded with
-**all metadata removed** — EXIF (including the GPS location several phone portraits
-carried), XMP, C2PA manifests and colour profiles, after converting Display-P3 files to
-sRGB. Photographs are WebP; partner logos stay PNG (a 256-colour palette wherever that is
-visually lossless) so a missing logo can still be dropped in under the name the code
-expects. Together the images went from 43.6 MB to 3.5 MB.
-
-Keep new files to the same limits, and **strip their metadata before adding them** — a
-phone photo can carry the exact place it was taken:
-
-| Kind | Size limit | Format |
-| --- | --- | --- |
-| Team portrait | 840 × 1050 (4:5 frame) | WebP or JPEG |
-| Feature still / thumbnail | 1280 px wide | WebP |
-| Full-width image | 1920 px wide | WebP |
-| Partner logo | 1200 × 560 | PNG with transparency |
-
-Re-saving with Pillow drops the metadata, for example:
+Images managed in the Studio are resized and re-encoded for each visitor by the image CDN, but
+Sanity stores the file **as uploaded**, at a public URL. **Strip metadata before uploading**: a
+phone photo can carry the exact place it was taken. Re-saving with Pillow does it, for example:
 
 ```
-python -c "from PIL import Image, ImageOps; im = ImageOps.exif_transpose(Image.open('in.jpg')).convert('RGB'); im.thumbnail((840, 1050)); im.save('out.webp', quality=80, method=6)"
+python -c "from PIL import Image, ImageOps; im = ImageOps.exif_transpose(Image.open('in.jpg')).convert('RGB'); im.thumbnail((1920, 1920)); im.save('out.webp', quality=82, method=6)"
 ```
 
-### Assets that still need supplying
+Sensible sizes: team portraits about 840 × 1050 (4:5), stills and thumbnails about 1920 px
+wide (16:9), partner logos about 1200 × 560 PNG with transparency.
 
-Two names have no portrait anywhere: `Yves Philippe` and `Marvin Jay Levy` are absent from the
-design project's own `PHOTOS` map too, so no image has ever existed for them. They show a
-neutral placeholder, and the real file is picked up automatically once dropped in at the path
-below. **No code change is needed** — just copy the file into place.
+The images in `public/assets/` (home reel, story, hero backgrounds) are the static site's,
+already resized and stripped of metadata (43.6 MB down to 3.5 MB). The team, film, production
+and logo files among them are also the seed's source.
 
-| Path | Used by |
-| --- | --- |
-| `assets/team/yves-philippe.jpg` | Team viewer |
-| `assets/team/marvin-jay-levy.jpg` | Team viewer |
-| `assets/logos/aveiro-maroc.png` | Network mosaic |
-| `assets/logos/fff-academy.png` | Network mosaic |
-| `assets/logos/harvard-university.png` | Network mosaic |
-| `assets/logos/nycfc.png` | Network mosaic |
-| `assets/logos/real-murcia.png` | Network mosaic |
-| `assets/logos/vosita-healthcare.png` | Network mosaic |
+## Content still to supply or fix
 
-Until then: team portraits show a `[PORTRAIT — 4:5]` slot and the mosaic sets the partner's
-name in type.
+In the Studio, once seeded:
 
-No stylesheet or script applies a colour filter to a team portrait — each one is drawn
-exactly as the file is. `magali-souriau.webp` nevertheless renders black and white, because
-the original in the design project is itself monochrome. Showing it in colour needs a colour
-original; there is nothing to switch off.
+- **Missing portraits:** Yves Philippe, Marvin Jay Levy (no image has ever existed for them).
+- **Missing bios:** John Dima, Emma Kremer, Yves Philippe, Marvin Jay Levy.
+- **Missing logos:** Aveiro Maroc, FFF Academy, Harvard University, NYCFC, Real Murcia, Vosita
+  Healthcare (their tiles show the name in type).
+- **Name spellings to confirm:** "Louise Vilepellet" (her bio says Villepelet), "Theodore
+  Verzat" (his bio says Théodore).
+- **Placeholders:** every film's IMDb link goes to imdb.com's home page and no year or cast is
+  set yet; every production project links to the same placeholder YouTube video.
 
-Portraits are drawn with `object-fit: cover` in a 4:5 frame, so a file that is already 4:5
-is shown whole. All but one are, and render with nothing trimmed; `gary-springer.webp` is
-slightly taller than 4:5 so about 3% is taken off the top and bottom. The extension is not
-fixed: the path in `PHOTOS` (`js/about.js`) is what is fetched, so a `.webp` works as well as
-a `.jpg` provided the two agree.
+In the code:
 
-Four logos (`al-ahli`, `eduardo-ramos`, `isigny-sainte-mere`, `yale-yale-new-haven-health`) also
-came back truncated from the design project, but the part that survived is the whole mark, so
-they are used as-is.
-
-### Verification
-
-**Expected console noise is eight 404s at most** — the six absent logos and the two absent
-team portraits listed above. A single page load shows fewer, because the mosaic only requests
-the logos in the filter currently selected and a portrait is only fetched when that person is
-hovered; exercising every filter and every row is what reaches eight. Each one is handled: the
-mosaic swaps in the partner's wordmark (and does not ask for that file again during the
-visit), the team viewer swaps in its `[PORTRAIT — 4:5]` slot. That is deliberate, so the tiles
-and portraits heal themselves the moment the files are added, with no code change. A 404 for
-any other path is a real regression, and so is any Content-Security-Policy report in the
-console.
-
-The count is derived rather than remembered: the mosaic builds its own paths at runtime from a
-slug of each partner's name, so grepping the source will not find them. `js/about.js` holds the
-partner list and the slug rule; reproducing that rule against `assets/logos/` is what produces
-the six.
-
-## Placeholder copy and links
-
-Square-bracket text (`[YEAR]`, `[CAST]`, `[ADDRESS]`, `[PHONE]`) is carried over from the
-design, which had not been filled in yet. Real phone numbers and emails are live.
-
-Also still placeholders, to replace before launch:
-
-- every Production card links to the same placeholder YouTube video;
-- *Watch Now* on *Planet of the Astronauts* links to `#`, and the IMDb, Instagram, LinkedIn
-  and YouTube links go to those sites' home pages;
-- the newsletter form shows "Subscribed" but sends the address nowhere — connect it to a
-  mailing provider (and add that provider's origin to `form-action` in the CSP) or remove it;
-- "Legal mentions · Privacy" in the footer is plain text: the legal notice and privacy
-  policy pages still need writing.
+- `[ADDRESS]` and `[PHONE]` in the home page's contact block;
+- the footer's IMDb, Instagram, LinkedIn and YouTube links go to those sites' home pages;
+- the newsletter form shows "Subscribed" but sends the address nowhere: connect it to a mailing
+  provider (and add its origin to `form-action` in the CSP) or remove it;
+- "Legal mentions · Privacy" in the footer is plain text: the legal notice and privacy policy
+  pages still need writing.
