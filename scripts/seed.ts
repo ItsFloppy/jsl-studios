@@ -35,7 +35,7 @@ if (!projectId || !token) {
 const client = createClient({ projectId, dataset, token, apiVersion: '2025-02-19', useCdn: false })
 
 const slug = (s: string) =>
-  s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 const ref = (_ref: string) => ({ _type: 'reference' as const, _ref })
 // Lists are spaced by 10 so editors can slot something in between without renumbering.
 const ordre = (i: number) => (i + 1) * 10

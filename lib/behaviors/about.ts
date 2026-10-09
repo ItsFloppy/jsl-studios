@@ -50,12 +50,15 @@ function tabsBind() {
 
 type Person = { name: string; role: string; group: string; index: string };
 
-const CEO: Person = {
-  name: 'Justin Souriau-Levine',
-  role: 'Founder & CEO',
-  group: 'Founder & CEO',
-  index: 'Justin Souriau-Levine'
-};
+// A team row, or the CEO block, carries the person it shows as data- attributes.
+function personOf(el: Element): Person {
+  return {
+    name: el.getAttribute('data-name') || '',
+    role: el.getAttribute('data-role') || '',
+    group: el.getAttribute('data-group') || '',
+    index: el.getAttribute('data-index') || ''
+  };
+}
 
 function teamBind() {
   const viewer = document.querySelector<HTMLElement>('.team-portrait');
@@ -112,9 +115,12 @@ function teamBind() {
     return div;
   }
 
-  // The static CEO layer shipped in the HTML.
+  // The CEO, shown by default: the block above the groups describes them, and the HTML
+  // ships their portrait layer.
+  const ceoBlock = document.querySelector('.ceo-block');
+  const CEO = ceoBlock ? personOf(ceoBlock) : null;
   const staticLayer = layersHost.querySelector('[data-person-layer]');
-  if (staticLayer) layers[CEO.name] = staticLayer;
+  if (CEO && staticLayer) layers[CEO.name] = staticLayer;
 
   let active: Person | null = null;
   let bioOpen = false;
@@ -148,21 +154,14 @@ function teamBind() {
     });
   }
 
-  setActive(CEO);
-
-  const ceoBlock = document.querySelector('.ceo-block');
-  if (ceoBlock) {
+  if (ceoBlock && CEO) {
+    setActive(CEO);
     ceoBlock.addEventListener('mouseenter', function () { setActive(CEO); });
   }
 
   document.querySelectorAll<HTMLElement>('.team-row').forEach(function (row) {
-    let person: Person = {
-      name: row.getAttribute('data-name') || '',
-      role: row.getAttribute('data-role') || '',
-      group: row.getAttribute('data-group') || '',
-      index: row.getAttribute('data-index') || ''
-    };
-    if (person.name === CEO.name) person = { name: CEO.name, role: CEO.role, group: CEO.group, index: CEO.index };
+    let person = personOf(row);
+    if (CEO && person.name === CEO.name) person = CEO;
     // While a bio is open, hovering or focusing another row shows that person's bio, so
     // that row becomes the expanded one — and Enter on it then closes what it shows. Over
     // someone without a bio, the panel closes.

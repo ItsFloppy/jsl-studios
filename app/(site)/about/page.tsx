@@ -19,6 +19,7 @@ export const revalidate = 60
 // The CEO block and the viewer's default portrait are about Justin. His portrait is taken
 // from his team entry, so replacing it in the Studio replaces it here too.
 const CEO_NAME = 'Justin Souriau-Levine'
+const CEO_ROLE = 'Founder & CEO'
 const CEO_PORTRAIT_FALLBACK = '/assets/team/justin-souriau-levine.webp'
 const PORTRAIT_WIDTH = 828
 const LOGO_WIDTH = 640
@@ -202,7 +203,9 @@ export default async function AboutPage() {
 
       <div className="team-lists">
 
-      <div className="ceo-block">
+      {/* The viewer's default person (lib/behaviors/about.ts), shown again when hovering here;
+          it stands in for Justin's own rows too. */}
+      <div className="ceo-block" data-name={CEO_NAME} data-role={CEO_ROLE} data-group={CEO_ROLE} data-index={CEO_NAME}>
       <div className="ceo-head">
       <h2>Our CEO</h2>
       </div>

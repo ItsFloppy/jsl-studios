@@ -1,0 +1,21 @@
+# Weekly dependency updates, grouped so that packages released together arrive in one PR.
+# Each PR runs CI (.github/workflows/ci.yml) on GitHub, not on Netlify: with deploy previews
+# off, an update spends Netlify credits only once merged into main and deployed.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      sanity:
+        patterns: ['sanity', '@sanity/*', 'next-sanity', 'styled-components']
+      next:
+        patterns: ['next', 'eslint-config-next', 'react', 'react-dom', '@types/react', '@types/react-dom']
+      tooling:
+        dependency-type: development
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

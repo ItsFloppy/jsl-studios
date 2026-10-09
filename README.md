@@ -90,19 +90,23 @@ stable IDs (`film-back-to-the-present`, `person-gordon-caplan`…) and are creat
 | `sanity/` | Studio schema, structure and navbar; `sanity.config.ts` at the root |
 | `scripts/seed.ts` | Dataset seed |
 | `public/` | Fonts, images (crops, team portraits, partner logos), favicons |
-| `next.config.ts` | Security headers, cache headers, redirects from the old `.html` URLs |
+| `next.config.ts` | Security headers, cache headers, redirects from the old `.html` URLs, image sources |
+| `.github/` | CI (lint, typecheck, build on every PR and on `main`) and Dependabot |
 
 ## How it works
 
-- **Data.** Each `getX()` returns Sanity's published content, normalised to `lib/types.ts`. It
-  falls back to `lib/data.ts` when Sanity is not configured, returns nothing or fails, so a bad
-  document can never take a page down (a render that throws would freeze it in ISR).
+- **Data.** Each `getX()` returns Sanity's published content, normalised to `lib/types.ts`, so
+  a bad document can never take a page down (a render that throws would freeze it in ISR). It
+  falls back to `lib/data.ts` when Sanity is not configured or returns nothing. When Sanity
+  cannot be reached, a build falls back too, but a regeneration on the live site fails on
+  purpose: ISR keeps serving the last good page and tries again a minute later.
 - **Freshness.** `/studios`, `/production` and `/about` set `revalidate = 60`: a page is
   regenerated at most once a minute, on the next visit after the minute has passed. No
   webhook, no rebuild, no deploy credit spent on a publish.
 - **Images.** Sanity images are requested with the editor's crop and hotspot applied, then
   served through `/_next/image` (Netlify Image CDN on Netlify): visitors never contact
-  `cdn.sanity.io`, and get AVIF or WebP at the size they need.
+  `cdn.sanity.io`, and get AVIF or WebP at the size they need. Only this project's dataset is
+  accepted as a source (`remotePatterns` in `next.config.ts`).
 - **Page scripts.** The behaviours ported from the design manipulate the DOM directly, so
   `components/Behaviors.tsx` starts them only once React has hydrated the page: a change made
   before hydration would be seen by React as a mismatch and undone.
@@ -132,11 +136,13 @@ Behaviour ported from the design's component class:
   `prefers-reduced-motion`.
 - **Team credits** (`lib/behaviors/about.ts`): a sticky portrait viewer; hovering or focusing a
   name swaps the portrait, clicking opens the bio. Each row carries its person's portrait and bio
-  as `data-` attributes. A person with no photo shows a `[PORTRAIT — 4:5]` slot.
+  as `data-` attributes, and the CEO block carries the default person the same way. A person
+  with no photo shows an empty 4:5 frame; one with no bio has no panel to open.
 - **Network mosaic**: the scoring (relationship + visibility → tile size), the seeded shuffle,
   the explicit dense-pack simulation with its two hole-patching passes, and the FLIP animation on
   filter change, as in the design. With the seeded content the layout is identical, tile for
-  tile, to the static site's for all eight filters.
+  tile, to the static site's for all eight filters. A partner without a site is a plain tile,
+  not a link.
 
 Accessibility additions: the About tabs use `role="tablist"`/`aria-selected`, the network
 filters use `aria-pressed`, team rows are keyboard-focusable and respond to Enter/Space, and the
@@ -173,6 +179,14 @@ policy, a permissions policy, framing denied, and the cross-origin opener/resour
   websockets on `*.sanity.io`, its UI font, user avatars from anywhere).
 - **Third parties.** None on the site. Fonts are self-hosted, so no visitor data goes to Google
   Fonts and no consent banner is needed for them.
+- **Content from Sanity.** The Studio validates links, but a write through the API skips that
+  validation, and the network mosaic sets its links by script, out of React's reach. So
+  `lib/sanity.queries.ts` keeps only `http(s)` links and drops SVG images (Sanity serves an SVG
+  as uploaded, scripts included). This matters because the Studio shares the site's origin and
+  keeps its login in the browser: script running on any page could take it.
+- **Image optimizer.** On Netlify, `/_next/image` is the Image CDN, which accepts any width and
+  quality. Its sources are limited to this project's dataset, so it cannot be used to serve
+  other Sanity projects' images from this domain, at this account's expense.
 - **Caching.** Pages follow ISR. Next's own CSS and JS have hashed names and are cached
   forever. `/fonts` is cached for a year; `/assets` for a week, since those names carry no
   content hash: give a replaced file a new name if it must show up sooner.
@@ -194,6 +208,16 @@ The images in `public/assets/` (home reel, story, hero backgrounds) are the stat
 already resized and stripped of metadata (43.6 MB down to 3.5 MB). The team, film, production
 and logo files among them are also the seed's source.
 
+## Dependencies
+
+Dependabot opens grouped update PRs every week (Sanity packages together, Next and React
+together), and CI checks each one.
+
+`npm audit` reports vulnerabilities in `@sanity/cli` (js-yaml, smol-toml, braces…) and
+`eslint-config-next`. They are in development tooling, which parses local files; none of it is
+in what the site serves. **Do not run `npm audit fix --force`**: its "fix" downgrades `sanity`
+to v5. They go away with upstream updates. To see what ships, use `npm audit --omit=dev`.
+
 ## Content still to supply or fix
 
 In the Studio, once seeded:
@@ -204,13 +228,16 @@ In the Studio, once seeded:
   Healthcare (their tiles show the name in type).
 - **Name spellings to confirm:** "Louise Vilepellet" (her bio says Villepelet), "Theodore
   Verzat" (his bio says Théodore).
-- **Placeholders:** every film's IMDb link goes to imdb.com's home page and no year or cast is
-  set yet; every production project links to the same placeholder YouTube video.
+- **Placeholders:** every production project links to the same placeholder YouTube video
+  (replace it, or empty the field: the card then does not click through); no year or cast is
+  set on the films yet. `lib/data.ts` no longer holds these placeholders.
 
 In the code:
 
-- `[ADDRESS]` and `[PHONE]` in the home page's contact block;
-- the footer's IMDb, Instagram, LinkedIn and YouTube links go to those sites' home pages;
+- the home page's contact block: the Paris address and the phone numbers (the placeholders were
+  removed, not replaced);
+- the footer's "Follow" column was removed while its links went to IMDb's, Instagram's,
+  LinkedIn's and YouTube's home pages: add it back with JSL's own profile URLs;
 - the newsletter form shows "Subscribed" but sends the address nowhere: connect it to a mailing
   provider (and add its origin to `form-action` in the CSP) or remove it;
 - "Legal mentions · Privacy" in the footer is plain text: the legal notice and privacy policy
