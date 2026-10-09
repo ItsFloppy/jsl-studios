@@ -18,6 +18,17 @@ function currentTab() {
   return TABS.indexOf(h) !== -1 ? h : 'story';
 }
 
+// On a phone the tab bar scrolls sideways (site.css): bring the open tab into it. Only the
+// bar scrolls; scrollIntoView() could move the page too.
+function scrollTabIntoView(btn: Element) {
+  const list = btn.parentElement;
+  if (!list || list.scrollWidth <= list.clientWidth) return;
+  const l = list.getBoundingClientRect(), b = btn.getBoundingClientRect();
+  const pad = parseFloat(getComputedStyle(list).paddingLeft) || 0;
+  if (b.left < l.left + pad) list.scrollLeft -= l.left + pad - b.left;
+  else if (b.right > l.right - pad) list.scrollLeft += b.right - (l.right - pad);
+}
+
 function showTab(tab: string, scroll: boolean) {
   TABS.forEach(function (t) {
     const btn = document.querySelector('[data-tab="' + t + '"]');
@@ -26,6 +37,7 @@ function showTab(tab: string, scroll: boolean) {
     if (btn) {
       btn.setAttribute('aria-selected', on ? 'true' : 'false');
       btn.setAttribute('tabindex', on ? '0' : '-1');
+      if (on) scrollTabIntoView(btn);
     }
     if (panel) panel.hidden = !on;
   });

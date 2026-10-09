@@ -211,18 +211,25 @@ function heroBind() {
   }
   window.addEventListener('pageshow', function (e) { if (e.persisted) resetHero(); });
 
+  // The side under the pointer: a caption's own side when the pointer is on one (on an
+  // upright hero, PRODUCTION runs past the split line), else the half it is over.
+  // `split` is where that half ends, in percent of the hero's width.
+  const sideAt = function (e: MouseEvent, split: number): 'studio' | 'production' {
+    const cap = (e.target as Element).closest('[data-split-cap]');
+    if (cap) return cap.getAttribute('data-split-cap') === 'studio' ? 'studio' : 'production';
+    const r = root.getBoundingClientRect();
+    return (e.clientX - r.left) / r.width * 100 < split ? 'studio' : 'production';
+  };
+
   root.addEventListener('mousemove', function (e) {
     if (state.wiping) return;
-    const r = root.getBoundingClientRect();
-    const side = (e.clientX - r.left) < r.width / 2 ? 'studio' : 'production';
+    const side = sideAt(e, 50);
     if (side !== state.hover) hover(side);
   });
   root.addEventListener('mouseleave', function () { hover(null); });
   root.addEventListener('click', function (e) {
     if (state.wiping) return;
-    const r = root.getBoundingClientRect();
-    const toStudio = (e.clientX - r.left) / r.width * 100 < state.pct;
-    wipeTo(toStudio);
+    wipeTo(sideAt(e, state.pct) === 'studio');
   });
   // Keyboard: the arrow keys preview a side the way hovering does, Enter/Space opens it.
   root.addEventListener('keydown', function (e) {

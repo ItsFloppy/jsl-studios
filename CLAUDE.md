@@ -90,5 +90,10 @@ and copy it, unless a constraint below says otherwise.
 - **CSP** is in `next.config.ts`: one policy for the site, a looser one for `/studio`. No inline
   `style=` in server-rendered site markup beyond what next/image adds; scripts set styles through
   `element.style`.
+- **Responsive.** Page gutter and sticky-bar heights come from `--gutter`, `--head-h` and
+  `--tabs-h` in `site.css`: never hard-code 74px or 130px again. Full-screen heights use `svh`
+  (after a `vh` fallback line). The home hero lays out from its own shape, through a container
+  query (`container: hero`), not a media query. Check changes at 360, 390, 768 px and in
+  landscape (844×390), not only on desktop.
 - **Netlify credits** (300/month, the account pauses when they run out): no deploy per publish
   (ISR handles content), no prefetching, images through the image CDN at the size displayed.

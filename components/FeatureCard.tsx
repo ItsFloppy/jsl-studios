@@ -4,7 +4,7 @@ import type { Film } from '@/lib/types'
 
 // The media column is two thirds of the card on wide screens, the full width once the
 // card wraps (the .feature-media / .feature-info flex bases in site.css).
-const SIZES = '(max-width: 760px) 100vw, min(62vw, 880px)'
+const SIZES = '(max-width: 799px) 100vw, min(62vw, 880px)'
 // The width the hover cycle loads its frames at: script-swapped frames get one src.
 const CYCLE_WIDTH = 1200
 
