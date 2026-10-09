@@ -50,7 +50,8 @@ export const partner = defineType({
       title: 'Logo',
       type: 'image',
       description: 'PNG à fond transparent, environ 1200 × 560. Sans logo, le nom s’affiche en toutes lettres.',
-      options: { accept: 'image/png,image/svg+xml,image/webp' },
+      // No SVG: Sanity serves it as uploaded, and the site drops it (lib/sanity.queries.ts).
+      options: { accept: 'image/png,image/webp' },
     }),
     defineField({
       name: 'invertLogo',

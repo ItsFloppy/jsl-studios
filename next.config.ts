@@ -59,12 +59,21 @@ const SECURITY_HEADERS = [
 // The pages the static site served as .html files; old links and bookmarks keep working.
 const OLD_PAGES = ['studios', 'production', 'about', 'justin-souriau-levine']
 
+// Only this project's images go through the image optimizer. On Netlify /_next/image is the
+// Image CDN, which takes any width and quality: open to every Sanity project, it would serve
+// anyone's images from this domain, and spend this account's credits doing it.
+const SANITY_PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? ''
+const SANITY_DATASET = process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production'
+const SANITY_IMAGES = SANITY_PROJECT_ID
+  ? [{ protocol: 'https' as const, hostname: 'cdn.sanity.io', pathname: `/images/${SANITY_PROJECT_ID}/${SANITY_DATASET}/**` }]
+  : []
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   // A stray lockfile higher up the disk would otherwise be taken for the workspace root.
   turbopack: { root: __dirname },
   images: {
-    remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io', pathname: '/images/**' }],
+    remotePatterns: SANITY_IMAGES,
     formats: ['image/avif', 'image/webp'],
   },
   async headers() {

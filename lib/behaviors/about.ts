@@ -208,7 +208,7 @@ export type NetworkTile = {
   visibility: number;
 };
 
-type Node = { name: string; rel: Relationship; si: number; slug: string; src: string; url: string; filter: string; vis: number };
+type Node = { name: string; rel: Relationship; si: number; slug: string; src: string; url?: string; filter: string; vis: number };
 type Tile = Node & { cs: number; rs: number; row: number; col: number };
 
 const SCORE: Record<Relationship, number> = { client: 5, featured: 4, network: 3, relationship: 2, conversation: 1 };
@@ -321,7 +321,7 @@ function networkBind(input: NetworkTile[]) {
     return {
       name: t.name, rel: t.rel, si: t.si, slug: slugOf(t.name),
       src: t.src || '',
-      url: t.url || '#',
+      url: t.url,
       filter: t.invert ? 'invert(1)' : 'none',
       vis: t.visibility
     };
@@ -349,15 +349,23 @@ function networkBind(input: NetworkTile[]) {
   }
 
   function tileFor(m: Tile) {
-    const a = document.createElement('a');
-    a.className = 'net-tile';
-    a.setAttribute('data-tile', m.slug);
-    a.href = m.url;
-    a.target = '_blank';
-    a.rel = 'noopener';
-    a.setAttribute('aria-label', m.name);
-    a.style.gridColumn = m.col + ' / span ' + m.cs;
-    a.style.gridRow = m.row + ' / span ' + m.rs;
+    // Only a partner with a site is a link; `url` is already a vetted http(s) URL
+    // (lib/sanity.queries.ts), since it is set here out of React's reach.
+    let tile: HTMLElement;
+    if (m.url) {
+      const link = document.createElement('a');
+      link.href = m.url;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.setAttribute('aria-label', m.name);
+      tile = link;
+    } else {
+      tile = document.createElement('div');
+    }
+    tile.className = 'net-tile';
+    tile.setAttribute('data-tile', m.slug);
+    tile.style.gridColumn = m.col + ' / span ' + m.cs;
+    tile.style.gridRow = m.row + ' / span ' + m.rs;
     const inner = document.createElement('div');
     inner.className = 'net-tile-inner';
     if (m.filter !== 'none') inner.style.filter = m.filter;
@@ -376,8 +384,8 @@ function networkBind(input: NetworkTile[]) {
       });
       inner.appendChild(img);
     }
-    a.appendChild(inner);
-    return a;
+    tile.appendChild(inner);
+    return tile;
   }
 
   function render() {

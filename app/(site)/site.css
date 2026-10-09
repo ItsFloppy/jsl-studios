@@ -511,6 +511,8 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
   transition: background-color .5s;
 }
 .net-tile:hover { background-color: var(--paper-soft); text-decoration: none; }
+/* A partner without a site is not a link. */
+div.net-tile { cursor: default; }
 .net-tile-inner { position: relative; width: 100%; height: 100%; transition: transform .5s var(--ease); }
 .net-tile:hover .net-tile-inner { transform: scale(1.04); }
 .net-tile-inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }

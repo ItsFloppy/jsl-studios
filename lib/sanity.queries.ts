@@ -55,7 +55,27 @@ type RawImage = (SanityImageSource & { asset?: unknown; alt?: string | null }) |
 const str = (v: unknown): string | undefined => (typeof v === 'string' && v.trim() ? v.trim() : undefined)
 const num = (v: unknown): number | undefined => (typeof v === 'number' && Number.isFinite(v) ? v : undefined)
 const list = (v: unknown): unknown[] => (Array.isArray(v) ? v : [])
-const hasAsset = (img: RawImage): img is NonNullable<RawImage> => !!img && !!img.asset
+
+// A web link, or nothing. The Studio only accepts http(s), but a write through the API skips
+// its validation, and the network mosaic sets its links by script, out of React's reach: a
+// `javascript:` URL there would run on this origin, where the Studio keeps its login.
+function url(v: unknown): string | undefined {
+  const s = str(v)
+  if (!s) return undefined
+  try {
+    const { protocol } = new URL(s)
+    return protocol === 'http:' || protocol === 'https:' ? s : undefined
+  } catch {
+    return undefined
+  }
+}
+
+// Asset IDs end in the file's format (image-<hash>-<w>x<h>-<ext>). Sanity serves SVGs as they
+// were uploaded, scripts included, whatever the transform asked: they are never rendered.
+const hasAsset = (img: RawImage): img is NonNullable<RawImage> => {
+  const ref = (img?.asset as { _ref?: unknown } | undefined)?._ref
+  return typeof ref === 'string' && !ref.endsWith('-svg')
+}
 
 function cropped(img: RawImage, size: { width: number; height: number }, defaultAlt: string): SiteImage | undefined {
   if (!hasAsset(img)) return undefined
@@ -80,8 +100,8 @@ function normaliseFilms(raw: unknown): Film[] {
         year: num(f.year),
         directedBy: str(f.directedBy),
         starring: str(f.starring),
-        imdbUrl: str(f.imdbUrl),
-        watchUrl: str(f.watchUrl),
+        imdbUrl: url(f.imdbUrl),
+        watchUrl: url(f.watchUrl),
       },
     ]
   })
@@ -95,7 +115,7 @@ function normaliseProject(r: unknown): ProductionProject[] {
   if (!id || !client || !title) return []
   const thumbnail = cropped(p.thumbnail as RawImage, STILL, `${client} — ${title}`)
   if (!thumbnail) return []
-  return [{ id, client, title, thumbnail, year: num(p.year), videoUrl: str(p.videoUrl) }]
+  return [{ id, client, title, thumbnail, year: num(p.year), videoUrl: url(p.videoUrl) }]
 }
 
 function normaliseProduction(raw: unknown): ProductionCategory[] {
@@ -160,7 +180,7 @@ function normaliseNetwork(raw: unknown): NetworkSector[] {
           relationship,
           logo: hasAsset(logo) ? { src: fullUrl(logo, LOGO_WIDTH), alt: name } : undefined,
           invertLogo: p.invertLogo === true,
-          url: str(p.url),
+          url: url(p.url),
           visibility: visibility && visibility >= 1 && visibility <= 5 ? visibility : 3,
         },
       ]
