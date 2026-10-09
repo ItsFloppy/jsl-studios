@@ -17,6 +17,7 @@ import functools
 import http.server
 import os
 import socket
+import sys
 
 # Serve the site's own folder, whatever directory the script is launched from.
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -99,7 +100,12 @@ class NoCacheHandler(http.server.SimpleHTTPRequestHandler):
 
 class Server(http.server.ThreadingHTTPServer):
     # One thread per request, so a page's parallel asset requests aren't served in series.
-    allow_reuse_address = True
+    # SO_REUSEADDR means different things per platform. On POSIX it only skips TIME_WAIT.
+    # On Windows it lets a second process bind a port that is already in use: both then
+    # listen, requests go to whichever won the race, and a stale server can answer in
+    # place of this one -- at which point clean URLs 404 for no visible reason. Off on
+    # Windows, so a busy port is a plain error that main() can explain.
+    allow_reuse_address = os.name != "nt"
     address_family = socket.AF_INET
 
 
@@ -110,8 +116,25 @@ def main():
     args = ap.parse_args()
 
     handler = functools.partial(NoCacheHandler, directory=ROOT)
-    with contextlib.closing(Server((args.bind, args.port), handler)) as httpd:
+    try:
+        httpd = Server((args.bind, args.port), handler)
+    except OSError as exc:
+        print(f"Cannot serve on {args.bind}:{args.port} - {exc}", file=sys.stderr)
+        print("Something is already using that port.", file=sys.stderr)
+        print("If it is `python -m http.server`, stop it: that server cannot rewrite",
+              file=sys.stderr)
+        print("clean URLs, so /studios 404s while /studios.html still works.",
+              file=sys.stderr)
+        print("It may also be an older copy of this server still running from",
+              file=sys.stderr)
+        print("an earlier session. Find it with:  netstat -ano | findstr :%d" % args.port,
+              file=sys.stderr)
+        print("Or use -p to pick a different port.", file=sys.stderr)
+        raise SystemExit(1)
+
+    with contextlib.closing(httpd):
         print(f"JSL Studios — serving on http://{args.bind}:{args.port}/  (caching disabled)")
+        print("Clean URLs on: /studios, /about, ... ; /studios.html redirects to /studios.")
         print("Ctrl+C to stop.")
         try:
             httpd.serve_forever()
