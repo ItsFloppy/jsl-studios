@@ -6,7 +6,7 @@ out/
 next-env.d.ts
 .netlify/
 
-# Secrets locaux (le modèle est .env.local.example)
+# Secrets locaux (variables attendues : voir « Running it » dans le README)
 .env*.local
 
 # Fichiers système

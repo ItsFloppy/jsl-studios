@@ -28,7 +28,7 @@ const token = process.env.SANITY_API_TOKEN
 const write = process.argv.includes('--yes')
 
 if (!projectId || !token) {
-  console.error('NEXT_PUBLIC_SANITY_PROJECT_ID and SANITY_API_TOKEN must be set in .env.local (see .env.local.example).')
+  console.error('NEXT_PUBLIC_SANITY_PROJECT_ID and SANITY_API_TOKEN must be set in .env.local (see "Running it" in the README).')
   process.exit(1)
 }
 

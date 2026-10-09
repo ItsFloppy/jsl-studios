@@ -13,8 +13,16 @@ Justin's page, contact) lives in the page components. The architecture mirrors
 
 ```
 npm install
-cp .env.local.example .env.local   # then fill in the Sanity project ID
 npm run dev
+```
+
+Before the first run, create `.env.local` (ignored by git) with:
+
+```
+NEXT_PUBLIC_SANITY_PROJECT_ID=q9eq1v3z
+NEXT_PUBLIC_SANITY_DATASET=production
+# Only for npm run seed: an Editor token from sanity.io/manage → API → Tokens
+SANITY_API_TOKEN=
 ```
 
 Open <http://localhost:3000/>; the Studio is at <http://localhost:3000/studio>. Node 22.12 or
