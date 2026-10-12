@@ -5,10 +5,9 @@ import { ProdCard } from '@/components/ProdCard'
 import { getProductionCategories } from '@/lib/sanity.queries'
 
 export const metadata: Metadata = {
-  title: 'JSL Production — Work for Houses & Partners',
+  title: 'JSL Productions — Work for Houses & Partners',
   description:
-    'JSL Production creates campaigns, commercials, fashion films and branded content for fashion houses, brands and cultural partners — with the scale and craft of cinema.',
-  icons: { icon: { url: '/favicon-sky.svg', type: 'image/svg+xml' } },
+    'JSL Productions creates campaigns, commercials, fashion films and branded content for fashion houses, brands and cultural partners — with the scale and craft of cinema.',
   alternates: { canonical: '/production' },
 }
 
@@ -19,11 +18,11 @@ export default async function ProductionPage() {
   const categories = await getProductionCategories()
 
   return (
-    <PageShell page="production" brandTag="Production">
+    <PageShell page="production" brandTag="Productions">
       <section className="wrap prod-hero">
         <div className="kicker">
           <span className="kicker-line sky"></span>
-          <span>JSL Production</span>
+          <span>JSL Productions</span>
         </div>
         <div className="prod-hero-row">
           <h1>Work made for houses and partners</h1>

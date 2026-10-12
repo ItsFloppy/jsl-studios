@@ -62,18 +62,18 @@ export const structure: StructureResolver = (S) =>
     .title('Contenu')
     .items([
       S.listItem()
-        .title('Studio')
+        .title('Studios')
         .icon(DocumentVideoIcon)
         .id('section-studio')
-        .child(S.list().title('Studio').items([ordered(S, 'film', 'Films', DocumentVideoIcon)])),
+        .child(S.list().title('Studios').items([ordered(S, 'film', 'Films', DocumentVideoIcon)])),
 
       S.listItem()
-        .title('Production')
+        .title('Productions')
         .icon(VideoIcon)
         .id('section-production')
         .child(
           S.list()
-            .title('Production')
+            .title('Productions')
             .items([
               ordered(S, 'productionProject', 'Tous les projets', VideoIcon),
               grouped(S, {

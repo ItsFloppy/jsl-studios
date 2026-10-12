@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <PageShell page="home">
-      <section className="hero-split" data-hero="" role="group" aria-label="Choose a side: JSL Studios or JSL Production. Left and right arrow keys pick a side, Enter opens it." tabIndex={0}>
+      <section className="hero-split" data-hero="" role="group" aria-label="Choose a side: JSL Studios or JSL Productions. Left and right arrow keys pick a side, Enter opens it." tabIndex={0}>
       <div className="hero-layer hero-production">
-      <img src="/assets/split-production-v2.webp" alt="JSL Production" draggable={false} fetchPriority="high" />
+      <img src="/assets/split-production-v2.webp" alt="JSL Productions" draggable={false} fetchPriority="high" />
       <div className="wash wash-sky"></div>
       <div className="grad"></div>
       </div>
@@ -30,7 +30,7 @@ export default function HomePage() {
       <p>Features we write, produce and sign. Where our stories begin.</p>
       </div>
       <div className="hero-cap hero-cap-right" data-split-cap="production">
-      <h2><span className="over">JSL</span><span>PRODUCTION</span></h2>
+      <h2><span className="over">JSL</span><span>PRODUCTIONS</span></h2>
       <p>Films for houses, brands and cultural partners. Their story, our eye.</p>
       </div>
       </div>

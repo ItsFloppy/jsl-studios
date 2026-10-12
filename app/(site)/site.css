@@ -120,15 +120,15 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
   padding: 0 var(--gutter); min-height: var(--head-h);
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
 }
-.brand { display: flex; align-items: baseline; gap: 8px; padding: 8px 0; }
+.brand { display: flex; align-items: center; gap: 8px; padding: 8px 0; }
 .brand:hover { text-decoration: none; }
 .brand-word { font-size: 20px; font-weight: 800; letter-spacing: -.015em; }
-.brand-dot { width: 5px; height: 5px; border-radius: 50%; transform: translateY(-3px); background-color: var(--accent); }
+.brand-logo { display: block; align-self: center; width: 26px; height: 26px; }
 .brand-tag { font-size: 10px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; }
-/* On a phone, "JSL • PRODUCTION" and the nav no longer fit on one line, and a header that
-   wraps puts every sticky offset (--head-h) out. The tag only repeats the page whose nav
-   link is already underlined. */
-@media (max-width: 480px) { .brand-dot, .brand-tag { display: none; } }
+/* On a phone, "JSL (logo) PRODUCTIONS" and the nav no longer fit on one line (up to about
+   525px), and a header that wraps puts every sticky offset (--head-h) out. The tag only
+   repeats the page whose nav link is already underlined; the logo stays. */
+@media (max-width: 540px) { .brand-tag { display: none; } }
 
 .site-nav { display: flex; align-items: center; gap: clamp(14px, 2.4vw, 36px); }
 .nav-link {
@@ -143,6 +143,14 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
    margin around each takes the tap, without moving anything. */
 @media (pointer: coarse) {
   .nav-link::after, .tab-btn::after { content: ''; position: absolute; inset: -12px -8px; }
+}
+/* Below 400px "JSL (logo)" and "STUDIOS PRODUCTIONS ABOUT" only share a line once tightened. */
+@media (max-width: 400px) {
+  .brand { gap: 6px; }
+  .brand-logo { width: 22px; height: 22px; }
+  .site-nav { gap: 10px; }
+  .nav-link { letter-spacing: .1em; }
+  .nav-link::after { inset: -12px -5px; }
 }
 .nav-link[data-nav="studios"]:hover { border-bottom-color: var(--gold); }
 .nav-link[data-nav="production"]:hover { border-bottom-color: var(--sky); }
@@ -526,7 +534,7 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .ceo-copy { display: flex; flex-direction: column; gap: 16px; font-size: clamp(15px, 1.2vw, 17.5px); line-height: 1.7; color: var(--ink-72); }
 .ceo-copy p { margin: 0; text-wrap: pretty; }
 .ceo-copy .lede { color: var(--ink); font-size: clamp(17px, 1.5vw, 21px); line-height: 1.45; letter-spacing: -.015em; }
-.ceo-block .btn { margin-top: clamp(20px, 2.8vw, 36px); padding: 11px 22px; font-size: 10px; letter-spacing: .16em; }
+.ceo-block .btn { align-self: flex-start; margin-top: clamp(20px, 2.8vw, 36px); padding: 11px 22px; font-size: 10px; letter-spacing: .16em; }
 
 .team-group { display: flex; flex-direction: column; }
 .team-group-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 14px; padding-bottom: 14px; border-bottom: 2px solid var(--sky); }
@@ -656,11 +664,8 @@ div.net-tile { cursor: default; }
 .site-foot { background: var(--ink); color: var(--paper); }
 .foot-inner { width: 100%; max-width: 1440px; margin: 0 auto; padding: clamp(52px, 6.5vw, 100px) var(--gutter) 28px; }
 .foot-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: clamp(28px, 4vw, 64px); }
-.foot-brand { display: flex; flex-direction: column; gap: 16px; }
-.foot-brand-row { display: flex; align-items: flex-start; gap: 12px; }
-.foot-brand-word { font-size: clamp(56px, 10vw, 152px); font-weight: 800; line-height: .82; letter-spacing: -.045em; }
-.foot-brand-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); margin-top: 8px; }
-.foot-brand-tag { font-size: 10.5px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: rgba(255, 255, 255, .6); }
+.foot-brand { display: block; align-self: flex-start; }
+.foot-logo { display: block; width: clamp(96px, 14vw, 180px); height: auto; }
 .foot-cols { display: flex; flex-wrap: wrap; gap: clamp(28px, 4vw, 72px); }
 .foot-col { display: flex; flex-direction: column; gap: 12px; min-width: 120px; }
 .foot-col.wide { min-width: 150px; }

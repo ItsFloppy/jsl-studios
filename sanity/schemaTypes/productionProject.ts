@@ -5,7 +5,7 @@ import { altField, lienField, ordreField } from './fields'
 /** A card of the Production page, inside its category's section. */
 export const productionProject = defineType({
   name: 'productionProject',
-  title: 'Projet (Production)',
+  title: 'Projet (Productions)',
   type: 'document',
   icon: VideoIcon,
   fields: [

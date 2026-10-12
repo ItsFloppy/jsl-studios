@@ -8,7 +8,7 @@ import { altField, lienField, ordreField } from './fields'
  */
 export const film = defineType({
   name: 'film',
-  title: 'Film (Studio)',
+  title: 'Film (Studios)',
   type: 'document',
   icon: DocumentVideoIcon,
   fields: [
@@ -61,7 +61,7 @@ export const film = defineType({
     }),
     lienField('imdbUrl', 'Lien IMDb', 'Bouton « View on IMDb ». Vide : pas de bouton.'),
     lienField('watchUrl', 'Lien « Watch Now »', 'Bouton « Watch Now » (bande-annonce, plateforme…). Vide : pas de bouton.'),
-    ordreField('du film sur la page Studio'),
+    ordreField('du film sur la page Studios'),
   ],
   preview: {
     select: { title: 'title', year: 'year', genres: 'genres', media: 'stills.0' },

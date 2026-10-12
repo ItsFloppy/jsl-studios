@@ -83,13 +83,14 @@ stable IDs (`film-back-to-the-present`, `person-gordon-caplan`…) and are creat
 | `app/(site)/justin-souriau-levine/page.tsx` | Founder profile |
 | `app/(site)/site.css` | All site styling, including the `@font-face` rules |
 | `app/studio/[[...tool]]/` | The embedded Studio |
+| `app/favicon.ico`, `icon.png`, `apple-icon.png` | Favicons, made from `brand/jsl-logo.png` (the 2000 px master, not served) |
 | `components/` | Header, footer, page shell, cards, team group, network filter, `Behaviors` |
 | `lib/sanity.queries.ts` | `getFilms()`, `getProductionCategories()`, `getTeamGroups()`, `getNetwork()` |
 | `lib/data.ts`, `lib/types.ts` | Static fallback content, and the shapes pages render |
 | `lib/behaviors/` | The page scripts (hero, reveal, cycling stills, tabs, team viewer, mosaic) |
 | `sanity/` | Studio schema, structure and navbar; `sanity.config.ts` at the root |
 | `scripts/seed.ts` | Dataset seed |
-| `public/` | Fonts, images (crops, team portraits, partner logos), favicons |
+| `public/` | Fonts, images (crops, team portraits, partner logos, the header and footer logo) |
 | `next.config.ts` | Security headers, cache headers, redirects from the old `.html` URLs, image sources |
 | `.github/` | CI (lint, typecheck, build on every PR and on `main`) and Dependabot |
 

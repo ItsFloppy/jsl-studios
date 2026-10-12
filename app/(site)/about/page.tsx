@@ -97,12 +97,12 @@ export default async function AboutPage() {
       </div>
       <div className="two-worlds-grid">
       <div className="world-card" data-reveal="">
-      <span className="world-name">JSL Studio</span>
-      <p>JSL STUDIO develops, write and produce our own films — building original stories, characters and worlds with the ambition to grow JSL into a distinctive international film studio. It is the creative engine behind the worlds, characters and stories we want to bring to audiences.</p>
+      <span className="world-name">JSL Studios</span>
+      <p>JSL STUDIOS develops, write and produce our own films — building original stories, characters and worlds with the ambition to grow JSL into a distinctive international film studio. It is the creative engine behind the worlds, characters and stories we want to bring to audiences.</p>
       </div>
       <div className="world-card sky" data-reveal="" data-delay="120">
-      <span className="world-name">JSL Production</span>
-      <p>JSL PRODUCTION is where that same cinematic vision meets the world of brands, fashion and culture. We work with fashion houses, luxury brands, cultural partners and entertainment companies to create campaigns, commercials, fashion films, runway films, branded content and short-form productions designed with the scale and attention to detail of cinema.</p>
+      <span className="world-name">JSL Productions</span>
+      <p>JSL PRODUCTIONS is where that same cinematic vision meets the world of brands, fashion and culture. We work with fashion houses, luxury brands, cultural partners and entertainment companies to create campaigns, commercials, fashion films, runway films, branded content and short-form productions designed with the scale and attention to detail of cinema.</p>
       </div>
       </div>
       </div>

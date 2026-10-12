@@ -5,7 +5,7 @@ import { ordreField } from './fields'
 /** A section of the Production page (/production). A category with no project is hidden. */
 export const productionCategory = defineType({
   name: 'productionCategory',
-  title: 'Catégorie (Production)',
+  title: 'Catégorie (Productions)',
   type: 'document',
   icon: FolderIcon,
   fields: [
@@ -23,7 +23,7 @@ export const productionCategory = defineType({
       description: 'Au singulier, après l’année sur chaque carte (ex. « 2026 · Fashion film »).',
       validation: (Rule) => Rule.required(),
     }),
-    ordreField('de la section sur la page Production'),
+    ordreField('de la section sur la page Productions'),
   ],
   preview: {
     select: { title: 'title', subtitle: 'label' },

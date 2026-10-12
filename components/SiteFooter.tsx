@@ -3,18 +3,14 @@ export function SiteFooter() {
     <footer className="site-foot">
       <div className="foot-inner">
         <div className="foot-top">
-          <div className="foot-brand">
-            <div className="foot-brand-row">
-              <span className="foot-brand-word">JSL</span>
-              <span className="foot-brand-dot"></span>
-            </div>
-            <span className="foot-brand-tag">Studios</span>
-          </div>
+          <a className="foot-brand" href="/">
+            <img className="foot-logo" src="/assets/jsl-logo-400.webp" width={180} height={180} alt="JSL Studios" />
+          </a>
           <div className="foot-cols">
             <div className="foot-col">
               <span className="foot-col-label">Site</span>
-              <a className="foot-link" href="/studios">Studio</a>
-              <a className="foot-link sky" href="/production">Production</a>
+              <a className="foot-link" href="/studios">Studios</a>
+              <a className="foot-link sky" href="/production">Productions</a>
               <a className="foot-link" href="/about">About</a>
             </div>
             {/* A "Follow" column (IMDb, Instagram, LinkedIn, YouTube) goes here once JSL's own

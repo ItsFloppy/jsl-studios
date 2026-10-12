@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 
 // Shared by the site and the embedded Studio, so it holds nothing either one would not
-// want: the site's stylesheet, header and footer live in app/(site)/layout.tsx.
+// want: the site's stylesheet, header and footer live in app/(site)/layout.tsx. The icons
+// are app/favicon.ico, icon.png and apple-icon.png, made from brand/jsl-logo.png.
 export const metadata: Metadata = {
   title: 'JSL Studios',
-  icons: { icon: { url: '/favicon.svg', type: 'image/svg+xml' } },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
