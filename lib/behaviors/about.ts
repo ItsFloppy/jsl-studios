@@ -120,7 +120,8 @@ function teamBind() {
     if (text) BIOS[name] = text;
   });
 
-  const layers: Record<string, Element> = {};
+  const layers: Record<string, HTMLElement> = {};
+  const portraits: Record<string, HTMLImageElement> = {};
 
   function layerFor(name: string) {
     if (layers[name]) return layers[name];
@@ -132,7 +133,6 @@ function teamBind() {
     if (PHOTOS[name]) {
       const img = document.createElement('img');
       img.alt = name + ' — portrait';
-      img.loading = 'lazy';
       img.decoding = 'async';
       img.src = PHOTOS[name];
       // A portrait that fails to load falls back to the slot rather than a broken image.
@@ -141,6 +141,7 @@ function teamBind() {
         div.appendChild(slot);
       });
       div.appendChild(img);
+      portraits[name] = img;
     } else {
       div.appendChild(slot);
     }
@@ -149,12 +150,64 @@ function teamBind() {
     return div;
   }
 
+  // Settles once someone's layer can be shown without a blank frame: their portrait is
+  // decoded, has failed (the slot replaced it), or there is none.
+  function ready(name: string): Promise<void> {
+    const img = portraits[name];
+    if (!img || !img.decode) return Promise.resolve();
+    return img.decode().then(function () {}, function () {});
+  }
+
   // The CEO, shown by default: the block above the groups describes them, and the HTML
   // ships their portrait layer.
   const ceoBlock = document.querySelector('.ceo-block');
   const CEO = ceoBlock ? personOf(ceoBlock) : null;
-  const staticLayer = layersHost.querySelector('[data-person-layer]');
+  const staticLayer = layersHost.querySelector<HTMLElement>('[data-person-layer]');
   if (CEO && staticLayer) layers[CEO.name] = staticLayer;
+
+  // Portraits load ahead, once the list comes near the screen (the Team tab may still be
+  // hidden), so a name's photo is usually there before its first hover.
+  const preload = function () { Object.keys(PHOTOS).forEach(layerFor); };
+  const lists = document.querySelector('.team-lists');
+  if (lists && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(function (entries) {
+      if (!entries.some(function (e) { return e.isIntersecting; })) return;
+      io.disconnect();
+      preload();
+    }, { rootMargin: '400px 0px' });
+    io.observe(lists);
+  } else {
+    preload();
+  }
+
+  // The layer on top, and the person asked for last: moving fast down the list asks for
+  // several portraits, and only the last one may still take the frame once it is ready.
+  let shown: HTMLElement | null = staticLayer;
+  let wanted = '';
+
+  // The incoming layer fades in over the outgoing one, which stays fully visible underneath
+  // (.prev) until then: the frame never dips to its grey background between two people.
+  function showPortrait(name: string) {
+    wanted = name;
+    const layer = layerFor(name);
+    ready(name).then(function () {
+      if (wanted !== name || layer === shown) return;
+      if (layer.classList.contains('prev')) {
+        // Back to the previous person: drop their layer out of sight at once so it can
+        // fade in again rather than snap.
+        layer.style.transition = 'none';
+        layer.classList.remove('prev');
+        void layer.offsetWidth;
+        layer.style.transition = '';
+      }
+      Object.keys(layers).forEach(function (k) {
+        const l = layers[k];
+        l.classList.toggle('prev', l === shown);
+        l.classList.toggle('active', l === layer);
+      });
+      shown = layer;
+    });
+  }
 
   let active: Person | null = null;
   let bioOpen = false;
@@ -167,8 +220,7 @@ function teamBind() {
   function setActive(person: Person) {
     if (active && active.name === person.name && active.index === person.index) return;
     active = person;
-    const layer = layerFor(person.name);
-    Object.keys(layers).forEach(function (k) { layers[k].classList.toggle('active', layers[k] === layer); });
+    showPortrait(person.name);
     if (metaGroup) metaGroup.textContent = person.group;
     if (metaIndex) metaIndex.textContent = person.index;
     if (bioName) bioName.textContent = person.name;
@@ -405,7 +457,6 @@ function networkBind(input: NetworkTile[]) {
     tile.style.gridRow = m.row + ' / span ' + m.rs;
     const inner = document.createElement('div');
     inner.className = 'net-tile-inner';
-    if (m.filter !== 'none') inner.style.filter = m.filter;
     if (!m.src || failed[m.slug]) {
       inner.appendChild(nameTag(m));
     } else {
@@ -414,6 +465,8 @@ function networkBind(input: NetworkTile[]) {
       img.loading = 'lazy';
       img.decoding = 'async';
       img.src = m.src;
+      // On the logo only: the name set in its place must stay dark on the white tile.
+      if (m.filter !== 'none') img.style.filter = m.filter;
       // A logo that fails to load falls back to the brand name rather than a broken icon.
       img.addEventListener('error', function () {
         failed[m.slug] = true;

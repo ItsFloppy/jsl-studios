@@ -512,8 +512,11 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
   display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: 16px 0;
 }
 .team-portrait { position: relative; width: 100%; max-height: calc(100% - 40px); aspect-ratio: 4/5; background: var(--tile); overflow: hidden; cursor: pointer; }
+.team-portrait .portrait-layers { position: absolute; inset: 0; isolation: isolate; }
 .team-portrait .portrait-layer { position: absolute; inset: 0; opacity: 0; transition: opacity .4s ease; pointer-events: none; }
-.team-portrait .portrait-layer.active { opacity: 1; pointer-events: auto; }
+/* The outgoing portrait stays under the incoming one while it fades in (lib/behaviors/about.ts). */
+.team-portrait .portrait-layer.prev { opacity: 1; z-index: 1; transition: none; }
+.team-portrait .portrait-layer.active { opacity: 1; z-index: 2; pointer-events: auto; }
 .team-portrait .portrait-layer img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .portrait-ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--tile); font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; color: var(--ink-45); text-align: center; padding: 12px; }
 .team-bio {
