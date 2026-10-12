@@ -18,7 +18,7 @@ import { basename, join, resolve } from 'node:path'
 import { createClient, type SanityDocumentStub } from '@sanity/client'
 import { config } from 'dotenv'
 import { FILMS_STATIC, NETWORK_STATIC, PRODUCTION_STATIC, TEAM_STATIC } from '../lib/data'
-import type { SiteImage } from '../lib/types'
+import { stillAlt, type SiteImage } from '../lib/types'
 
 config({ path: resolve(process.cwd(), '.env.local'), quiet: true })
 
@@ -78,7 +78,7 @@ async function buildDocuments(): Promise<SanityDocumentStub[]> {
       _type: 'film',
       title: f.title,
       stills: await Promise.all(
-        f.stills.map(async (s, k) => ({ _key: `still${k}`, ...(await image(s, `${f.title} — still`)) })),
+        f.stills.map(async (s, k) => ({ _key: `still${k}`, ...(await image(s, stillAlt(f.title))) })),
       ),
       genres: f.genres,
       ...(f.year ? { year: f.year } : {}),

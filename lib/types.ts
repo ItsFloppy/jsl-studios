@@ -22,6 +22,9 @@ export type Film = {
   watchUrl?: string
 }
 
+/** A still's alt text when the editors leave it empty; the Studio shows it greyed in the field. */
+export const stillAlt = (title: string) => `${title} — still`
+
 export type ProductionProject = {
   id: string
   client: string

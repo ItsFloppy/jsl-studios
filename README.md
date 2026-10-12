@@ -62,6 +62,9 @@ the project:
 - **Images.** Set the hotspot (focal point) on stills, thumbnails and portraits: the site crops
   them to 16:9 or 4:5 around it. An empty optional field (year, cast, IMDb or Watch Now link,
   video link) leaves its line or button out.
+- **Film stills.** Several at once: *Ajouter plusieurs images*, or drop the files on the list
+  (they go to the end, in order). An empty alt text reads « <title> — still » on the site; the
+  field shows it greyed.
 
 Editors are invited from sanity.io/manage (the free plan has 20 seats).
 

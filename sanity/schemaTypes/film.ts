@@ -1,5 +1,6 @@
 import { DocumentVideoIcon } from '@sanity/icons/DocumentVideo'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { StillAltInput, StillsInput } from '../components/FilmStills'
 import { altField, lienField, ordreField } from './fields'
 
 /**
@@ -23,12 +24,27 @@ export const film = defineType({
       title: 'Images',
       type: 'array',
       description:
-        'Format 16:9. La première s’affiche sur la carte ; avec plusieurs images, elles défilent au survol. Utilisez le point focal (hotspot) pour choisir ce qui reste visible au recadrage.',
+        'Format 16:9. Pour en ajouter plusieurs d’un coup : « Ajouter plusieurs images », ou glissez-déposez les fichiers sur la liste. La première s’affiche sur la carte ; avec plusieurs images, elles défilent au survol. Utilisez le point focal (hotspot) pour choisir ce qui reste visible au recadrage.',
+      components: { input: StillsInput },
       of: [
         defineArrayMember({
           type: 'image',
           options: { hotspot: true },
-          fields: [altField('Par défaut : « <titre> — still ». À préciser si l’image est une affiche.')],
+          fields: [
+            {
+              ...altField('Laissé vide, le site utilise le texte affiché en gris. À préciser si l’image est une affiche.'),
+              components: { input: StillAltInput },
+            },
+          ],
+          // Sanity titles each row with its alt, so stills left on the default read "Untitled".
+          preview: {
+            select: { alt: 'alt', filename: 'asset.originalFilename', media: 'asset' },
+            prepare: ({ alt, filename, media }) => ({
+              title: alt || filename || 'Image',
+              subtitle: alt ? undefined : 'Texte alternatif par défaut',
+              media,
+            }),
+          },
         }),
       ],
       validation: (Rule) => Rule.required().min(1),

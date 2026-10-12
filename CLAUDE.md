@@ -70,7 +70,10 @@ and copy it, unless a constraint below says otherwise.
 - **Deploy code before changing the shape of data in the dataset**, for the same reason.
 - Icons come from per-icon subpaths: `import { UserIcon } from '@sanity/icons/User'`. The root
   entry of `@sanity/icons` v5 no longer exports them (it type-checks, as `never`, but breaks the
-  build).
+  build). Same trap in `@sanity/ui` v4 for what lives in a subpath: `useToast` comes from
+  `@sanity/ui/toast`.
+- The film stills field handles file drops itself (`sanity/components/FilmStills.tsx`): Sanity
+  6.18's own drop of several files onto an array of images added nothing, or threw.
 
 ## Constraints
 

@@ -5,6 +5,7 @@ import { isSanityConfigured, sanityClient } from './sanity.client'
 import { croppedUrl, fullUrl } from './sanity.image'
 import {
   RELATIONSHIPS,
+  stillAlt,
   type Film,
   type NetworkSector,
   type Partner,
@@ -96,7 +97,7 @@ function normaliseFilms(raw: unknown): Film[] {
     const id = str(f.id)
     const title = str(f.title)
     if (!id || !title) return []
-    const stills = list(f.stills).flatMap((s) => cropped(s as RawImage, STILL, `${title} — still`) ?? [])
+    const stills = list(f.stills).flatMap((s) => cropped(s as RawImage, STILL, stillAlt(title)) ?? [])
     // A card is built around its stills: one without any cannot be laid out.
     if (!stills.length) return []
     return [
