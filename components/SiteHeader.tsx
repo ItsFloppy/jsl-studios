@@ -14,7 +14,7 @@ export function SiteHeader({ brandTag }: { brandTag?: string }) {
         </a>
         <nav className="site-nav" aria-label="Main">
           <a className="nav-link" data-nav="studios" href="/studios">Studios</a>
-          <a className="nav-link" data-nav="production" href="/production">Productions</a>
+          <a className="nav-link" data-nav="productions" href="/productions">Productions</a>
           <div className="nav-about">
             <a className="nav-link" data-nav="about" href="/about">About</a>
             <div className="about-menu">

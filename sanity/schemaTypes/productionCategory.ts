@@ -2,7 +2,7 @@ import { FolderIcon } from '@sanity/icons/Folder'
 import { defineField, defineType } from 'sanity'
 import { ordreField } from './fields'
 
-/** A section of the Production page (/production). A category with no project is hidden. */
+/** A section of the Productions page (/productions). A category with no project is hidden. */
 export const productionCategory = defineType({
   name: 'productionCategory',
   title: 'Catégorie (Productions)',

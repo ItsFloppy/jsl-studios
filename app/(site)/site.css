@@ -37,7 +37,7 @@
 /* Each page is wrapped in <div class="page-root" data-page="…"> (components/PageShell.tsx),
    which takes no box of its own: the page lays out exactly as if its content sat in body. */
 .page-root { display: contents; }
-[data-page="production"] { --accent: var(--sky); }
+[data-page="productions"] { --accent: var(--sky); }
 
 * { box-sizing: border-box; }
 
@@ -156,10 +156,10 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
   .nav-link::after { inset: -12px -5px; }
 }
 .nav-link[data-nav="studios"]:hover { border-bottom-color: var(--gold); }
-.nav-link[data-nav="production"]:hover { border-bottom-color: var(--sky); }
+.nav-link[data-nav="productions"]:hover { border-bottom-color: var(--sky); }
 .nav-link[data-nav="about"]:hover { border-bottom-color: var(--ink); }
 [data-page="studios"] .nav-link[data-nav="studios"] { border-bottom-color: var(--gold); opacity: 1; }
-[data-page="production"] .nav-link[data-nav="production"] { border-bottom-color: var(--sky); opacity: 1; }
+[data-page="productions"] .nav-link[data-nav="productions"] { border-bottom-color: var(--sky); opacity: 1; }
 [data-page="about"] .nav-link[data-nav="about"],
 [data-page="justin"] .nav-link[data-nav="about"] { border-bottom-color: var(--ink); opacity: 1; }
 

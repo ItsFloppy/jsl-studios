@@ -4,7 +4,7 @@ import type { ProductionProject } from '@/lib/types'
 // .prod-grid fits as many 250px-minimum columns as the row allows: three on a desktop.
 const SIZES = '(max-width: 600px) 100vw, (max-width: 1100px) 50vw, 440px'
 
-/** One project of /production. `label` is its category's singular name. */
+/** One project of /productions. `label` is its category's singular name. */
 export function ProdCard({ project, label, index, eager }: { project: ProductionProject; label: string; index: number; eager: boolean }) {
   const meta = [project.year, label].filter(Boolean).join(' · ')
   // Cards stagger in by grid column, as on the static site (0, 110, 220 ms).

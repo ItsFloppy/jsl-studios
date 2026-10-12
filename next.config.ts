@@ -57,7 +57,7 @@ const SECURITY_HEADERS = [
 ]
 
 // The pages the static site served as .html files; old links and bookmarks keep working.
-const OLD_PAGES = ['studios', 'production', 'about', 'justin-souriau-levine']
+const OLD_PAGES = ['studios', 'about', 'justin-souriau-levine']
 
 // Only this project's images go through the image optimizer. On Netlify /_next/image is the
 // Image CDN, which takes any width and quality: open to every Sanity project, it would serve
@@ -102,6 +102,9 @@ const nextConfig: NextConfig = {
     return [
       { source: '/index.html', destination: '/', permanent: true },
       ...OLD_PAGES.map((p) => ({ source: `/${p}.html`, destination: `/${p}`, permanent: true })),
+      // The Production page became /productions; its old addresses go straight there.
+      { source: '/production.html', destination: '/productions', permanent: true },
+      { source: '/production', destination: '/productions', permanent: true },
     ]
   },
 }

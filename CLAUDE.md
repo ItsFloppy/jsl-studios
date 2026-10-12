@@ -38,13 +38,14 @@ and copy it, unless a constraint below says otherwise.
 | --- | --- | --- |
 | `/` | static copy | static |
 | `/studios` | `getFilms()` | ISR 60 s |
-| `/production` | `getProductionCategories()` | ISR 60 s |
+| `/productions` | `getProductionCategories()` | ISR 60 s |
 | `/about` | `getTeamGroups()`, `getNetwork()` | ISR 60 s |
 | `/justin-souriau-levine` | static copy | static |
 | `/studio/[[...tool]]` | Studio | static shell (`force-static`) |
 | `/api/newsletter` | Mailchimp (server side) | POST only, dynamic |
 
-`/x.html` URLs of the old static site redirect (308) to `/x` (`redirects()` in `next.config.ts`).
+`/x.html` URLs of the old static site redirect (308) to `/x`, and the former `/production` and
+`/production.html` to `/productions` (`redirects()` in `next.config.ts`).
 
 ## Sanity
 

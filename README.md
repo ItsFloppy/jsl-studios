@@ -45,8 +45,8 @@ the project:
 
 | Studio section | On the site |
 | --- | --- |
-| **Studio → Films** | `/studios`: one card per film, alternating left and right |
-| **Production → Projets / Catégories** | `/production`: one section per category, one card per project |
+| **Studios → Films** | `/studios`: one card per film, alternating left and right |
+| **Productions → Projets / Catégories** | `/productions`: one section per category, one card per project |
 | **Équipe → Groupes / Personnes** | `/about#team`: the groups (Board, Team, Consultants) and the people in them |
 | **Network → Partenaires / Secteurs** | `/about#network`: the mosaic and its filter buttons |
 
@@ -78,7 +78,7 @@ stable IDs (`film-back-to-the-present`, `person-gordon-caplan`…) and are creat
 | --- | --- |
 | `app/(site)/page.tsx` → `/` | Home: split hero, "who we are", frame reel, newsletter, contact |
 | `app/(site)/studios/page.tsx` → `/studios` | Feature films (Sanity) |
-| `app/(site)/production/page.tsx` → `/production` | Production projects by category (Sanity) |
+| `app/(site)/productions/page.tsx` → `/productions` | Production projects by category (Sanity) |
 | `app/(site)/about/page.tsx` → `/about` | Four tabs: story, team (Sanity), network (Sanity), contact |
 | `app/(site)/justin-souriau-levine/page.tsx` | Founder profile |
 | `app/(site)/site.css` | All site styling, including the `@font-face` rules |
@@ -103,7 +103,7 @@ stable IDs (`film-back-to-the-present`, `person-gordon-caplan`…) and are creat
   falls back to `lib/data.ts` when Sanity is not configured or returns nothing. When Sanity
   cannot be reached, a build falls back too, but a regeneration on the live site fails on
   purpose: ISR keeps serving the last good page and tries again a minute later.
-- **Freshness.** `/studios`, `/production` and `/about` set `revalidate = 60`: a page is
+- **Freshness.** `/studios`, `/productions` and `/about` set `revalidate = 60`: a page is
   regenerated at most once a minute, on the next visit after the minute has passed. No
   webhook, no rebuild, no deploy credit spent on a publish.
 - **Images.** Sanity images are requested with the editor's crop and hotspot applied, then

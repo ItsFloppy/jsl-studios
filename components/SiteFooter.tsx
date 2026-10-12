@@ -10,7 +10,7 @@ export function SiteFooter() {
             <div className="foot-col">
               <span className="foot-col-label">Site</span>
               <a className="foot-link" href="/studios">Studios</a>
-              <a className="foot-link sky" href="/production">Productions</a>
+              <a className="foot-link sky" href="/productions">Productions</a>
               <a className="foot-link" href="/about">About</a>
             </div>
             {/* A "Follow" column (IMDb, Instagram, LinkedIn, YouTube) goes here once JSL's own

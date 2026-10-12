@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: 'JSL Productions — Work for Houses & Partners',
   description:
     'JSL Productions creates campaigns, commercials, fashion films and branded content for fashion houses, brands and cultural partners — with the scale and craft of cinema.',
-  alternates: { canonical: '/production' },
+  alternates: { canonical: '/productions' },
 }
 
 // Projects come from Sanity: re-rendered at most once a minute (ISR).
@@ -18,7 +18,7 @@ export default async function ProductionPage() {
   const categories = await getProductionCategories()
 
   return (
-    <PageShell page="production" brandTag="Productions">
+    <PageShell page="productions" brandTag="Productions">
       <section className="wrap prod-hero">
         <div className="kicker">
           <span className="kicker-line sky"></span>

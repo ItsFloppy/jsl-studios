@@ -213,7 +213,7 @@ function heroBind() {
   // Clicking a side lets that half take the whole frame, then hands off to its page.
   function wipeTo(toStudio: boolean) {
     if (state.wiping || !root) return;
-    const target = toStudio ? '/studios' : '/production';
+    const target = toStudio ? '/studios' : '/productions';
     if (reduced() || !img || !line) { window.location.href = target; return; }
     state.wiping = true;
     const ease = 'cubic-bezier(.76,0,.16,1)';
@@ -294,7 +294,7 @@ function heroBind() {
   root.addEventListener('blur', function () { hover(null); });
 
   // Nav links mirror the hero: hover previews the reveal, click plays the same wipe.
-  document.querySelectorAll('.nav-link[data-nav="studios"], .nav-link[data-nav="production"]').forEach(function (a) {
+  document.querySelectorAll('.nav-link[data-nav="studios"], .nav-link[data-nav="productions"]').forEach(function (a) {
     const toStudio = a.getAttribute('data-nav') === 'studios';
     a.addEventListener('mouseenter', function () { hover(toStudio ? 'studio' : 'production'); });
     a.addEventListener('mouseleave', function () { hover(null); });
