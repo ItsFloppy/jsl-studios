@@ -161,7 +161,11 @@ both built on the site's main address (`lib/site.ts`: Netlify's `URL` at build t
 Set on Netlify:
 
 - `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET`. Never `SANITY_API_TOKEN`:
-  the site only reads public content.
+  the site only reads public content. **Do not tick "Contains secret values"** on these two:
+  their values are public by design (`NEXT_PUBLIC_` values are written into the pages' code,
+  and the project ID is in every image URL), and Netlify's secret scanning would then fail
+  the build on every occurrence, `production` included. A variable flagged as secret cannot be
+  unflagged: delete it and create it again.
 
 In sanity.io/manage → API → CORS origins, add the site's origins **with credentials allowed**
 (`http://localhost:3000`, the Netlify URL, the final domain): the embedded Studio calls Sanity
