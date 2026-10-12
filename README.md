@@ -83,6 +83,7 @@ stable IDs (`film-back-to-the-present`, `person-gordon-caplan`…) and are creat
 | `app/(site)/justin-souriau-levine/page.tsx` | Founder profile |
 | `app/(site)/site.css` | All site styling, including the `@font-face` rules |
 | `app/studio/[[...tool]]/` | The embedded Studio |
+| `app/api/newsletter/route.ts` | Newsletter sign-ups, passed on to Mailchimp from the server |
 | `app/favicon.ico`, `icon.png`, `apple-icon.png` | Favicons, made from `brand/jsl-logo.png` (the 2000 px master, not served) |
 | `components/` | Header, footer, page shell, cards, team group, network filter, `Behaviors` |
 | `lib/sanity.queries.ts` | `getFilms()`, `getProductionCategories()`, `getTeamGroups()`, `getNetwork()` |
@@ -167,6 +168,10 @@ Set on Netlify:
   and the project ID is in every image URL), and Netlify's secret scanning would then fail
   the build on every occurrence, `production` included. A variable flagged as secret cannot be
   unflagged: delete it and create it again.
+- `MAILCHIMP_API_KEY` and `MAILCHIMP_AUDIENCE_ID` for the newsletter (Mailchimp → Profile →
+  Extras → API keys; Audience → Settings → Audience name and defaults → Audience ID). Server
+  only: these two can, and the key should, be flagged as secret. Unset, the form answers that
+  sign-up is unavailable. Sign-ups are double opt-in: Mailchimp emails a confirmation link.
 
 In sanity.io/manage → API → CORS origins, add the site's origins **with credentials allowed**
 (`http://localhost:3000`, the Netlify URL, the final domain): the embedded Studio calls Sanity
@@ -250,7 +255,5 @@ In the code:
   removed, not replaced);
 - the footer's "Follow" column was removed while its links went to IMDb's, Instagram's,
   LinkedIn's and YouTube's home pages: add it back with JSL's own profile URLs;
-- the newsletter form shows "Subscribed" but sends the address nowhere: connect it to a mailing
-  provider (and add its origin to `form-action` in the CSP) or remove it;
 - "Legal mentions · Privacy" in the footer is plain text: the legal notice and privacy policy
-  pages still need writing.
+  pages still need writing, all the more now that the newsletter collects email addresses.

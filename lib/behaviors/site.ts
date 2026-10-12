@@ -110,16 +110,46 @@ function cycleBind() {
 
 /* ---------- Newsletter ---------- */
 
+// Posts to app/api/newsletter/route.ts, which passes the address on to Mailchimp.
 function newsletterBind() {
   const form = document.querySelector<HTMLFormElement>('[data-newsletter]');
   if (!form) return;
+  const button = form.querySelector('button');
+  const email = form.querySelector<HTMLInputElement>('input[name="email"]');
+  const trap = form.querySelector<HTMLInputElement>('input[name="website"]');
+  const status = form.querySelector('[data-newsletter-status]');
+  if (!button || !email) return;
+  const say = function (text: string, error: boolean) {
+    if (!status) return;
+    status.textContent = text;
+    status.classList.toggle('error', error);
+  };
+  let sending = false;
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    const b = form.querySelector('button');
-    if (b) {
-      b.textContent = 'Subscribed';
-      b.disabled = true;
-    }
+    if (sending) return;
+    sending = true;
+    button.disabled = true;
+    say('', false);
+    const failed = function (error?: string) {
+      sending = false;
+      button.disabled = false;
+      say(error || 'Something went wrong. Please try again.', true);
+    };
+    fetch('/api/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.value, website: trap ? trap.value : '' }),
+    })
+      .then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (body: { ok?: boolean; error?: string }) {
+          if (!res.ok || !body.ok) return failed(body.error);
+          button.textContent = 'Almost done';
+          email.disabled = true;
+          say('Check your inbox: click the link we just sent to confirm your subscription.', false);
+        });
+      })
+      .catch(function () { failed(); });
   });
 }
 

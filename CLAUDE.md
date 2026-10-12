@@ -30,6 +30,7 @@ and copy it, unless a constraint below says otherwise.
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | `.env.local`, Netlify | Unset → the whole site renders `lib/data.ts` |
 | `NEXT_PUBLIC_SANITY_DATASET` | `.env.local`, Netlify | `production` |
 | `SANITY_API_TOKEN` | `.env.local` only | Editor token for `scripts/seed.ts`. Never `NEXT_PUBLIC_`, never on Netlify |
+| `MAILCHIMP_API_KEY`, `MAILCHIMP_AUDIENCE_ID` | `.env.local`, Netlify (secret) | Newsletter (`app/api/newsletter/route.ts`). Never `NEXT_PUBLIC_` |
 
 ## Routes
 
@@ -41,6 +42,7 @@ and copy it, unless a constraint below says otherwise.
 | `/about` | `getTeamGroups()`, `getNetwork()` | ISR 60 s |
 | `/justin-souriau-levine` | static copy | static |
 | `/studio/[[...tool]]` | Studio | static shell (`force-static`) |
+| `/api/newsletter` | Mailchimp (server side) | POST only, dynamic |
 
 `/x.html` URLs of the old static site redirect (308) to `/x` (`redirects()` in `next.config.ts`).
 
@@ -85,7 +87,8 @@ and copy it, unless a constraint below says otherwise.
   footer belong to `app/(site)/`.
 - **Visitors never contact a third party.** Sanity images go through `/_next/image` (built with
   `croppedUrl()` / `fullUrl()` from `lib/sanity.image.ts`; `optimisedSrc()` for images a script
-  swaps in). Fonts are self-hosted (GDPR: no Google Fonts). Do not add a third-party origin to the
+  swaps in). Fonts are self-hosted (GDPR: no Google Fonts). Third-party services (Mailchimp) are
+  called from a route handler, never from the page. Do not add a third-party origin to the
   site CSP without asking.
 - **CSP** is in `next.config.ts`: one policy for the site, a looser one for `/studio`. No inline
   `style=` in server-rendered site markup beyond what next/image adds; scripts set styles through

@@ -112,9 +112,14 @@ export default function HomePage() {
       <h2>Stay up to date with the JSL Studios newsletter!</h2>
       </div>
       <form className="newsletter-form" data-newsletter="">
-      <p>Sign up for our newsletter by providing us with your email address</p>
-      <input type="email" required placeholder="your@email.com" aria-label="Email address" />
+      <p>Sign up for our newsletter by providing us with your email address. We&rsquo;ll email you a link to confirm; unsubscribe anytime.</p>
+      <input type="email" name="email" required maxLength={254} autoComplete="email" placeholder="your@email.com" aria-label="Email address" />
+      {/* Trap for bots (app/api/newsletter/route.ts): hidden from people and from screen readers. */}
+      <div className="newsletter-trap" aria-hidden="true">
+      <label>Website <input type="text" name="website" tabIndex={-1} autoComplete="off" /></label>
+      </div>
       <button type="submit">Sign up</button>
+      <p className="newsletter-status" data-newsletter-status="" aria-live="polite"></p>
       </form>
       </div>
       </section>

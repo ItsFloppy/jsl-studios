@@ -306,6 +306,9 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 }
 .newsletter-form button:hover { background-color: var(--ink); border-color: var(--ink); color: var(--paper); }
 .newsletter-form button:disabled { background-color: var(--ink); border-color: var(--ink); color: var(--paper); cursor: default; }
+.newsletter-form .newsletter-status:empty { display: none; }
+.newsletter-form .newsletter-status.error { color: #B3261E; }
+.newsletter-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 /* iOS zooms the page into any field set below 16px when it takes focus. */
 @media (pointer: coarse) { .newsletter-form input { font-size: 16px; } }
 /* Once the button drops under the field, it takes the full width rather than hanging on the left. */
