@@ -14,12 +14,12 @@ export default function HomePage() {
     <PageShell page="home">
       <section className="hero-split" data-hero="" role="group" aria-label="Choose a side: JSL Studios or JSL Production. Left and right arrow keys pick a side, Enter opens it." tabIndex={0}>
       <div className="hero-layer hero-production">
-      <img src="/assets/split-production.webp" alt="JSL Production" draggable={false} fetchPriority="high" />
+      <img src="/assets/split-production-v2.webp" alt="JSL Production" draggable={false} fetchPriority="high" />
       <div className="wash wash-sky"></div>
       <div className="grad"></div>
       </div>
       <div className="hero-layer hero-studio" data-split-img="">
-      <img src="/assets/split-studio.webp" alt="JSL Studios" draggable={false} fetchPriority="high" />
+      <img src="/assets/split-studio-v2.webp" alt="JSL Studios" draggable={false} fetchPriority="high" />
       <div className="wash wash-gold"></div>
       <div className="grad"></div>
       </div>
