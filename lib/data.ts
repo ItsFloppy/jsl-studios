@@ -573,7 +573,7 @@ export const NETWORK_STATIC: NetworkSector[] = [
       {
         name: 'SLS Expo',
         relationship: 'relationship',
-        logo: { src: '/assets/logos/sls-expo.png', alt: 'SLS Expo' },
+        logo: { src: '/assets/logos/sls-expo-dark.png', alt: 'SLS Expo' },
         invertLogo: false,
         url: 'https://saudilightandsoundexpo.com',
         visibility: 1,
@@ -589,7 +589,7 @@ export const NETWORK_STATIC: NetworkSector[] = [
       {
         name: 'Saudi Entertainment Expo',
         relationship: 'relationship',
-        logo: { src: '/assets/logos/saudi-entertainment-expo.png', alt: 'Saudi Entertainment Expo' },
+        logo: { src: '/assets/logos/saudi-entertainment-expo-dark.png', alt: 'Saudi Entertainment Expo' },
         invertLogo: false,
         url: 'https://saudientertainmentexpo.com',
         visibility: 1,
@@ -657,7 +657,7 @@ export const NETWORK_STATIC: NetworkSector[] = [
       {
         name: 'Al Ahli',
         relationship: 'conversation',
-        logo: { src: '/assets/logos/al-ahli.png', alt: 'Al Ahli' },
+        logo: { src: '/assets/logos/al-ahli-crest.png', alt: 'Al Ahli' },
         invertLogo: false,
         url: 'https://www.alahlifc.sa',
         visibility: 3,
@@ -673,6 +673,7 @@ export const NETWORK_STATIC: NetworkSector[] = [
       {
         name: 'NYCFC',
         relationship: 'relationship',
+        logo: { src: '/assets/logos/nycfc.png', alt: 'NYCFC' },
         invertLogo: false,
         url: 'https://www.newyorkcityfc.com',
         visibility: 3,
@@ -680,6 +681,7 @@ export const NETWORK_STATIC: NetworkSector[] = [
       {
         name: 'FFF Academy',
         relationship: 'featured',
+        logo: { src: '/assets/logos/fff-academy.png', alt: 'FFF Academy' },
         invertLogo: false,
         url: 'https://fffacademy.com',
         visibility: 3,
@@ -687,6 +689,7 @@ export const NETWORK_STATIC: NetworkSector[] = [
       {
         name: 'Real Murcia',
         relationship: 'conversation',
+        logo: { src: '/assets/logos/real-murcia.png', alt: 'Real Murcia' },
         invertLogo: false,
         url: 'https://www.realmurcia.es',
         visibility: 3,
@@ -708,6 +711,7 @@ export const NETWORK_STATIC: NetworkSector[] = [
       {
         name: 'Harvard University',
         relationship: 'network',
+        logo: { src: '/assets/logos/harvard-university.png', alt: 'Harvard University' },
         invertLogo: false,
         url: 'https://www.harvard.edu',
         visibility: 3,
@@ -809,6 +813,7 @@ export const NETWORK_STATIC: NetworkSector[] = [
       {
         name: 'Aveiro Maroc',
         relationship: 'conversation',
+        logo: { src: '/assets/logos/aveiro-maroc.png', alt: 'Aveiro Maroc' },
         invertLogo: false,
         url: 'https://www.aveiro-maroc.com',
         visibility: 1,
@@ -846,6 +851,7 @@ export const NETWORK_STATIC: NetworkSector[] = [
       {
         name: 'Vosita Healthcare',
         relationship: 'client',
+        logo: { src: '/assets/logos/vosita-healthcare.png', alt: 'Vosita Healthcare' },
         invertLogo: false,
         url: 'https://go.vosita.com',
         visibility: 3,

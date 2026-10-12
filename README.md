@@ -241,8 +241,6 @@ In the Studio, once seeded:
 
 - **Missing portraits:** Yves Philippe, Marvin Jay Levy (no image has ever existed for them).
 - **Missing bios:** John Dima, Emma Kremer, Yves Philippe, Marvin Jay Levy.
-- **Missing logos:** Aveiro Maroc, FFF Academy, Harvard University, NYCFC, Real Murcia, Vosita
-  Healthcare (their tiles show the name in type).
 - **Name spellings to confirm:** "Louise Vilepellet" (her bio says Villepelet), "Theodore
   Verzat" (his bio says Théodore).
 - **Placeholders:** every production project links to the same placeholder YouTube video
