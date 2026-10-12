@@ -94,6 +94,7 @@ stable IDs (`film-back-to-the-present`, `person-gordon-caplan`…) and are creat
 | `public/` | Fonts, images (crops, team portraits, partner logos, the header and footer logo) |
 | `next.config.ts` | Security headers, cache headers, redirects from the old `.html` URLs, image sources |
 | `.github/` | CI (lint, typecheck, build on every PR and on `main`) and Dependabot |
+| `docs/leaving-squarespace.md` | Moving the domains and Google Workspace off Squarespace (in French) |
 
 ## How it works
 
