@@ -259,10 +259,10 @@ export default async function AboutPage() {
       <section className="wrap about-contact-sec">
       <p className="about-contact-lede" data-reveal="">Tell us what you want to make.</p>
       <div className="about-contact-grid">
-      <a className="contact-card" data-reveal="" href="mailto:jsl@jsl-studios.com">
+      <a className="contact-card" data-reveal="" href="mailto:dj@jsl-studios.com">
       <span className="c-bar"></span>
       <span className="c-title">Projects</span>
-      <span className="c-mail">jsl@jsl-studios.com →</span>
+      <span className="c-mail">dj@jsl-studios.com →</span>
       <span className="c-phone">+1 (347) 962-0268</span>
       </a>
       <a className="contact-card sky" data-reveal="" data-delay="80" href="mailto:communication@jsl-studios.com">
@@ -271,10 +271,10 @@ export default async function AboutPage() {
       <span className="c-mail">communication@jsl-studios.com →</span>
       <span className="c-phone">+33 7 81 27 68 75</span>
       </a>
-      <a className="contact-card" data-reveal="" data-delay="160" href="mailto:team@jsl-studios.com">
+      <a className="contact-card" data-reveal="" data-delay="160" href="mailto:ek@jsl-studios.com">
       <span className="c-bar"></span>
       <span className="c-title">Careers</span>
-      <span className="c-mail">team@jsl-studios.com →</span>
+      <span className="c-mail">ek@jsl-studios.com →</span>
       <span className="c-phone">+1 (203) 690-6011</span>
       </a>
       </div>

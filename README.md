@@ -243,14 +243,13 @@ In the Studio, once seeded:
 - **Missing bios:** John Dima, Emma Kremer, Yves Philippe, Marvin Jay Levy.
 - **Name spellings to confirm:** "Louise Vilepellet" (her bio says Villepelet), "Theodore
   Verzat" (his bio says Théodore).
-- **Placeholders:** every production project links to the same placeholder YouTube video
-  (replace it, or empty the field: the card then does not click through); no year or cast is
-  set on the films yet. `lib/data.ts` no longer holds these placeholders.
+- **Video links:** the three GFC projects and PUBLIC SERV-CE have none (their cards do not
+  click through); no year or cast is set on the films yet.
 
 In the code:
 
-- the home page's contact block: the Paris address and the phone numbers (the placeholders were
-  removed, not replaced);
+- the home page's contact block: the phone numbers (the placeholders were removed, not
+  replaced);
 - the footer's "Follow" column was removed while its links went to IMDb's, Instagram's,
   LinkedIn's and YouTube's home pages: add it back with JSL's own profile URLs;
 - "Legal mentions · Privacy" in the footer is plain text: the legal notice and privacy policy

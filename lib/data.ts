@@ -6,8 +6,8 @@
 //
 // It holds no placeholder links: a film without its IMDb page shows no button, a project
 // without its video is a card that does not click through. Still to supply, in the
-// Studio: IMDb and video links, years and cast. Missing bios: John Dima, Emma Kremer,
-// Yves Philippe, Marvin Jay Levy.
+// Studio: the GFC and PUBLIC SERV-CE video links, IMDb links, years and cast. Missing bios:
+// John Dima, Emma Kremer, Yves Philippe, Marvin Jay Levy.
 
 import type { Film, NetworkSector, ProductionCategory, TeamGroup } from './types'
 
@@ -55,6 +55,7 @@ export const PRODUCTION_STATIC: ProductionCategory[] = [
         title: 'Collection film',
         thumbnail: { src: '/assets/crop/fash-red-suit.webp', alt: 'LAQUAN SMITH' },
         year: 2026,
+        videoUrl: 'https://www.youtube.com/watch?v=FDIPcV8i7m8',
       },
       {
         id: 'gfc-fw26-runway-cut',
@@ -103,18 +104,21 @@ export const PRODUCTION_STATIC: ProductionCategory[] = [
         client: 'VOSITA',
         title: 'A sonogram to remember',
         thumbnail: { src: '/assets/crop/vosita-sonogram.webp', alt: 'VOSITA — A sonogram to remember' },
+        videoUrl: 'https://www.youtube.com/watch?v=qNFGOX1Gvz0',
       },
       {
         id: 'vosita-the-date',
         client: 'VOSITA',
         title: 'The date',
         thumbnail: { src: '/assets/crop/vosita-date.webp', alt: 'VOSITA — The date' },
+        videoUrl: 'https://www.youtube.com/watch?v=4mfuv5nAAJI',
       },
       {
         id: 'vosita-three-doctors-and-a-dog',
         client: 'VOSITA',
         title: 'Three doctors and a dog',
         thumbnail: { src: '/assets/crop/vosita-doctors-dog.webp', alt: 'VOSITA — Three doctors and a dog' },
+        videoUrl: 'https://www.youtube.com/watch?v=AunsIFws75c',
       },
     ],
   },

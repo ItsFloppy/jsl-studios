@@ -139,15 +139,16 @@ export default function HomePage() {
       </div>
       <div className="contact-city" data-reveal="" data-delay="110">
       <span className="contact-city-name">Paris</span>
-      {/* The Paris address and both phone numbers are still to supply. */}
-      <div className="contact-city-meta"></div>
+      <div className="contact-city-meta">
+      <span>6 rue d’Armaille, 75017 Paris</span>
+      </div>
       </div>
       <div className="contact-city no-edge" data-reveal="">
       <span className="contact-city-name">Write to us</span>
       <div className="contact-city-meta">
-      <span>projects — <a href="mailto:jsl@jsl-studios.com">jsl@jsl-studios.com</a></span>
+      <span>projects — <a href="mailto:dj@jsl-studios.com">dj@jsl-studios.com</a></span>
       <span>press — <a href="mailto:communication@jsl-studios.com">communication@jsl-studios.com</a></span>
-      <span>careers — <a href="mailto:team@jsl-studios.com">team@jsl-studios.com</a></span>
+      <span>careers — <a href="mailto:ek@jsl-studios.com">ek@jsl-studios.com</a></span>
       </div>
       </div>
       </div>
