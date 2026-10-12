@@ -163,12 +163,15 @@ function heroBind() {
     window.addEventListener('resize', lockHeight);
   }
 
+  // Upright, the hero splits horizontally, Studios on top (site.css): the same test as its
+  // `orientation: portrait` container query.
+  const upright = function () { return root.offsetHeight >= root.offsetWidth; };
+
   function split() {
-    if (state.wiping || !img || !line) return;
+    if (state.wiping || !root) return;
     const pct = state.hover === 'studio' ? 64 : state.hover === 'production' ? 36 : 50;
     state.pct = pct;
-    img.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
-    line.style.left = pct + '%';
+    root.style.setProperty('--split', pct + '%');
   }
 
   function hover(which: Side) {
@@ -185,15 +188,17 @@ function heroBind() {
     state.wiping = true;
     const ease = 'cubic-bezier(.76,0,.16,1)';
     img.style.transition = 'clip-path .78s ' + ease;
-    img.style.clipPath = 'inset(0 ' + (toStudio ? 0 : 100) + '% 0 0)';
-    line.style.transition = 'left .78s ' + ease + ',opacity .38s ease';
-    line.style.left = (toStudio ? 100 : 0) + '%';
+    // The line runs down (left) side by side and across (top) upright: both take the timing.
+    line.style.transition = 'left .78s ' + ease + ',top .78s ' + ease + ',opacity .38s ease';
     line.style.opacity = '0';
+    root.style.setProperty('--split', (toStudio ? 100 : 0) + '%');
+    // The captions drift the way the frame wipes: sideways, or down and up when upright.
+    const axis = upright() ? 'translateY(' : 'translateX(';
     root.querySelectorAll<HTMLElement>('[data-split-cap]').forEach(function (c) {
       const keep = c.getAttribute('data-split-cap') === (toStudio ? 'studio' : 'production');
-      const dx = (toStudio ? 1 : -1) * (keep ? 2.5 : 7);
+      const d = (toStudio ? 1 : -1) * (keep ? 2.5 : 7);
       c.style.transition = 'opacity .42s ease,transform .78s ' + ease;
-      c.style.transform = 'translateX(' + dx + 'vw)';
+      c.style.transform = axis + d + 'vw)';
       if (!keep) c.style.opacity = '0';
     });
     root.querySelectorAll<HTMLElement>('img').forEach(function (im) {
@@ -227,14 +232,15 @@ function heroBind() {
   }
   window.addEventListener('pageshow', function (e) { if (e.persisted) resetHero(); });
 
-  // The side under the pointer: a caption's own side when the pointer is on one (on an
-  // upright hero, PRODUCTION runs past the split line), else the half it is over.
-  // `split` is where that half ends, in percent of the hero's width.
+  // The side under the pointer: a caption's own side when the pointer is on one, else the
+  // half it is over (left or right; top or bottom when upright). `split` is where the
+  // Studios half ends, in percent of the hero's width or height.
   const sideAt = function (e: MouseEvent, split: number): 'studio' | 'production' {
     const cap = (e.target as Element).closest('[data-split-cap]');
     if (cap) return cap.getAttribute('data-split-cap') === 'studio' ? 'studio' : 'production';
     const r = root.getBoundingClientRect();
-    return (e.clientX - r.left) / r.width * 100 < split ? 'studio' : 'production';
+    const at = upright() ? (e.clientY - r.top) / r.height : (e.clientX - r.left) / r.width;
+    return at * 100 < split ? 'studio' : 'production';
   };
 
   root.addEventListener('mousemove', function (e) {

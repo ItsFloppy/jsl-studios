@@ -181,6 +181,9 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
   /* The captions follow the hero's own shape (the @container rule below), not the
      screen's: a tall tablet whose hero is capped at 860px keeps the side-by-side layout. */
   container: hero / size;
+  /* Where the split line sits, in percent of the hero's width (of its height when upright).
+     lib/behaviors/site.ts moves it; the layers, the line and the captions follow. */
+  --split: 50%;
 }
 .hero-layer { position: absolute; inset: 0; isolation: isolate; }
 .hero-layer img {
@@ -194,9 +197,9 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .wash-gold { background: var(--gold); }
 .hero-production .grad { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(270deg, var(--sky) 0%, rgba(95, 184, 220, .88) 20%, rgba(95, 184, 220, 0) 46%); }
 .hero-studio .grad { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, var(--gold) 0%, rgba(248, 196, 58, .88) 20%, rgba(248, 196, 58, 0) 46%); }
-.hero-studio { clip-path: inset(0 50% 0 0); transition: clip-path .9s var(--ease); }
+.hero-studio { clip-path: inset(0 calc(100% - var(--split)) 0 0); transition: clip-path .9s var(--ease); }
 .split-line {
-  position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px;
+  position: absolute; top: 0; bottom: 0; left: var(--split); width: 2px; margin-left: -1px;
   background: var(--paper); z-index: 4; pointer-events: none;
   transition: left .9s var(--ease);
 }
@@ -217,16 +220,21 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .hero-cap p { margin: 0; max-width: 19ch; font-size: clamp(14px, 1.15vw, 16.5px); line-height: 1.55; color: rgba(10, 10, 10, .7); text-wrap: pretty; }
 .hero-cap-right { align-items: flex-end; text-align: right; }
 .hero-cap-right h2 { align-items: flex-end; }
-/* Upright hero (phones, tablets held upright): side by side, the captions would sit on the
-   faces, which fill the middle of both photos. They move to opposite corners — Studios top
-   left, Production bottom right. PRODUCTION is wider than half a phone and runs past the
-   split line; each paragraph stays within its own half. */
+/* Upright hero (phones, tablets held upright): the split turns horizontal, Studios above the
+   line and Production below, the two photos still cut across the faces as side by side. Both
+   faces sit high in their photos, with no room above the heads to lower them: drawn 150% as
+   tall as the hero, the eyes come down to about 42% of it, so the line crosses the middle of
+   the faces and hovering Production (line at 36%) still shows its eyes. Studios' caption
+   takes the top-left corner, Production's the bottom-right one, each in its half. */
 @container hero (orientation: portrait) {
+  .hero-layer img { height: 150%; }
+  .hero-studio { clip-path: inset(0 0 calc(100% - var(--split)) 0); }
+  .split-line { top: var(--split); bottom: auto; left: 0; width: 100%; height: 2px; margin: -1px 0 0; transition: top .9s var(--ease); }
   .hero-caps { flex-direction: column; align-items: flex-start; justify-content: space-between; padding: clamp(22px, 6cqw, 44px) var(--gutter); }
   .hero-cap { max-width: none; gap: clamp(10px, 2.4cqw, 18px); }
   .hero-cap-right { align-self: flex-end; }
   .hero-cap h2 { font-size: clamp(22px, 6.4cqw, 48px); }
-  .hero-cap p { max-width: min(19ch, calc(50cqw - var(--gutter) - 10px)); font-size: clamp(14px, 2.2cqw, 17px); }
+  .hero-cap p { max-width: 26ch; font-size: clamp(14px, 2.2cqw, 17px); }
 }
 
 /* ---------- Home: sections ---------- */
