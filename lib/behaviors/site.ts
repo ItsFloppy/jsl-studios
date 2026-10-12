@@ -147,6 +147,22 @@ function heroBind() {
   const state: { hover: Side; pct: number; wiping: boolean } = { hover: null, pct: 50, wiping: false };
   let navTimer: ReturnType<typeof setTimeout> | null = null;
 
+  // Phone browsers resize the viewport as their toolbars slide away at the start of a
+  // scroll, and some (in-app browsers, recent iOS Safari) let even svh follow: the hero,
+  // sized from the viewport height, then grows under the finger and its cover photos zoom.
+  // On a touchscreen its height is read once and kept until the width changes (a rotation).
+  if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+    let lockedWidth = 0;
+    const lockHeight = function () {
+      if (window.innerWidth === lockedWidth) return;
+      lockedWidth = window.innerWidth;
+      root.style.height = '';
+      root.style.height = root.getBoundingClientRect().height + 'px';
+    };
+    lockHeight();
+    window.addEventListener('resize', lockHeight);
+  }
+
   function split() {
     if (state.wiping || !img || !line) return;
     const pct = state.hover === 'studio' ? 64 : state.hover === 'production' ? 36 : 50;

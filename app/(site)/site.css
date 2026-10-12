@@ -219,17 +219,14 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .hero-cap-right h2 { align-items: flex-end; }
 /* Upright hero (phones, tablets held upright): side by side, the captions would sit on the
    faces, which fill the middle of both photos. They move to opposite corners — Studios top
-   left, Production bottom right — over bands of each side's colour that keep the type
-   legible on the photo. PRODUCTION is wider than half a phone and runs past the split line;
-   each paragraph stays within its own half. */
+   left, Production bottom right. PRODUCTION is wider than half a phone and runs past the
+   split line; each paragraph stays within its own half. */
 @container hero (orientation: portrait) {
   .hero-caps { flex-direction: column; align-items: flex-start; justify-content: space-between; padding: clamp(22px, 6cqw, 44px) var(--gutter); }
   .hero-cap { max-width: none; gap: clamp(10px, 2.4cqw, 18px); }
   .hero-cap-right { align-self: flex-end; }
   .hero-cap h2 { font-size: clamp(22px, 6.4cqw, 48px); }
   .hero-cap p { max-width: min(19ch, calc(50cqw - var(--gutter) - 10px)); font-size: clamp(14px, 2.2cqw, 17px); }
-  .hero-studio .grad { background: linear-gradient(180deg, var(--gold) 0%, rgba(248, 196, 58, .88) 16%, rgba(248, 196, 58, 0) 34%), linear-gradient(0deg, var(--gold) 0%, rgba(248, 196, 58, .88) 16%, rgba(248, 196, 58, 0) 34%); }
-  .hero-production .grad { background: linear-gradient(180deg, var(--sky) 0%, rgba(95, 184, 220, .88) 16%, rgba(95, 184, 220, 0) 34%), linear-gradient(0deg, var(--sky) 0%, rgba(95, 184, 220, .88) 16%, rgba(95, 184, 220, 0) 34%); }
 }
 
 /* ---------- Home: sections ---------- */
