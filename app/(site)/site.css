@@ -383,8 +383,10 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .prod-group-head h2 { margin: 0; font-size: clamp(22px, 2.4vw, 32px); font-weight: 500; letter-spacing: -.02em; }
 .prod-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: clamp(18px, 2.6vw, 40px); }
 .prod-card {
+  /* The bottom rule's grey, which the arrow shares. */
+  --prod-line: rgba(10, 10, 10, .12);
   color: inherit; display: flex; flex-direction: column; gap: 14px; padding-bottom: 16px;
-  border-bottom: 1px solid rgba(10, 10, 10, .12);
+  border-bottom: 1px solid var(--prod-line);
   /* Carries the scroll-reveal properties too: a transition declared here replaces the
      [data-reveal] one, which would otherwise make the cards pop in unanimated. */
   transition: border-color .6s var(--ease), opacity 1.05s var(--ease), transform 1.15s var(--ease);
@@ -392,10 +394,11 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .prod-card:hover { border-bottom-color: var(--sky); text-decoration: none; }
 /* Every card carries the arrow in its bottom-right corner, link or not yet. */
 .prod-card { position: relative; }
-.prod-card .prod-meta { padding-right: 32px; }
+.prod-card .prod-meta { padding-right: 28px; }
+/* In the bottom rule's colour, turning sky with it on hover. */
 .prod-arrow {
-  position: absolute; right: 0; bottom: 14px; display: block; width: 20px; height: 20px;
-  color: var(--ink-72); transition: color .4s, transform .5s var(--ease);
+  position: absolute; right: 0; bottom: 16px; display: block; width: 16px; height: 16px;
+  color: var(--prod-line); transition: color .6s var(--ease), transform .5s var(--ease);
 }
 .prod-card:hover .prod-arrow { color: var(--sky); transform: translate(3px, -3px); }
 .prod-thumb { position: relative; width: 100%; aspect-ratio: 16/9; background: var(--tile); overflow: hidden; }

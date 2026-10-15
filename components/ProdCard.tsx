@@ -24,7 +24,7 @@ export function ProdCard({ project, label, index, eager }: { project: Production
       <span className="prod-client">{project.client}</span>
       <span className="prod-title">{project.title}</span>
       <span className="prod-meta">{meta}</span>
-      <svg className="prod-arrow" viewBox="4 4 16 16" width={20} height={20} fill="none" stroke="currentColor" strokeWidth={1} aria-hidden="true" focusable="false">
+      <svg className="prod-arrow" viewBox="4 4 16 16" width={16} height={16} fill="none" stroke="currentColor" strokeWidth={1} aria-hidden="true" focusable="false">
         <path d="M5 19 19 5M8 5h11v11" />
       </svg>
     </>
