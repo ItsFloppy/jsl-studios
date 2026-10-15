@@ -391,12 +391,10 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 }
 .prod-card:hover { border-bottom-color: var(--sky); text-decoration: none; }
 a.prod-card { position: relative; }
-a.prod-card .prod-meta { padding-right: 28px; }
-/* Syne has no arrows: the fallback sets the glyph, as in .btn. */
+a.prod-card .prod-meta { padding-right: 32px; }
 .prod-arrow {
-  position: absolute; right: 0; bottom: 12px;
-  font-family: Syne, sans-serif; font-size: 20px; line-height: 1; color: var(--ink-72);
-  transition: color .4s, transform .5s var(--ease);
+  position: absolute; right: 0; bottom: 14px; display: block; width: 20px; height: 20px;
+  color: var(--ink-72); transition: color .4s, transform .5s var(--ease);
 }
 a.prod-card:hover .prod-arrow { color: var(--sky); transform: translate(3px, -3px); }
 .prod-thumb { position: relative; width: 100%; aspect-ratio: 16/9; background: var(--tile); overflow: hidden; }
