@@ -135,12 +135,14 @@ export default function HomePage() {
       <span className="contact-city-name">New York</span>
       <div className="contact-city-meta">
       <span>172E, 95th Street 10128 NY, NY</span>
+      <span><a href="tel:+13479620268">+1 (347) 962-0268</a></span>
       </div>
       </div>
       <div className="contact-city" data-reveal="" data-delay="110">
       <span className="contact-city-name">Paris</span>
       <div className="contact-city-meta">
       <span>6 rue d’Armaille, 75017 Paris</span>
+      <span><a href="tel:+33613460049">+33 6 13 46 00 49</a></span>
       </div>
       </div>
       <div className="contact-city no-edge" data-reveal="">

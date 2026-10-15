@@ -22,7 +22,7 @@ export default async function StudiosPage() {
   preload('/assets/crop/feat-tall-ship.webp', { as: 'image', type: 'image/webp', fetchPriority: 'high' })
 
   return (
-    <PageShell page="studios" brandTag="Studios">
+    <PageShell page="studios">
       <section className="studios-hero">
         <div className="studios-hero-inner">
           <div className="kicker">

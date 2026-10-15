@@ -123,15 +123,9 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
   padding: 0 var(--gutter); min-height: var(--head-h);
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
 }
-.brand { display: flex; align-items: center; gap: 8px; padding: 8px 0; }
+.brand { display: flex; align-items: center; padding: 8px 0; }
 .brand:hover { text-decoration: none; }
-.brand-word { font-size: 20px; font-weight: 800; letter-spacing: -.015em; }
-.brand-logo { display: block; align-self: center; width: 26px; height: 26px; }
-.brand-tag { font-size: 10px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; }
-/* On a phone, "JSL (logo) PRODUCTIONS" and the nav no longer fit on one line (up to about
-   525px), and a header that wraps puts every sticky offset (--head-h) out. The tag only
-   repeats the page whose nav link is already underlined; the logo stays. */
-@media (max-width: 540px) { .brand-tag { display: none; } }
+.brand-logo { display: block; width: 36px; height: 36px; }
 
 .site-nav { display: flex; align-items: center; gap: clamp(14px, 2.4vw, 36px); }
 .nav-link {
@@ -147,10 +141,9 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 @media (pointer: coarse) {
   .nav-link::after, .tab-btn::after { content: ''; position: absolute; inset: -12px -8px; }
 }
-/* Below 400px "JSL (logo)" and "STUDIOS PRODUCTIONS ABOUT" only share a line once tightened. */
-@media (max-width: 400px) {
-  .brand { gap: 6px; }
-  .brand-logo { width: 22px; height: 22px; }
+/* Below 340px the logo and "STUDIOS PRODUCTIONS ABOUT" only share a line once tightened; a
+   header that wraps puts every sticky offset (--head-h) out. */
+@media (max-width: 340px) {
   .site-nav { gap: 10px; }
   .nav-link { letter-spacing: .1em; }
   .nav-link::after { inset: -12px -5px; }
@@ -397,6 +390,15 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
   transition: border-color .6s var(--ease), opacity 1.05s var(--ease), transform 1.15s var(--ease);
 }
 .prod-card:hover { border-bottom-color: var(--sky); text-decoration: none; }
+a.prod-card { position: relative; }
+a.prod-card .prod-meta { padding-right: 28px; }
+/* Syne has no arrows: the fallback sets the glyph, as in .btn. */
+.prod-arrow {
+  position: absolute; right: 0; bottom: 12px;
+  font-family: Syne, sans-serif; font-size: 20px; line-height: 1; color: var(--ink-72);
+  transition: color .4s, transform .5s var(--ease);
+}
+a.prod-card:hover .prod-arrow { color: var(--sky); transform: translate(3px, -3px); }
 .prod-thumb { position: relative; width: 100%; aspect-ratio: 16/9; background: var(--tile); overflow: hidden; }
 .prod-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
 .prod-client { font-size: 10.5px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: rgba(10, 10, 10, .66); }

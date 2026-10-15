@@ -3,14 +3,12 @@
 // navigates with window.location anyway; client-side navigation would also prefetch
 // pages in the background, spending Netlify requests for nothing.
 
-export function SiteHeader({ brandTag }: { brandTag?: string }) {
+export function SiteHeader() {
   return (
     <header className="site-head">
       <div className="head-inner">
         <a className="brand" href="/" aria-label="JSL Studios, home">
-          <span className="brand-word">JSL</span>
-          <img className="brand-logo" src="/assets/jsl-logo-64.webp" width={26} height={26} alt="" />
-          {brandTag && <span className="brand-tag">{brandTag}</span>}
+          <img className="brand-logo" src="/assets/jsl-logo-80.webp" width={36} height={36} alt="" />
         </a>
         <nav className="site-nav" aria-label="Main">
           <a className="nav-link" data-nav="studios" href="/studios">Studios</a>

@@ -26,10 +26,12 @@ export function ProdCard({ project, label, index, eager }: { project: Production
       <span className="prod-meta">{meta}</span>
     </>
   )
-  // Without a video the card is not a link: there is nowhere for it to go.
+  // Without a video the card is not a link: there is nowhere for it to go. With one, an
+  // arrow in its corner says so.
   return project.videoUrl ? (
     <a className="prod-card" data-reveal="" data-delay={delay || undefined} href={project.videoUrl} target="_blank" rel="noopener">
       {body}
+      <span className="prod-arrow" aria-hidden="true">↗</span>
     </a>
   ) : (
     <div className="prod-card" data-reveal="" data-delay={delay || undefined}>

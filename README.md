@@ -252,8 +252,6 @@ In the Studio, once seeded:
 
 In the code:
 
-- the home page's contact block: the phone numbers (the placeholders were removed, not
-  replaced);
 - the footer's "Follow" column was removed while its links went to IMDb's, Instagram's,
   LinkedIn's and YouTube's home pages: add it back with JSL's own profile URLs;
 - "Legal mentions · Privacy" in the footer is plain text: the legal notice and privacy policy

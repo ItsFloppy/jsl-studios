@@ -18,7 +18,7 @@ export default async function ProductionPage() {
   const categories = await getProductionCategories()
 
   return (
-    <PageShell page="productions" brandTag="Productions">
+    <PageShell page="productions">
       <section className="wrap prod-hero">
         <div className="kicker">
           <span className="kicker-line sky"></span>
