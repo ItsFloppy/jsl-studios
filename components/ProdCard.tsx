@@ -24,16 +24,15 @@ export function ProdCard({ project, label, index, eager }: { project: Production
       <span className="prod-client">{project.client}</span>
       <span className="prod-title">{project.title}</span>
       <span className="prod-meta">{meta}</span>
+      <svg className="prod-arrow" viewBox="4 4 16 16" width={20} height={20} fill="none" stroke="currentColor" strokeWidth={1} aria-hidden="true" focusable="false">
+        <path d="M5 19 19 5M8 5h11v11" />
+      </svg>
     </>
   )
-  // Without a video the card is not a link: there is nowhere for it to go. With one, an
-  // arrow in its corner says so.
+  // Without a video the card is not a link: there is nowhere for it to go.
   return project.videoUrl ? (
     <a className="prod-card" data-reveal="" data-delay={delay || undefined} href={project.videoUrl} target="_blank" rel="noopener">
       {body}
-      <svg className="prod-arrow" viewBox="4 4 16 16" width={20} height={20} fill="none" stroke="currentColor" strokeWidth={1.3} aria-hidden="true" focusable="false">
-        <path d="M5 19 19 5M8 5h11v11" />
-      </svg>
     </a>
   ) : (
     <div className="prod-card" data-reveal="" data-delay={delay || undefined}>
