@@ -3,8 +3,12 @@ export function SiteFooter() {
     <footer className="site-foot">
       <div className="foot-inner">
         <div className="foot-top">
-          <a className="foot-brand" href="/">
-            <img className="foot-logo" src="/assets/jsl-logo-400.webp" width={180} height={180} alt="JSL Studios" />
+          <a className="foot-brand" href="/" aria-label="JSL Studios, home">
+            <img className="foot-logo" src="/assets/jsl-logo-400.webp" width={180} height={180} alt="" />
+            <span className="foot-wordmark" aria-hidden="true">
+              <span className="over">JSL</span>
+              <span>Studios</span>
+            </span>
           </a>
           <div className="foot-cols">
             <div className="foot-col">
@@ -23,7 +27,7 @@ export function SiteFooter() {
           </div>
         </div>
         <div className="foot-bottom">
-          <span>© 2026 JSL Studios</span>
+          <span>© 2026 Justin Souriau-Levine Studios LLC</span>
           <span>Legal mentions · Privacy</span>
         </div>
       </div>

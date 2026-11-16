@@ -27,11 +27,11 @@ export default function HomePage() {
       <div className="hero-caps">
       <div className="hero-cap" data-split-cap="studio">
       <h2><span className="over">JSL</span><span>STUDIOS</span></h2>
-      <p>Features we write, produce and sign. Where our stories begin.</p>
+      <p>Narrative feature films developed and produced in-house.</p>
       </div>
       <div className="hero-cap hero-cap-right" data-split-cap="production">
       <h2><span className="over">JSL</span><span>PRODUCTIONS</span></h2>
-      <p>Films for houses, brands and cultural partners. Their story, our eye.</p>
+      <p>Films and cinematic advertising for brands, companies &amp; cultural partners.</p>
       </div>
       </div>
       </section>
@@ -45,7 +45,7 @@ export default function HomePage() {
       </div>
       <div className="home-intro-copy">JSL Studios is a New York City, Paris and Riyadh based independent film and commercial production company which produces narrative feature films, commercials and branded content. <br />Since our inception in 2020, JSL has been a harbor for joy, entertainment, and escapism. From our feature films to our commercial and fashion productions, every project is part of a larger journey: to spread joy, imagination, and entertainment across the world through the magic of cinema.</div>
       <p className="home-intro-quote">Joy is why we started. Craft is how we keep it.</p>
-      <a className="btn" href="/about">Know more about us</a>
+      <a className="btn" href="/about">Learn more about us</a>
       </div>
       </div>
       </section>
@@ -112,7 +112,7 @@ export default function HomePage() {
       <h2>Stay up to date with the JSL Studios newsletter!</h2>
       </div>
       <form className="newsletter-form" data-newsletter="">
-      <p>Sign up for our newsletter by providing us with your email address. We&rsquo;ll email you a link to confirm; unsubscribe anytime.</p>
+      <p>Sign up for our newsletter by providing us with your email address.</p>
       <input type="email" name="email" required maxLength={254} autoComplete="email" placeholder="your@email.com" aria-label="Email address" />
       {/* Trap for bots (app/api/newsletter/route.ts): hidden from people and from screen readers. */}
       <div className="newsletter-trap" aria-hidden="true">

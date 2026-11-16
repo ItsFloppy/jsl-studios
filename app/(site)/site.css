@@ -677,8 +677,12 @@ div.net-tile { cursor: default; }
 .site-foot { background: var(--ink); color: var(--paper); }
 .foot-inner { width: 100%; max-width: 1440px; margin: 0 auto; padding: clamp(52px, 6.5vw, 100px) var(--gutter) 28px; }
 .foot-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: clamp(28px, 4vw, 64px); }
-.foot-brand { display: block; align-self: flex-start; }
-.foot-logo { display: block; width: clamp(96px, 14vw, 180px); height: auto; }
+.foot-brand { display: flex; align-items: center; gap: clamp(16px, 2vw, 30px); align-self: flex-start; color: var(--paper); }
+.foot-brand:hover { text-decoration: none; }
+.foot-logo { display: block; flex: none; width: clamp(96px, 14vw, 180px); height: auto; }
+/* The hero's two-line title ("JSL" over "STUDIOS"), in white beside the logo. */
+.foot-wordmark { display: flex; flex-direction: column; font-size: clamp(22px, 2.8vw, 46px); font-weight: 800; line-height: .96; letter-spacing: .04em; text-transform: uppercase; }
+.foot-wordmark .over { letter-spacing: .12em; line-height: 1.1; color: var(--gold); }
 .foot-cols { display: flex; flex-wrap: wrap; gap: clamp(28px, 4vw, 72px); }
 .foot-col { display: flex; flex-direction: column; gap: 12px; min-width: 120px; }
 .foot-col.wide { min-width: 150px; }

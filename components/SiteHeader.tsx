@@ -17,7 +17,7 @@ export function SiteHeader() {
             <a className="nav-link" data-nav="about" href="/about">About</a>
             <div className="about-menu">
               <div className="about-menu-panel">
-                <a href="/about#story">Know more</a>
+                <a href="/about#story">Learn more</a>
                 <a href="/about#team">Team</a>
                 <a href="/about#network">Network</a>
                 <a href="/about#contact">Contact</a>
