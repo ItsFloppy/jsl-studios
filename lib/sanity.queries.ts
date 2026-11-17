@@ -128,7 +128,7 @@ function normaliseProject(r: unknown): ProductionProject[] {
   if (!id || !client || !title) return []
   const thumbnail = cropped(p.thumbnail as RawImage, STILL, `${client} — ${title}`)
   if (!thumbnail) return []
-  return [{ id, client, title, thumbnail, year: num(p.year), videoUrl: url(p.videoUrl) }]
+  return [{ id, client, title, thumbnail, season: str(p.season), videoUrl: url(p.videoUrl) }]
 }
 
 function normaliseProduction(raw: unknown): ProductionCategory[] {
@@ -224,7 +224,7 @@ export function getProductionCategories(): Promise<ProductionCategory[]> {
     `*[_type == "productionCategory"] | ${ORDER} {
       "id": _id, title, label,
       "projects": *[_type == "productionProject" && category._ref == ^._id] | ${ORDER} {
-        "id": _id, client, title, year, videoUrl, "thumbnail": thumbnail${IMAGE_PROJ}
+        "id": _id, client, title, season, videoUrl, "thumbnail": thumbnail${IMAGE_PROJ}
       }
     }`,
     normaliseProduction,

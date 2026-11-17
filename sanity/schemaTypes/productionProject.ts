@@ -13,7 +13,7 @@ export const productionProject = defineType({
       name: 'client',
       title: 'Client',
       type: 'string',
-      description: 'Affiché en majuscules sur la carte, quelle que soit la saisie (ex. LaQuan Smith, GFC FW26).',
+      description: 'La marque, affichée en majuscules sur la carte (ex. LaQuan Smith). Pour la GFC : la marque si la vidéo est centrée sur un créateur, « Global Fashion Collective » pour un show à plusieurs.',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -39,19 +39,19 @@ export const productionProject = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'year',
-      title: 'Année',
-      type: 'number',
-      validation: (Rule) => Rule.integer().min(1900).max(2100),
+      name: 'season',
+      title: 'Saison ou événement',
+      type: 'string',
+      description: 'Dernière ligne de la carte (ex. New York FW SS27). Vide : le libellé de la catégorie s’affiche à sa place.',
     }),
     lienField('videoUrl', 'Lien vidéo', 'Où mène un clic sur la carte (YouTube, Vimeo…). Vide : la carte n’est pas cliquable.'),
     ordreField('de la carte dans sa catégorie'),
   ],
   preview: {
-    select: { client: 'client', title: 'title', category: 'category.label', year: 'year', media: 'thumbnail' },
-    prepare: ({ client, title, category, year, media }) => ({
+    select: { client: 'client', title: 'title', category: 'category.label', season: 'season', media: 'thumbnail' },
+    prepare: ({ client, title, category, season, media }) => ({
       title: `${client ?? ''} — ${title ?? ''}`,
-      subtitle: [year, category].filter(Boolean).join(' · '),
+      subtitle: [category, season].filter(Boolean).join(' · '),
       media,
     }),
   },

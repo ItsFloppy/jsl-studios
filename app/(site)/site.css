@@ -379,6 +379,8 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .prod-hero .kicker { margin-bottom: clamp(22px, 2.6vw, 38px); }
 .prod-hero-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: clamp(20px, 4vw, 60px); }
 .prod-hero h1 { margin: 0; max-width: 16ch; font-size: clamp(38px, 5.8vw, 92px); font-weight: 500; line-height: 1; letter-spacing: -.04em; text-wrap: balance; }
+/* The Productions title runs to some sixty characters: a wider measure, a smaller size. */
+[data-page="productions"] .prod-hero h1 { max-width: 21ch; font-size: clamp(34px, 4.6vw, 74px); line-height: 1.02; }
 .prod-hero-row p { margin: 0; max-width: 360px; font-size: clamp(15px, 1.2vw, 17px); line-height: 1.55; color: rgba(10, 10, 10, .7); text-wrap: pretty; }
 /* The 404 page (app/not-found.tsx) borrows the Production head above. */
 .not-found-actions { padding-bottom: clamp(80px, 10vw, 160px); }
@@ -409,6 +411,16 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .prod-card:hover .prod-arrow { color: var(--sky); transform: translate(3px, -3px); }
 .prod-thumb { position: relative; width: 100%; aspect-ratio: 16/9; background: var(--tile); overflow: hidden; }
 .prod-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
+/* The play button of a card that opens a video, in the image's bottom-left corner. */
+.prod-play {
+  position: absolute; left: 12px; bottom: 12px; z-index: 1;
+  display: flex; align-items: center; justify-content: center; width: 34px; height: 34px;
+  border-radius: 50%; background: var(--sky); color: var(--ink);
+  box-shadow: 0 6px 18px rgba(10, 10, 10, .22);
+  transition: transform .5s var(--ease), background-color .5s;
+}
+.prod-play svg { display: block; margin-left: 2px; }
+.prod-card:hover .prod-play { transform: scale(1.12); background-color: var(--paper); }
 .prod-client { font-size: 10.5px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: rgba(10, 10, 10, .66); }
 .prod-title { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(24px, 2.4vw, 32px); line-height: 1.05; }
 .prod-meta { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; color: var(--ink-45); }

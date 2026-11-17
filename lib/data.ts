@@ -55,52 +55,50 @@ export const FILMS_STATIC: Film[] = [
 
 export const PRODUCTION_STATIC: ProductionCategory[] = [
   {
-    id: 'fashion-films',
-    title: 'Fashion films',
-    label: 'Fashion film',
+    id: 'campaigns',
+    title: 'Campaigns',
+    label: 'Campaign',
     projects: [
       {
         id: 'laquan-smith-collection-film',
-        client: 'LAQUAN SMITH',
+        client: 'LaQuan Smith',
         title: 'Collection film',
         thumbnail: { src: '/assets/crop/fash-red-suit.webp', alt: 'LAQUAN SMITH' },
-        year: 2026,
         videoUrl: 'https://www.youtube.com/watch?v=FDIPcV8i7m8',
       },
-      {
-        id: 'gfc-fw26-runway-cut',
-        client: 'GFC FW26',
-        title: 'Runway cut',
-        thumbnail: { src: '/assets/crop/fash-runway-dark.webp', alt: 'GFC FW26' },
-        year: 2026,
-      },
-      {
-        id: 'gfc-fw26-next-generation',
-        client: 'GFC FW26',
-        title: 'Next generation',
-        thumbnail: { src: '/assets/crop/fash-kid-runway.webp', alt: 'GFC FW26' },
-        year: 2026,
-      },
-    ],
-  },
-  {
-    id: 'brand-campaigns',
-    title: 'Brand campaigns',
-    label: 'Brand campaign',
-    projects: [
       {
         id: 'public-service-campaign-film',
         client: 'PUBLIC SERV-CE',
         title: 'Campaign film',
         thumbnail: { src: '/assets/crop/bts-apartment-shoot.webp', alt: 'PUBLIC SERV-CE' },
-        year: 2026,
+      },
+    ],
+  },
+  {
+    id: 'runway-films',
+    title: 'Runway films',
+    label: 'Runway film',
+    projects: [
+      {
+        id: 'gfc-fw26-runway-cut',
+        client: 'Global Fashion Collective',
+        title: 'Runway cut',
+        thumbnail: { src: '/assets/crop/fash-runway-dark.webp', alt: 'GFC FW26' },
+        season: 'FW26',
+      },
+      {
+        id: 'gfc-fw26-next-generation',
+        client: 'Global Fashion Collective',
+        title: 'Next generation',
+        thumbnail: { src: '/assets/crop/fash-kid-runway.webp', alt: 'GFC FW26' },
+        season: 'FW26',
       },
       {
         id: 'gfc-ss27-headpiece-series',
-        client: 'GFC SS27',
+        client: 'Global Fashion Collective',
         title: 'Headpiece series',
         thumbnail: { src: '/assets/crop/fash-hats-trio.webp', alt: 'GFC SS27' },
-        year: 2027,
+        season: 'SS27',
       },
     ],
   },

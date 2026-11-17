@@ -5,9 +5,9 @@ import { ProdCard } from '@/components/ProdCard'
 import { getProductionCategories } from '@/lib/sanity.queries'
 
 export const metadata: Metadata = {
-  title: 'JSL Productions — Work for Houses & Partners',
+  title: 'JSL Productions — Cinematic Storytelling for Brands',
   description:
-    'JSL Productions creates campaigns, commercials, fashion films and branded content for fashion houses, brands and cultural partners — with the scale and craft of cinema.',
+    'JSL Productions brings cinematic storytelling to brands, companies and cultural partners: campaigns, runway films and commercials, from fashion and luxury to food, property and beyond.',
   alternates: { canonical: '/productions' },
 }
 
@@ -25,8 +25,8 @@ export default async function ProductionPage() {
           <span>JSL Productions</span>
         </div>
         <div className="prod-hero-row">
-          <h1>Work made for houses and partners</h1>
-          <p>Same team, same grammar as the features. The story belongs to the partner; the gaze stays ours.</p>
+          <h1>Cinematic storytelling for brands, companies &amp; cultural partners</h1>
+          <p>We bring our cinematic expertise to projects of every scale, from fashion and luxury to food, property and beyond.</p>
         </div>
       </section>
 

@@ -37,15 +37,16 @@ export type ProductionProject = {
   client: string
   title: string
   thumbnail: SiteImage
-  year?: number
+  /** The card's last line ("New York FW SS27"); without it, the category's label. */
+  season?: string
   videoUrl?: string
 }
 
 export type ProductionCategory = {
   id: string
-  /** Section heading, plural: "Fashion films". */
+  /** Section heading, plural: "Campaigns". */
   title: string
-  /** Card meta line, singular: "Fashion film". */
+  /** Card meta line for projects without a season, singular: "Campaign". */
   label: string
   projects: ProductionProject[]
 }

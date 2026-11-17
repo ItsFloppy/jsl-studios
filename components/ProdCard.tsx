@@ -4,9 +4,10 @@ import type { ProductionProject } from '@/lib/types'
 // .prod-grid fits as many 250px-minimum columns as the row allows: three on a desktop.
 const SIZES = '(max-width: 600px) 100vw, (max-width: 1100px) 50vw, 440px'
 
-/** One project of /productions. `label` is its category's singular name. */
+/** One project of /productions: brand, title, then its season, or the category's singular
+ *  name (`label`) for a project without one. */
 export function ProdCard({ project, label, index, eager }: { project: ProductionProject; label: string; index: number; eager: boolean }) {
-  const meta = [project.year, label].filter(Boolean).join(' · ')
+  const meta = project.season ?? label
   // Cards stagger in by grid column, as on the static site (0, 110, 220 ms).
   const delay = (index % 3) * 110
   const body = (
@@ -20,6 +21,14 @@ export function ProdCard({ project, label, index, eager }: { project: Production
           sizes={SIZES}
           loading={eager ? 'eager' : 'lazy'}
         />
+        {/* A card that opens a video says so on its image. */}
+        {project.videoUrl && (
+          <span className="prod-play" aria-hidden="true">
+            <svg viewBox="0 0 16 16" width={12} height={12} focusable="false">
+              <path d="M5 3.5v9l7.5-4.5z" fill="currentColor" />
+            </svg>
+          </span>
+        )}
       </div>
       <span className="prod-client">{project.client}</span>
       <span className="prod-title">{project.title}</span>

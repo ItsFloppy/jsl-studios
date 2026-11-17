@@ -113,7 +113,7 @@ async function buildDocuments(): Promise<SanityDocumentStub[]> {
         title: p.title,
         category: ref(categoryId),
         thumbnail: await image(p.thumbnail, `${p.client} — ${p.title}`),
-        ...(p.year ? { year: p.year } : {}),
+        ...(p.season ? { season: p.season } : {}),
         ...(p.videoUrl ? { videoUrl: p.videoUrl } : {}),
         ordre: ordre(i),
       })
