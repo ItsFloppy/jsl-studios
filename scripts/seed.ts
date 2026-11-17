@@ -153,7 +153,7 @@ async function buildDocuments(): Promise<SanityDocumentStub[]> {
 
   for (const [si, s] of NETWORK_STATIC.entries()) {
     const sectorId = `networkSector-${s.id}`
-    docs.push({ _id: sectorId, _type: 'networkSector', title: s.title, ordre: ordre(si) })
+    docs.push({ _id: sectorId, _type: 'networkSector', title: s.title, highlight: s.highlight, ordre: ordre(si) })
     for (const [i, p] of s.partners.entries()) {
       docs.push({
         _id: `partner-${slug(p.name)}`,

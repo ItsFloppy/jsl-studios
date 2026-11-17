@@ -199,7 +199,7 @@ function normaliseNetwork(raw: unknown): NetworkSector[] {
       ]
     })
     if (!partners.length) return []
-    return [{ id, title, partners }]
+    return [{ id, title, highlight: s.highlight === true, partners }]
   })
 }
 
@@ -248,7 +248,7 @@ export function getNetwork(): Promise<NetworkSector[]> {
   return fetchOr(
     'network',
     `*[_type == "networkSector"] | ${ORDER} {
-      "id": _id, title,
+      "id": _id, title, highlight,
       "partners": *[_type == "partner" && sector._ref == ^._id] | ${ORDER} {
         name, relationship, invertLogo, url, visibility, "logo": logo${IMAGE_PROJ}
       }

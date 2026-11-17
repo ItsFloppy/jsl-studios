@@ -93,5 +93,7 @@ export type Partner = {
 export type NetworkSector = {
   id: string
   title: string
+  /** Shown as a row of its own above the mosaic (the institutional partners), not as a filter. */
+  highlight: boolean
   partners: Partner[]
 }

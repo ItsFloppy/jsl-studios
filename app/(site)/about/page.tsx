@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Behaviors } from '@/components/Behaviors'
 import { NetworkLegend } from '@/components/NetworkLegend'
 import { PageShell } from '@/components/PageShell'
+import { PartnerBand } from '@/components/PartnerBand'
 import { TeamGroup } from '@/components/TeamGroup'
 import type { NetworkTile } from '@/lib/behaviors/about'
 import { optimisedSrc } from '@/lib/sanity.image'
@@ -31,9 +32,14 @@ export default async function AboutPage() {
   const ceo = team.flatMap((g) => g.members).find((m) => m.name === CEO_NAME && m.photo)
   const ceoPortrait = optimisedSrc(ceo?.photo?.src ?? CEO_PORTRAIT_FALLBACK, PORTRAIT_WIDTH)
 
+  // Highlighted sectors (the institutional partners) get a row of their own above the
+  // mosaic; the others are its filters.
+  const bands = network.filter((s) => s.highlight)
+  const sectors = network.filter((s) => !s.highlight)
+
   // The mosaic is laid out by script (lib/behaviors/about.ts): it gets one flat list,
   // each partner tagged with its sector's index in the filter bar.
-  const tiles: NetworkTile[] = network.flatMap((sector, si) =>
+  const tiles: NetworkTile[] = sectors.flatMap((sector, si) =>
     sector.partners.map((p) => ({
       name: p.name,
       rel: p.relationship,
@@ -240,29 +246,33 @@ export default async function AboutPage() {
       <div id="panel-network" role="tabpanel" aria-labelledby="tab-network" hidden>
       <section className="wrap network-sec">
       <div className="network-head">
-      <div className="network-head-left">
       <div className="kicker">
       <span className="kicker-line sky"></span>
       <span>Network</span>
       </div>
       <h2>Connected by cinema</h2>
-      </div>
-      <div className="network-head-right">
-      <p>JSL works across industries, markets and creative communities — building relationships with brands, institutions, talent and organizations that share an appreciation for powerful storytelling and cinematic craft.</p>
-      <p>From fashion and luxury to entertainment, beauty, sport, food &amp; beverage and healthcare, our growing network reflects the breadth of the worlds JSL operates within.</p>
+      <div className="network-copy">
+      <p>JSL Studios works across industries, markets and creative communities — building relationships with brands, institutions, talent and organizations that share an appreciation for powerful storytelling and cinematic craft.</p>
+      <p>From fashion &amp; luxury to entertainment, beauty, food &amp; beverage, sports and healthcare, our growing network reflects the sheer breadth of the worlds JSL operates within.</p>
       </div>
       </div>
 
-      <NetworkLegend sectors={network} />
+      {bands.map((sector) => (
+        <PartnerBand key={sector.id} sector={sector} />
+      ))}
+
+      <div className="network-browse">
+      <NetworkLegend sectors={sectors} />
 
       <div className="network-mosaic" aria-label="JSL network of clients and partners"></div>
+      </div>
       </section>
       </div>
 
       {/* ============ Contact ============ */}
       <div id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" hidden>
       <section className="wrap about-contact-sec">
-      <p className="about-contact-lede" data-reveal="">Tell us what you want to make.</p>
+      <p className="about-contact-lede" data-reveal="">Get in touch with us.</p>
       <div className="about-contact-grid">
       <a className="contact-card" data-reveal="" href="mailto:dj@jsl-studios.com">
       <span className="c-bar"></span>

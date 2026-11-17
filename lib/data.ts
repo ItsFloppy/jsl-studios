@@ -316,8 +316,29 @@ export const TEAM_STATIC: TeamGroup[] = [
 
 export const NETWORK_STATIC: NetworkSector[] = [
   {
+    // A row of its own above the mosaic, not a filter (components/PartnerBand.tsx).
+    id: 'institutional-partners',
+    title: 'Institutional partners',
+    highlight: true,
+    partners: [
+      {
+        name: 'Dutchess Management',
+        relationship: 'client',
+        logo: { src: '/assets/logos/dutchess-management.png', alt: 'Dutchess Management' },
+        invertLogo: false,
+        url: 'https://dmstrategic.com',
+        visibility: 3,
+      },
+      { name: 'Ausilia', relationship: 'client', invertLogo: false, visibility: 3 },
+      { name: 'SFF Law', relationship: 'client', invertLogo: false, visibility: 3 },
+      { name: 'Cummings & Lockwood', relationship: 'client', invertLogo: false, visibility: 3 },
+      { name: 'Scarpati Law', relationship: 'client', invertLogo: false, visibility: 3 },
+    ],
+  },
+  {
     id: 'fashion-luxury',
     title: 'Fashion & Luxury',
+    highlight: false,
     partners: [
       {
         name: 'LaQuan Smith',
@@ -480,14 +501,6 @@ export const NETWORK_STATIC: NetworkSector[] = [
         visibility: 3,
       },
       {
-        name: 'Dutchess Management',
-        relationship: 'featured',
-        logo: { src: '/assets/logos/dutchess-management.png', alt: 'Dutchess Management' },
-        invertLogo: false,
-        url: 'https://dmstrategic.com',
-        visibility: 1,
-      },
-      {
         name: 'Wilson Model Management',
         relationship: 'network',
         logo: { src: '/assets/logos/wilson-model-management.png', alt: 'Wilson Model Management' },
@@ -499,7 +512,8 @@ export const NETWORK_STATIC: NetworkSector[] = [
   },
   {
     id: 'entertainment-experiences',
-    title: 'Entertainment & Experiences',
+    title: 'Entertainment',
+    highlight: false,
     partners: [
       {
         name: 'Nickelodeon Universe',
@@ -666,6 +680,7 @@ export const NETWORK_STATIC: NetworkSector[] = [
   {
     id: 'beauty-culture',
     title: 'Beauty & Culture',
+    highlight: false,
     partners: [
       {
         name: 'Yayoi',
@@ -695,7 +710,8 @@ export const NETWORK_STATIC: NetworkSector[] = [
   },
   {
     id: 'sports-athletics',
-    title: 'Sports & Athletics',
+    title: 'Sports',
+    highlight: false,
     partners: [
       {
         name: 'PSG Academy',
@@ -758,6 +774,7 @@ export const NETWORK_STATIC: NetworkSector[] = [
   {
     id: 'education-institutions',
     title: 'Education & Institutions',
+    highlight: false,
     partners: [
       {
         name: 'Pace University',
@@ -844,6 +861,7 @@ export const NETWORK_STATIC: NetworkSector[] = [
   {
     id: 'food-beverage',
     title: 'Food & Beverage',
+    highlight: false,
     partners: [
       {
         name: 'Danone',
@@ -906,6 +924,7 @@ export const NETWORK_STATIC: NetworkSector[] = [
   {
     id: 'healthcare',
     title: 'Healthcare',
+    highlight: false,
     partners: [
       {
         name: 'Vosita Healthcare',
