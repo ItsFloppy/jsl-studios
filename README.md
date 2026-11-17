@@ -37,6 +37,7 @@ Without `NEXT_PUBLIC_SANITY_PROJECT_ID` the site still runs, entirely on the sta
 | `npm run build` then `npm start` | Production build, served locally. ISR (the 60 s refresh) only runs in this mode, not in `dev` |
 | `npm run lint` / `npm run typecheck` | ESLint / TypeScript |
 | `npm run seed` | Dry run of the dataset seed; `npm run seed -- --yes` writes it (see below) |
+| `npm run content:v2` | Dry run of the V2 content update; `npm run content:v2 -- --yes` applies it (see below) |
 
 ## Editing content
 
@@ -46,22 +47,31 @@ the project:
 | Studio section | On the site |
 | --- | --- |
 | **Studios → Films** | `/studios`: one card per film, alternating left and right |
-| **Productions → Projets / Catégories** | `/productions`: one section per category, one card per project |
+| **Productions → Projets / Catégories** | `/productions`: one section per category (Campaigns, Runway films, Commercials, Selected credits), one card per project |
 | **Équipe → Groupes / Personnes** | `/about#team`: the groups (Board, Team, Consultants) and the people in them |
-| **Network → Partenaires / Secteurs** | `/about#network`: the mosaic and its filter buttons |
+| **Network → Partenaires / Secteurs** | `/about#network`: the institutional partners' row, the mosaic and its filter buttons |
 
 - **Publishing.** Changes go live when published (not while in draft), within about 60 s.
 - **Order.** Lists follow their `Ordre` field, smallest first; leave gaps (10, 20, 30…) to slot
   things in. Members of a team group follow the order of the group's list (drag and drop).
 - **People and roles.** A person is entered once (name, portrait, bio); the role belongs to
   the group membership, because the same person can have a different role in each group.
-  A new person can be created straight from a group's member list.
+  A new person can be created straight from a group's member list. A group marked *Liste
+  compacte* (the board) shows names only: its first member with their role, then a grid
+  of names, with no portrait or bio.
+- **Films.** Each fact shows only when filled in: rating, release year (or, without one,
+  the status, e.g. "In post-production"), director, director of photography, cast (4 to 6
+  names: the rest is on IMDb). Buttons: IMDb, trailer, Watch Now.
+- **Projects.** A card reads brand, title, then the season ("New York FW SS27") or, without
+  one, its category's label. A category with no project is hidden (Selected credits, for now).
 - **Partners.** The tile size comes from *Relation* (client is largest) plus *Notoriété*
   (1–5). A light logo drawn for dark backgrounds needs *Inverser les couleurs du logo*. With
-  no logo, the tile shows the name in type.
+  no logo, the tile shows the name in type. A sector marked *Mettre en avant* (Institutional
+  partners) is not a filter: its partners show as a row of equal tiles above the mosaic.
 - **Images.** Set the hotspot (focal point) on stills, thumbnails and portraits: the site crops
-  them to 16:9 or 4:5 around it. An empty optional field (year, cast, IMDb or Watch Now link,
-  video link) leaves its line or button out.
+  them to 16:9 or 4:5 around it; use the crop to cut a still's black bars. An empty optional
+  field (year, cast, IMDb, trailer or Watch Now link, video link) leaves its line or button
+  out.
 - **Film stills.** Several at once: *Ajouter plusieurs images*, or drop the files on the list
   (they go to the end, in order). An empty alt text reads « <title> — still » on the site; the
   field shows it greyed.
@@ -74,6 +84,17 @@ Editors are invited from sanity.io/manage (the free plan has 20 seats).
 from `public/`. It needs an Editor token in `.env.local` (`SANITY_API_TOKEN`). Documents get
 stable IDs (`film-back-to-the-present`, `person-gordon-caplan`…) and are created with
 `createIfNotExists`, so running it again never overwrites what was edited in the Studio.
+
+### V2 content update
+
+`scripts/content-v2.ts` brings the existing dataset in line with `lib/data.ts` after the V2
+review: film facts, the new production categories (the two old ones are deleted once
+empty), the new people and each group's members and roles, the compact board, the shorter
+sector names and the institutional partners. It never touches portraits, bios, logos or
+the mosaic's partners. **Deploy the code first**, then run `npm run content:v2` (dry run) and
+`npm run content:v2 -- --yes`. It warns about unpublished drafts of the documents it
+changes: discard those in the Studio first, or publishing them would put the old values
+back. Safe to run again.
 
 ## Layout
 
@@ -88,12 +109,12 @@ stable IDs (`film-back-to-the-present`, `person-gordon-caplan`…) and are creat
 | `app/studio/[[...tool]]/` | The embedded Studio |
 | `app/api/newsletter/route.ts` | Newsletter sign-ups, passed on to Mailchimp from the server |
 | `app/favicon.ico`, `icon.png`, `apple-icon.png` | Favicons, made from `brand/jsl-logo.png` (the 2000 px master, not served) |
-| `components/` | Header, footer, page shell, cards, team group, network filter, `Behaviors` |
+| `components/` | Header, footer, page shell, cards, team group, network filter and partner row, `Behaviors` |
 | `lib/sanity.queries.ts` | `getFilms()`, `getProductionCategories()`, `getTeamGroups()`, `getNetwork()` |
 | `lib/data.ts`, `lib/types.ts` | Static fallback content, and the shapes pages render |
 | `lib/behaviors/` | The page scripts (hero, reveal, cycling stills, tabs, team viewer, mosaic) |
 | `sanity/` | Studio schema, structure and navbar; `sanity.config.ts` at the root |
-| `scripts/seed.ts` | Dataset seed |
+| `scripts/seed.ts`, `content-v2.ts` | Dataset seed, V2 content update (`shared.ts`: their client and document IDs) |
 | `public/` | Fonts, images (crops, team portraits, partner logos, the header and footer logo) |
 | `next.config.ts` | Security headers, cache headers, redirects from the old `.html` URLs, image sources |
 | `.github/` | CI (lint, typecheck, build on every PR and on `main`) and Dependabot |
@@ -136,18 +157,23 @@ Behaviour ported from the design's component class:
 - **Scroll reveal**: `IntersectionObserver` with the design's `rootMargin`/threshold, its
   per-element `data-delay`, the 4-second safety timeout, and the `prefers-reduced-motion`
   bail-out. Elements inside a hidden About tab wait for their tab to open.
-- **Feature cards**: a film with several stills cross-fades through them on hover (the
-  two-image opacity swap of the design); each fade starts once the next still is decoded.
+- **Feature cards**: a film with several stills cross-fades through them on its own while its
+  card is on screen (the two-image opacity swap of the design), pausing off screen and in a
+  hidden browser tab; each fade starts once the next still is decoded. Reduced motion keeps
+  the first still.
 - **Frame reel**: the home page marquee pauses while off screen and stands still under
   `prefers-reduced-motion`.
 - **Team credits** (`lib/behaviors/about.ts`): a sticky portrait viewer; hovering or focusing a
-  name swaps the portrait, clicking opens the bio. Each row carries its person's portrait and bio
+  name swaps the portrait, clicking opens the bio, and a "Learn more" label on the portrait
+  says so while the person shown has one. On a phone the viewer sits above the list, and a
+  tapped name scrolls it into view. Each row carries its person's portrait and bio
   as `data-` attributes, and the CEO block carries the default person the same way. A person
   with no photo shows an empty 4:5 frame; one with no bio has no panel to open.
 - **Network mosaic**: the scoring (relationship + visibility → tile size), the seeded shuffle,
   the explicit dense-pack simulation with its two hole-patching passes, and the FLIP animation on
-  filter change, as in the design. With the seeded content the layout is identical, tile for
-  tile, to the static site's for all eight filters. A partner without a site is a plain tile,
+  filter change, as in the design. With the content seeded before V2, the layout was
+  identical, tile for tile, to the static site's for all eight filters (V2 moved Dutchess
+  Management out to the institutional partners' row). A partner without a site is a plain tile,
   not a link.
 
 Accessibility additions: the About tabs follow the ARIA tabs pattern (`role="tablist"`,
@@ -243,12 +269,21 @@ to v5. They go away with upstream updates. To see what ships, use `npm audit --o
 
 In the Studio, once seeded:
 
-- **Missing portraits:** Yves Philippe, Marvin Jay Levy (no image has ever existed for them).
-- **Missing bios:** John Dima, Emma Kremer, Yves Philippe, Marvin Jay Levy.
+- **Missing portraits:** Marvin Jay Levy, Perry Katz, Martin Weisberg, Marc Jacobson (board
+  members show by name only and need none).
+- **Missing bios:** John Dima, Emma Kremer, Marvin Jay Levy, Perry Katz, Martin Weisberg,
+  Marc Jacobson.
 - **Name spellings to confirm:** "Louise Vilepellet" (her bio says Villepelet), "Theodore
-  Verzat" (his bio says Théodore).
+  Verzat" (his bio says Théodore), "Robert G. Mckay" in the Back to the Present! cast.
+- **Films:** the Planet of the Astronauts rating; the Planet of the Astronauts and The
+  Greatest Race casts (4 to 6 names, Justin third); the trailer links.
+- **Images:** a sharper Studios hero (the ship still is 1000 px wide), About hero and desert
+  still; 12 to 20 Back to the Present! stills, cropped free of black bars; Planet of the
+  Astronauts and The Greatest Race stills.
+- **Institutional partners:** logos and sites for Ausilia, SFF Law, Cummings & Lockwood and
+  Scarpati Law.
 - **Video links:** the three GFC projects and PUBLIC SERV-CE have none (their cards do not
-  click through); no year or cast is set on the films yet.
+  click through); the Selected credits category waits for its projects.
 
 In the code:
 

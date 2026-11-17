@@ -22,6 +22,7 @@ and copy it, unless a constraint below says otherwise.
 | `npm run build` / `npm start` | Production build / serve it. ISR only runs here, not in dev |
 | `npm run lint`, `npm run typecheck` | Must pass before committing |
 | `npm run seed` | Dry run of `scripts/seed.ts`; `-- --yes` writes |
+| `npm run content:v2` | Dry run of `scripts/content-v2.ts` (V2 content into the existing dataset); `-- --yes` writes, after the deploy |
 
 ## Environment
 
@@ -29,7 +30,7 @@ and copy it, unless a constraint below says otherwise.
 | --- | --- | --- |
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | `.env.local`, Netlify | Unset → the whole site renders `lib/data.ts` |
 | `NEXT_PUBLIC_SANITY_DATASET` | `.env.local`, Netlify | `production` |
-| `SANITY_API_TOKEN` | `.env.local` only | Editor token for `scripts/seed.ts`. Never `NEXT_PUBLIC_`, never on Netlify |
+| `SANITY_API_TOKEN` | `.env.local` only | Editor token for `scripts/` (seed, content update). Never `NEXT_PUBLIC_`, never on Netlify |
 | `MAILCHIMP_API_KEY`, `MAILCHIMP_AUDIENCE_ID` | `.env.local`, Netlify (secret) | Newsletter (`app/api/newsletter/route.ts`). Never `NEXT_PUBLIC_` |
 
 ## Routes
@@ -50,7 +51,9 @@ and copy it, unless a constraint below says otherwise.
 ## Sanity
 
 - Types: `film`, `productionCategory`, `productionProject`, `person`, `teamGroup` (members are
-  `teamMember` objects: person reference + role), `networkSector`, `partner`. Every ordered type
+  `teamMember` objects: person reference + role; `compact` shows names only, for the board),
+  `networkSector` (`highlight` puts its partners in a row above the mosaic, out of the
+  filters), `partner`. Every ordered type
   has an `ordre` number field (`sanity/schemaTypes/fields.ts`); queries sort by
   `ordre asc, _createdAt asc`.
 - Studio labels and descriptions are in French (the editors are French); content and field
@@ -58,7 +61,7 @@ and copy it, unless a constraint below says otherwise.
 - **Checklist for a new document type:** `sanity/schemaTypes/<type>.ts` → `sanity/schemaTypes/index.ts`
   → `sanity/structure/index.ts` (or it shows nowhere in the Studio) → `lib/types.ts` →
   `lib/sanity.queries.ts` (query + normalise + static fallback) → `lib/data.ts` →
-  `scripts/seed.ts`.
+  `scripts/seed.ts` (document IDs come from `ids` in `scripts/shared.ts`).
 - Every `getX()` falls back to `lib/data.ts` when Sanity is unset or empty. A failing fetch
   falls back too during a build and in dev, but on the live site it throws: ISR then keeps the
   last good page and retries a minute later, rather than putting the static content back

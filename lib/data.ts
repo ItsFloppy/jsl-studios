@@ -1,8 +1,9 @@
 // Static fallback content, in the shapes of lib/types.ts: the site's content as it should
 // read, kept in step with the dataset. lib/sanity.queries.ts serves it whenever Sanity is
 // not configured (no NEXT_PUBLIC_SANITY_PROJECT_ID) or returns nothing, and when a build
-// cannot reach it; scripts/seed.ts pushes it into a fresh dataset. Images point at /public,
-// so this file alone renders the whole site.
+// cannot reach it; scripts/seed.ts pushes it into a fresh dataset, and scripts/content-v2.ts
+// brought the existing dataset in line with it after the V2 review. Images point at
+// /public, so this file alone renders the whole site.
 //
 // It holds no placeholder links: a film without its IMDb page shows no button, a project
 // without its video is a card that does not click through. Still to supply, in the

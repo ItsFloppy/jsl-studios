@@ -14,31 +14,11 @@
  * (an Editor token) in .env.local.
  */
 import { createReadStream, existsSync } from 'node:fs'
-import { basename, join, resolve } from 'node:path'
-import { createClient, type SanityDocumentStub } from '@sanity/client'
-import { config } from 'dotenv'
+import { basename, join } from 'node:path'
+import type { SanityDocumentStub } from '@sanity/client'
 import { FILMS_STATIC, NETWORK_STATIC, PRODUCTION_STATIC, TEAM_STATIC } from '../lib/data'
 import { stillAlt, type Film, type SiteImage } from '../lib/types'
-
-config({ path: resolve(process.cwd(), '.env.local'), quiet: true })
-
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
-const token = process.env.SANITY_API_TOKEN
-const write = process.argv.includes('--yes')
-
-if (!projectId || !token) {
-  console.error('NEXT_PUBLIC_SANITY_PROJECT_ID and SANITY_API_TOKEN must be set in .env.local (see "Running it" in the README).')
-  process.exit(1)
-}
-
-const client = createClient({ projectId, dataset, token, apiVersion: '2025-02-19', useCdn: false })
-
-const slug = (s: string) =>
-  s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-const ref = (_ref: string) => ({ _type: 'reference' as const, _ref })
-// Lists are spaced by 10 so editors can slot something in between without renumbering.
-const ordre = (i: number) => (i + 1) * 10
+import { client, dataset, ids, ordre, projectId, ref, write } from './shared'
 
 // ─── Images ─────────────────────────────────────────────────────────────────
 
@@ -90,7 +70,7 @@ async function buildDocuments(): Promise<SanityDocumentStub[]> {
 
   for (const [i, f] of FILMS_STATIC.entries()) {
     docs.push({
-      _id: `film-${f.id}`,
+      _id: ids.film(f.id),
       _type: 'film',
       title: f.title,
       stills: await Promise.all(
@@ -103,11 +83,11 @@ async function buildDocuments(): Promise<SanityDocumentStub[]> {
   }
 
   for (const [ci, c] of PRODUCTION_STATIC.entries()) {
-    const categoryId = `productionCategory-${c.id}`
+    const categoryId = ids.category(c.id)
     docs.push({ _id: categoryId, _type: 'productionCategory', title: c.title, label: c.label, ordre: ordre(ci) })
     for (const [i, p] of c.projects.entries()) {
       docs.push({
-        _id: `productionProject-${p.id}`,
+        _id: ids.project(p.id),
         _type: 'productionProject',
         client: p.client,
         title: p.title,
@@ -126,7 +106,7 @@ async function buildDocuments(): Promise<SanityDocumentStub[]> {
     for (const m of g.members) {
       if (people.has(m.name)) continue
       people.set(m.name, {
-        _id: `person-${slug(m.name)}`,
+        _id: ids.person(m.name),
         _type: 'person',
         name: m.name,
         ...(m.photo ? { photo: { _type: 'image', asset: ref(await asset(m.photo.src)) } } : {}),
@@ -137,14 +117,14 @@ async function buildDocuments(): Promise<SanityDocumentStub[]> {
   docs.push(...people.values())
   for (const [gi, g] of TEAM_STATIC.entries()) {
     docs.push({
-      _id: `teamGroup-${g.id}`,
+      _id: ids.group(g.id),
       _type: 'teamGroup',
       title: g.title,
       compact: g.compact,
       members: g.members.map((m, k) => ({
         _key: `member${k}`,
         _type: 'teamMember',
-        person: ref(`person-${slug(m.name)}`),
+        person: ref(ids.person(m.name)),
         role: m.role,
       })),
       ordre: ordre(gi),
@@ -152,11 +132,11 @@ async function buildDocuments(): Promise<SanityDocumentStub[]> {
   }
 
   for (const [si, s] of NETWORK_STATIC.entries()) {
-    const sectorId = `networkSector-${s.id}`
+    const sectorId = ids.sector(s.id)
     docs.push({ _id: sectorId, _type: 'networkSector', title: s.title, highlight: s.highlight, ordre: ordre(si) })
     for (const [i, p] of s.partners.entries()) {
       docs.push({
-        _id: `partner-${slug(p.name)}`,
+        _id: ids.partner(p.name),
         _type: 'partner',
         name: p.name,
         sector: ref(sectorId),

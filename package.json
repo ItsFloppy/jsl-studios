@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "content:v2": "tsx scripts/content-v2.ts"
   },
   "dependencies": {
     "@sanity/client": "^8.9.0",
