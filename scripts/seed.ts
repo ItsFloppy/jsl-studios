@@ -18,7 +18,7 @@ import { basename, join, resolve } from 'node:path'
 import { createClient, type SanityDocumentStub } from '@sanity/client'
 import { config } from 'dotenv'
 import { FILMS_STATIC, NETWORK_STATIC, PRODUCTION_STATIC, TEAM_STATIC } from '../lib/data'
-import { stillAlt, type SiteImage } from '../lib/types'
+import { stillAlt, type Film, type SiteImage } from '../lib/types'
 
 config({ path: resolve(process.cwd(), '.env.local'), quiet: true })
 
@@ -69,6 +69,22 @@ async function image(img: SiteImage, defaultAlt?: string) {
 
 // ─── Documents ──────────────────────────────────────────────────────────────
 
+/** A film's optional text and link fields, only those that are set. */
+function filmFacts(f: Film) {
+  const facts = {
+    rating: f.rating,
+    year: f.year,
+    status: f.status,
+    directedBy: f.directedBy,
+    cinematographer: f.cinematographer,
+    starring: f.starring,
+    imdbUrl: f.imdbUrl,
+    trailerUrl: f.trailerUrl,
+    watchUrl: f.watchUrl,
+  }
+  return Object.fromEntries(Object.entries(facts).filter(([, v]) => v !== undefined))
+}
+
 async function buildDocuments(): Promise<SanityDocumentStub[]> {
   const docs: SanityDocumentStub[] = []
 
@@ -81,11 +97,7 @@ async function buildDocuments(): Promise<SanityDocumentStub[]> {
         f.stills.map(async (s, k) => ({ _key: `still${k}`, ...(await image(s, stillAlt(f.title))) })),
       ),
       genres: f.genres,
-      ...(f.year ? { year: f.year } : {}),
-      ...(f.directedBy ? { directedBy: f.directedBy } : {}),
-      ...(f.starring ? { starring: f.starring } : {}),
-      ...(f.imdbUrl ? { imdbUrl: f.imdbUrl } : {}),
-      ...(f.watchUrl ? { watchUrl: f.watchUrl } : {}),
+      ...filmFacts(f),
       ordre: ordre(i),
     })
   }

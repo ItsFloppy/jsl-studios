@@ -8,7 +8,7 @@ import { getFilms } from '@/lib/sanity.queries'
 export const metadata: Metadata = {
   title: 'JSL Studios — Feature Films',
   description:
-    'Inspired by the grandeur of classical Hollywood cinema and the power of escapism, JSL Studios creates feature films that invite audiences to leave reality behind.',
+    "Inspired by the grandeur of Hollywood's golden age and the power of escapism, JSL Studios creates, develops and produces epic-scale narrative feature films.",
   alternates: { canonical: '/studios' },
 }
 
@@ -30,11 +30,14 @@ export default async function StudiosPage() {
             <span>JSL Studios</span>
           </div>
           <div className="studios-hero-row">
-            <h1>Cinema is where our story begins</h1>
-            <p>
-              Inspired by the grandeur of classical Hollywood cinema and the power of escapism, we create films that invite audiences to
-              leave reality behind — and enter a world of their own.
-            </p>
+            <h1>The magic of cinema is what defines our destiny</h1>
+            <div className="studios-hero-copy">
+              <p>
+                Inspired by the grandeur of Hollywood&rsquo;s golden age and the everlasting power of escapism, JSL Studios creates,
+                develops, and produces epic-scale narrative feature films.
+              </p>
+              <p>We invite audiences of all ages to leave reality behind and enter worlds beyond their wildest imagination.</p>
+            </div>
           </div>
         </div>
       </section>

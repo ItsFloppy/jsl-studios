@@ -20,8 +20,12 @@ export const FILMS_STATIC: Film[] = [
       { src: '/assets/crop/feat-friar-cardinal.webp', alt: 'Back to the Present! — still' },
       { src: '/assets/crop/feat-hiding-field.webp', alt: 'Back to the Present! — still' },
     ],
-    genres: ['Comedy', 'Time travel'],
+    genres: ['Adventure', 'Comedy'],
+    status: 'In post-production',
     directedBy: 'Justin Souriau-Levine',
+    cinematographer: 'Giuseppe Masi',
+    starring: 'Robert G. Mckay, Rutanya Alda, Jeremy Bright, Julia Ciesielski, Sam Calvo, Robert A. Levine, Millie Gibbons',
+    imdbUrl: 'https://www.imdb.com/title/tt18183896/',
   },
   {
     id: 'planet-of-the-astronauts',
@@ -29,8 +33,11 @@ export const FILMS_STATIC: Film[] = [
     stills: [
       { src: '/assets/crop/feat-astronaut-shore.webp', alt: 'Planet of the Astronauts — still' },
     ],
-    genres: ['Adventure', 'Sci-fi'],
+    genres: ['Adventure', 'Comedy'],
+    year: 2022,
     directedBy: 'Justin Souriau-Levine',
+    cinematographer: 'Justin Souriau-Levine',
+    imdbUrl: 'https://www.imdb.com/title/tt15873942/',
   },
   {
     id: 'the-greatest-race',
@@ -38,8 +45,11 @@ export const FILMS_STATIC: Film[] = [
     stills: [
       { src: '/assets/crop/feat-tgr-nyc.webp', alt: 'The Greatest Race — poster' },
     ],
-    genres: ['Adventure', 'Western'],
+    genres: ['Action', 'Comedy'],
+    year: 2021,
     directedBy: 'Justin Souriau-Levine',
+    cinematographer: 'Justin Souriau-Levine',
+    imdbUrl: 'https://www.imdb.com/title/tt15402842/',
   },
 ]
 

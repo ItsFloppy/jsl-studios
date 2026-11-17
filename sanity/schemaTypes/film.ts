@@ -24,7 +24,7 @@ export const film = defineType({
       title: 'Images',
       type: 'array',
       description:
-        'Format 16:9. Pour en ajouter plusieurs d’un coup : « Ajouter plusieurs images », ou glissez-déposez les fichiers sur la liste. La première s’affiche sur la carte ; avec plusieurs images, elles défilent au survol. Utilisez le point focal (hotspot) pour choisir ce qui reste visible au recadrage.',
+        'Format 16:9. Pour en ajouter plusieurs d’un coup : « Ajouter plusieurs images », ou glissez-déposez les fichiers sur la liste. La première s’affiche sur la carte ; avec plusieurs images, elles défilent toutes seules tant que la carte est à l’écran. Utilisez le point focal (hotspot) pour choisir ce qui reste visible au recadrage.',
       components: { input: StillsInput },
       of: [
         defineArrayMember({
@@ -58,10 +58,23 @@ export const film = defineType({
       options: { layout: 'tags' },
     }),
     defineField({
+      name: 'rating',
+      title: 'Classification / note',
+      type: 'string',
+      description: 'Ligne « Rating » de la carte, telle qu’elle doit s’afficher (ex. PG-13, ou la note IMDb). Vide : pas de ligne.',
+    }),
+    defineField({
       name: 'year',
-      title: 'Année',
+      title: 'Année de sortie',
       type: 'number',
+      description: 'Ligne « Released ». Vide : le statut ci-dessous s’affiche à sa place.',
       validation: (Rule) => Rule.integer().min(1900).max(2100),
+    }),
+    defineField({
+      name: 'status',
+      title: 'Statut',
+      type: 'string',
+      description: 'Pour un film pas encore sorti (ex. In post-production). Affiché seulement sans année de sortie.',
     }),
     defineField({
       name: 'directedBy',
@@ -70,13 +83,19 @@ export const film = defineType({
       initialValue: 'Justin Souriau-Levine',
     }),
     defineField({
+      name: 'cinematographer',
+      title: 'Directeur de la photographie',
+      type: 'string',
+    }),
+    defineField({
       name: 'starring',
       title: 'Avec (casting)',
       type: 'string',
-      description: 'Noms séparés par des virgules.',
+      description: 'Le casting principal seulement, 4 à 6 noms séparés par des virgules : le reste est sur IMDb.',
     }),
     lienField('imdbUrl', 'Lien IMDb', 'Bouton « View on IMDb ». Vide : pas de bouton.'),
-    lienField('watchUrl', 'Lien « Watch Now »', 'Bouton « Watch Now » (bande-annonce, plateforme…). Vide : pas de bouton.'),
+    lienField('trailerUrl', 'Lien bande-annonce', 'Bouton « Watch the trailer ». Vide : pas de bouton.'),
+    lienField('watchUrl', 'Lien « Watch Now »', 'Bouton « Watch Now », vers le film lui-même (plateforme, achat…). Vide : pas de bouton.'),
     ordreField('du film sur la page Studios'),
   ],
   preview: {

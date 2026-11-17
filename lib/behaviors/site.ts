@@ -73,8 +73,16 @@ export function reveal() {
 
 /* ---------- Feature card image cycling ---------- */
 
+// A film with several stills cross-fades through them on its own while its card is on
+// screen, and stops once the card scrolls away or the browser tab is hidden. Each card
+// holds its first still a while before moving on, cards a beat apart from one another, so
+// two cards on screen never change at the same moment. Reduced motion keeps the first still.
+const CYCLE_MS = 3600;
+
 function cycleBind() {
-  document.querySelectorAll<HTMLElement>('[data-cycle]').forEach(function (el) {
+  if (reduced()) return;
+  const cards: { start: () => void; stop: () => void; inView: boolean }[] = [];
+  document.querySelectorAll<HTMLElement>('[data-cycle]').forEach(function (el, n) {
     const srcs = (el.getAttribute('data-cycle') || '').split(',');
     if (srcs.length < 2) return;
     const imgs = [el.querySelector<HTMLImageElement>('[data-cycle-img="0"]'), el.querySelector<HTMLImageElement>('[data-cycle-img="1"]')];
@@ -82,6 +90,7 @@ function cycleBind() {
     const pair = imgs as HTMLImageElement[];
     let i = 0, active = 0, busy = false;
     let timer: ReturnType<typeof setInterval> | undefined;
+    let wait: ReturnType<typeof setTimeout> | undefined;
     const advance = function () {
       if (busy) return;
       busy = true;
@@ -98,13 +107,34 @@ function cycleBind() {
       };
       if (next.decode) next.decode().then(swap, swap); else swap();
     };
-    el.addEventListener('mouseenter', function () {
-      if (reduced()) return;
-      clearInterval(timer);
-      advance();
-      timer = setInterval(advance, 3200);
+    const card = {
+      inView: false,
+      start: function () {
+        if (timer || wait) return;
+        wait = setTimeout(function () {
+          wait = undefined;
+          advance();
+          timer = setInterval(advance, CYCLE_MS);
+        }, CYCLE_MS + (n % 3) * 1100);
+      },
+      stop: function () {
+        clearTimeout(wait); wait = undefined;
+        clearInterval(timer); timer = undefined;
+      }
+    };
+    cards.push(card);
+    if (!('IntersectionObserver' in window)) { card.inView = true; card.start(); return; }
+    new IntersectionObserver(function (ents) {
+      // Several crossings can queue up before the callback runs; the last one is current.
+      card.inView = ents[ents.length - 1].isIntersecting;
+      if (card.inView && !document.hidden) card.start(); else card.stop();
+    }, { threshold: 0.35 }).observe(el);
+  });
+  if (!cards.length) return;
+  document.addEventListener('visibilitychange', function () {
+    cards.forEach(function (c) {
+      if (document.hidden || !c.inView) c.stop(); else c.start();
     });
-    el.addEventListener('mouseleave', function () { clearInterval(timer); timer = undefined; });
   });
 }
 

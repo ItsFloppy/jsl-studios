@@ -330,16 +330,22 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 
 .studios-hero {
   width: 100%; margin: 0 auto;
-  padding: clamp(90px, 11vw, 150px) var(--gutter) clamp(70px, 9vw, 120px);
-  background: linear-gradient(180deg, rgba(10, 10, 10, .35), rgba(10, 10, 10, .78)), url('/assets/crop/feat-tall-ship.webp') center/cover no-repeat;
+  /* As tall as the 16:9 still where the screen allows, so the whole ship shows, masts to
+     hull; capped below the screen's height, and the crop then takes sky rather than hull. */
+  min-height: min(56.25vw, calc(100vh - var(--head-h)));
+  min-height: min(56.25vw, calc(100svh - var(--head-h)));
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: clamp(90px, 11vw, 150px) var(--gutter) clamp(56px, 6vw, 96px);
+  background: linear-gradient(180deg, rgba(10, 10, 10, .12) 35%, rgba(10, 10, 10, .8)), url('/assets/crop/feat-tall-ship.webp') 50% 70%/cover no-repeat;
   color: var(--paper);
 }
-.studios-hero-inner { max-width: 1440px; margin: 0 auto; }
+.studios-hero-inner { width: 100%; max-width: 1440px; margin: 0 auto; }
 .studios-hero .kicker { margin-bottom: clamp(22px, 2.6vw, 38px); }
 .studios-hero .kicker span:last-child { color: var(--paper); }
 .studios-hero-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: clamp(20px, 4vw, 60px); }
 .studios-hero h1 { margin: 0; max-width: 16ch; font-size: clamp(38px, 5.8vw, 92px); font-weight: 500; line-height: 1; letter-spacing: -.04em; text-wrap: balance; color: var(--paper); }
-.studios-hero-row p { margin: 0; flex: 1 1 440px; max-width: 560px; font-size: clamp(15px, 1.25vw, 18px); line-height: 1.6; color: rgba(255, 255, 255, .85); text-wrap: pretty; }
+.studios-hero-copy { flex: 1 1 440px; max-width: 580px; display: flex; flex-direction: column; gap: 12px; }
+.studios-hero-copy p { margin: 0; font-size: clamp(15px, 1.25vw, 18px); line-height: 1.6; color: rgba(255, 255, 255, .88); text-wrap: pretty; }
 
 .features-sec { padding-top: clamp(56px, 7vw, 110px); padding-bottom: clamp(60px, 8vw, 120px); display: flex; flex-direction: column; gap: clamp(56px, 7vw, 120px); }
 .features-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }

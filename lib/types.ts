@@ -12,13 +12,20 @@ export type SiteImage = {
 export type Film = {
   id: string
   title: string
-  /** At least one. With two or more, the card cross-fades through them on hover. */
+  /** At least one. With two or more, the card cross-fades through them on its own. */
   stills: SiteImage[]
   genres: string[]
+  /** Shown as it is: a classification (PG-13) or a rating. */
+  rating?: string
+  /** Release year. */
   year?: number
+  /** Where a film not yet out stands ("In post-production"); shown only without a year. */
+  status?: string
   directedBy?: string
+  cinematographer?: string
   starring?: string
   imdbUrl?: string
+  trailerUrl?: string
   watchUrl?: string
 }
 

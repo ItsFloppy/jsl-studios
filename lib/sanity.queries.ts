@@ -106,10 +106,14 @@ function normaliseFilms(raw: unknown): Film[] {
         title,
         stills,
         genres: list(f.genres).flatMap((g) => str(g) ?? []),
+        rating: str(f.rating),
         year: num(f.year),
+        status: str(f.status),
         directedBy: str(f.directedBy),
+        cinematographer: str(f.cinematographer),
         starring: str(f.starring),
         imdbUrl: url(f.imdbUrl),
+        trailerUrl: url(f.trailerUrl),
         watchUrl: url(f.watchUrl),
       },
     ]
@@ -205,7 +209,8 @@ export function getFilms(): Promise<Film[]> {
   return fetchOr(
     'films',
     `*[_type == "film"] | ${ORDER} {
-      "id": _id, title, genres, year, directedBy, starring, imdbUrl, watchUrl,
+      "id": _id, title, genres, rating, year, status, directedBy, cinematographer, starring,
+      imdbUrl, trailerUrl, watchUrl,
       "stills": stills[]${IMAGE_PROJ}
     }`,
     normaliseFilms,
