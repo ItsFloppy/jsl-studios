@@ -9,9 +9,10 @@ const pad = (n: number) => String(n).padStart(2, '0')
 /**
  * One group of the Team tab. Each row carries everything the viewer needs to show that
  * person (lib/behaviors/about.ts reads the data- attributes): name, role, group, its
- * "02 / 08" position, portrait and bio.
+ * "02 / 08" position, portrait and bio. A compact group (the board) is names only.
  */
 export function TeamGroup({ group, index }: { group: Group; index: number }) {
+  if (group.compact) return <CompactGroup group={group} index={index} />
   const n = group.members.length
   return (
     <div className={`team-group${index % 2 === 1 ? ' alt' : ''}`}>
@@ -40,6 +41,34 @@ export function TeamGroup({ group, index }: { group: Group; index: number }) {
           <span className="t-role">{m.role}</span>
         </div>
       ))}
+      <div className="team-group-end"></div>
+    </div>
+  )
+}
+
+/**
+ * A long list kept short: the first member with their role (the chairman), then everyone
+ * else as a grid of names. No portrait, no bio, and not .team-row, so the viewer script
+ * leaves these lines alone.
+ */
+function CompactGroup({ group, index }: { group: Group; index: number }) {
+  const [lead, ...others] = group.members
+  return (
+    <div className={`team-group team-group-compact${index % 2 === 1 ? ' alt' : ''}`}>
+      <div className="team-group-head">
+        <h2>{group.title}</h2>
+      </div>
+      <div className="board-lead" data-reveal="">
+        <span className="t-name">{lead.name}</span>
+        <span className="t-role">{lead.role}</span>
+      </div>
+      {others.length > 0 && (
+        <ul className="board-names" data-reveal="" data-delay="80">
+          {others.map((m) => (
+            <li key={m.name}>{m.name}</li>
+          ))}
+        </ul>
+      )}
       <div className="team-group-end"></div>
     </div>
   )

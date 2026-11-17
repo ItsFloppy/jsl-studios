@@ -151,11 +151,16 @@ function teamBind() {
   }
 
   // Settles once someone's layer can be shown without a blank frame: their portrait is
-  // decoded, has failed (the slot replaced it), or there is none.
+  // decoded, has failed (the slot replaced it), or there is none. A decode that never
+  // settles (some Safari builds, for an image not yet painted) must not keep the frame on
+  // the previous person: after a short wait the layer is shown anyway, and the portrait
+  // paints in as it arrives.
   function ready(name: string): Promise<void> {
     const img = portraits[name];
     if (!img || !img.decode) return Promise.resolve();
-    return img.decode().then(function () {}, function () {});
+    const decoded = img.decode().then(function () {}, function () {});
+    const late = new Promise<void>(function (resolve) { setTimeout(resolve, 700); });
+    return Promise.race([decoded, late]);
   }
 
   // The CEO, shown by default: the block above the groups describes them, and the HTML
@@ -221,6 +226,8 @@ function teamBind() {
     if (active && active.name === person.name && active.index === person.index) return;
     active = person;
     showPortrait(person.name);
+    // The portrait's "Learn more" label, only for someone with a bio to open.
+    viewer!.classList.toggle('has-bio', hasBio(person));
     if (metaGroup) metaGroup.textContent = person.group;
     if (metaIndex) metaIndex.textContent = person.index;
     if (bioName) bioName.textContent = person.name;
@@ -265,8 +272,8 @@ function teamBind() {
       setBio(willOpen, row);
       if (moveFocus) (willOpen ? bio : row).focus();
       // On narrow screens the viewer is not sticky and sits above the whole list, so a
-      // tapped name's bio would open off screen: bring it into view.
-      else if (willOpen && viewer.parentElement && getComputedStyle(viewer.parentElement).position === 'static') {
+      // tapped name's portrait (and bio) would change off screen: bring it into view.
+      else if (viewer.parentElement && getComputedStyle(viewer.parentElement).position === 'static') {
         viewer.scrollIntoView({ block: 'nearest', behavior: reducedMotion() ? 'auto' : 'smooth' });
       }
     };
@@ -460,9 +467,10 @@ function networkBind(input: NetworkTile[]) {
     if (!m.src || failed[m.slug]) {
       inner.appendChild(nameTag(m));
     } else {
+      // Not lazy: the mosaic is only built once its tab is shown, and a lazy image inside a
+      // grid that is being rebuilt and animated is easy for a browser to never start.
       const img = document.createElement('img');
       img.alt = m.name;
-      img.loading = 'lazy';
       img.decoding = 'async';
       img.src = m.src;
       // On the logo only: the name set in its place must stay dark on the white tile.

@@ -1,15 +1,17 @@
-// Static fallback content: the site as it was before Sanity, in the shapes of lib/types.ts.
-// lib/sanity.queries.ts serves it whenever Sanity is not configured (no
-// NEXT_PUBLIC_SANITY_PROJECT_ID) or returns nothing, and when a build cannot reach it;
-// scripts/seed.ts pushes it into a fresh dataset. Images point at /public, so this file
-// alone renders the whole site.
+// Static fallback content, in the shapes of lib/types.ts: the site's content as it should
+// read, kept in step with the dataset. lib/sanity.queries.ts serves it whenever Sanity is
+// not configured (no NEXT_PUBLIC_SANITY_PROJECT_ID) or returns nothing, and when a build
+// cannot reach it; scripts/seed.ts pushes it into a fresh dataset. Images point at /public,
+// so this file alone renders the whole site.
 //
 // It holds no placeholder links: a film without its IMDb page shows no button, a project
 // without its video is a card that does not click through. Still to supply, in the
-// Studio: the GFC and PUBLIC SERV-CE video links, IMDb links, years and cast. Missing bios:
-// John Dima, Emma Kremer, Yves Philippe, Marvin Jay Levy.
+// Studio: the GFC and PUBLIC SERV-CE video links, trailer links, the Planet of the
+// Astronauts rating, the Planet of the Astronauts and The Greatest Race casts. Missing
+// bios: John Dima, Emma Kremer, Marvin Jay Levy, Perry Katz, Martin Weisberg, Marc
+// Jacobson (board members show by name only).
 
-import type { Film, NetworkSector, ProductionCategory, TeamGroup } from './types'
+import type { Film, NetworkSector, ProductionCategory, TeamGroup, TeamMember } from './types'
 
 export const FILMS_STATIC: Film[] = [
   {
@@ -132,137 +134,182 @@ export const PRODUCTION_STATIC: ProductionCategory[] = [
   },
 ]
 
+// Each person once, with their portrait and bio; the groups below give their roles. Someone
+// in several groups (Justin, Christopher, Antoine…) is one Sanity person in several groups.
+const PEOPLE = {
+  justinSouriauLevine: {
+    name: 'Justin Souriau-Levine',
+    photo: { src: '/assets/team/justin-souriau-levine.webp', alt: 'Justin Souriau-Levine — portrait' },
+    bio: 'Justin Souriau-Levine is an award-winning director, producer, writer, cinematographer and actor, and the Founder & CEO of JSL Studios. Since establishing the company in New York in 2020, he has led its growth across independent feature films, commercial production, fashion and branded content. His work has earned three New York Emmy Awards as Executive Producer, alongside recognition from film festivals and industry institutions. Before cinema, Justin performed for American Ballet Theatre at major venues including the Metropolitan Opera House, Lincoln Center and the Kennedy Center. Today, he leads JSL\'s international development, bringing together filmmaking, creative production and global partnerships with a distinctly cinematic vision.',
+  },
+  gordonCaplan: {
+    name: 'Gordon Caplan',
+    photo: { src: '/assets/team/gordon-caplan.webp', alt: 'Gordon Caplan — portrait' },
+    bio: 'Gordon R. Caplan is a seasoned investor, strategic advisor and business leader, and the Founder & CEO of Dutchess Management, a strategic advisory firm focused on complex transactions, investments and corporate transformation. Previously, he served as Co-Chairman of Willkie Farr & Gallagher, where he led the firm\'s Private Equity Practice and helped build one of the world\'s leading private equity practices. His career spans private equity, venture capital, M&A, corporate governance and technology transactions, with board experience across leading growth companies. Named "Dealmaker of the Year" by American Lawyer in 2018, Gordon brings JSL a wealth of strategic, financial and investment expertise as a Board Member, Partner and Investor.',
+  },
+  francoisGrunenwald: {
+    name: 'François Grunenwald',
+    photo: { src: '/assets/team/francois-grunenwald.webp', alt: 'François Grunenwald — portrait' },
+    bio: 'François Grunenwald brings more than two decades of senior financial and corporate experience to JSL Studios. He currently serves as Chief Accounting Officer and Head of Treasury–Cash Management at Ocwen Financial Corporation in the United States, following a 23-year career at PwC that culminated in his appointment as Partner. His academic background spans economics, finance, banking and capital markets, complemented by additional professional certifications. At JSL, François works closely with Justin Souriau-Levine as a trusted advisor and financial consultant, contributing strategic and financial expertise to the company\'s development. He has also supported the production of JSL\'s feature film Back to the Present!.',
+  },
+  franckSineau: {
+    name: 'Franck Sineau',
+    photo: { src: '/assets/team/franck-sineau.webp', alt: 'Franck Sineau — portrait' },
+    bio: 'Franck Sineau brings more than two decades of international expertise in luxury marketing, media, communications and brand development to JSL Studios. He currently serves as Group Marketing Deputy Director and Global Media Director at Richemont, where he has held senior leadership positions for more than sixteen years, working across strategy, planning, media and global brand development. Prior to Richemont, Franck was Managing Partner at Mindshare and held communications leadership roles with Alfa Romeo and Saab. A graduate of Université Paris 2 Panthéon-Assas, where he earned Master\'s degrees in Communication and Political Science, he brings JSL extensive strategic, marketing and luxury-industry expertise as a Board Member, Partner and Investor.',
+  },
+  dianeJaffee: {
+    name: 'Diane Jaffee',
+  },
+  bruceDLevine: {
+    name: 'Bruce D. Levine',
+    photo: { src: '/assets/team/bruce-d-levine.webp', alt: 'Bruce D. Levine — portrait' },
+    bio: 'Bruce D. Levine brings extensive financial leadership and cultural-sector management experience to JSL Studios. He holds a BA from Connecticut College and an MBA from Boston University, and currently serves as Chief Financial Officer and Chief Operating Officer at Building for the Arts NY in New York City, while also sitting on the Board of Queens Theatre. Previously, he served as Chief Financial Officer at Theatre Row Studios and 42nd Street Development. As JSL\'s Financial Advisor, Bruce works closely with the company\'s leadership on financial strategy, management and long-term development. He is also an active partner and supporter of JSL\'s feature film Back to the Present!.',
+  },
+  brunoDumont: {
+    name: 'Bruno Dumont',
+  },
+  louiseVilepellet: {
+    name: 'Louise Vilepellet',
+    photo: { src: '/assets/team/louise-vilepellet.webp', alt: 'Louise Vilepellet — portrait' },
+    bio: 'Louise Villepelet brings more than a decade of experience in strategy consulting, luxury and investment to JSL Studios. She is the Co-Founder of WAW, a strategic consulting firm dedicated to the luxury Wine & Spirits sector, where she advises leading Houses on growth, brand elevation, customer experience and long-term strategy. Previously a Manager at Kearney, she led transformation projects for major consumer and luxury brands, following five years at MAD, a specialist strategy consultancy in the luxury sector. Earlier in her career, she worked in Private Equity at Linklaters in London and Paris. A graduate of HEC Paris, Cambridge University and Université Paris-Panthéon-Assas, Louise brings JSL a powerful combination of strategic, luxury and investment expertise.',
+  },
+  mikhailMuyingo: {
+    name: 'Mikhail Muyingo',
+  },
+  quentinHenry: {
+    name: 'Quentin Henry',
+  },
+  williamJThurley: {
+    name: 'William J. Thurley',
+  },
+  antoineBonnefoy: {
+    name: 'Antoine Bonnefoy',
+    photo: { src: '/assets/team/antoine-bonnefoy.webp', alt: 'Antoine Bonnefoy — portrait' },
+    bio: 'Antoine Bonnefoy is a Production Manager at JSL Studios, contributing to the company\'s film and production activities across France and internationally. With an academic background spanning economics, business management and international business, including studies in New York and Paris, he brings a strong understanding of both European and American environments. Antoine\'s career at JSL began on Planet of the Astronauts, where he worked across production and camera operations and also made his screen debut. He has since taken on increasingly strategic responsibilities across pre-production, casting and production management, playing an integral role in the development and execution of JSL\'s feature films and expanding French operations.',
+  },
+  christopherKondoleon: {
+    name: 'Christopher Kondoleon',
+    photo: { src: '/assets/team/chris-kondoleon.webp', alt: 'Christopher Kondoleon — portrait' },
+    bio: 'Christopher Kondoleon combines finance, production, fashion and talent management expertise within JSL Studios. A graduate of the University of Wisconsin with a B.B.A. in Finance and Real Estate, he began his professional career in corporate development at Hudson\'s Bay Company, supporting initiatives across its retail and real estate portfolio. His experience later expanded into fashion, marketing and talent management in New York, Los Angeles and Paris. At JSL, Christopher supports budgeting, operations, fundraising, marketing and production strategy, while also contributing creatively through photography, social media and drone operations. He has played a significant role in Back to the Present! and JSL\'s commercial productions.',
+  },
+  robertALevine: {
+    name: 'Robert A. Levine',
+    photo: { src: '/assets/team/robert-a-levine.webp', alt: 'Robert A. Levine — portrait' },
+    bio: 'Robert A. Levine brings more than five decades of Hollywood experience to JSL Studios. A member of the Academy of Motion Picture Arts and Sciences, the Publicists Guild and the Writers Guild of America, he has worked across screenwriting, publicity, production, marketing and film history. His career includes senior positions at Columbia Pictures, 20th Century Fox and Interscope Communications, as well as work on major productions including The China Syndrome, Tess, Gandhi, Tootsie, Romancing the Stone and more than thirty studio films. He has collaborated with acclaimed filmmakers and leading international talent, while also lecturing at NYU\'s Tisch School of the Arts.',
+  },
+  kennethLevine: {
+    name: 'Kenneth Levine',
+  },
+  magaliSouriau: {
+    name: 'Magali Souriau',
+    photo: { src: '/assets/team/magali-souriau.webp', alt: 'Magali Souriau — portrait' },
+    bio: 'Magali Souriau is an acclaimed French jazz pianist, composer, conductor and educator whose career spans music, performance and film. A graduate of the Marseille Conservatory and Berklee College of Music, where she graduated Summa Cum Laude, she has received prestigious distinctions including the Woody Herman Jazz Master Award and the Gil Evans Fellowship. She has performed internationally and at renowned New York jazz venues, while composing extensively for orchestras, ensembles and film. Magali has also served as an Artist in Residence at MIT and worked with American Ballet Theatre. At JSL, she advises on artistic direction and musical composition, shaping the distinctive musical identity of the studio\'s productions.',
+  },
+  emilyHobbs: {
+    name: 'Emily Hobbs',
+  },
+  johnDima: {
+    name: 'John Dima',
+    photo: { src: '/assets/team/john-dima.webp', alt: 'John Dima — portrait' },
+  },
+  marwanBachir: {
+    name: 'Marwan Bachir',
+  },
+  hugoBonnain: {
+    name: 'Hugo Bonnain',
+    photo: { src: '/assets/team/hugo-bonnain.webp', alt: 'Hugo Bonnain — portrait' },
+    bio: 'Holding a Master\'s degree in International Business & Communication Strategy from AMOS and Pace University, Hugo Bonnain is the Head of Communications at JSL Studios, where he leads the company\'s communications strategy across cinema, fashion and commercial production. Before joining JSL, he served as Communications Manager and Press Officer at OGC Nice, one of France\'s leading professional football clubs, gaining extensive experience in media relations, corporate communications, reputation and public-facing strategy within a major international sports organization. Since joining JSL in 2024, Hugo has expanded the company\'s communications across its films, campaigns and fashion productions, strengthening its presence across social, digital and industry channels while helping position JSL for its next phase as an international studio.',
+  },
+  theodoreVerzat: {
+    name: 'Theodore Verzat',
+    photo: { src: '/assets/team/theodore-verzat.webp', alt: 'Theodore Verzat — portrait' },
+    bio: 'Théodore Verzat brings a multidisciplinary combination of engineering, filmmaking, production and post-production expertise to JSL Studios. Raised in Cannes, France, he studied engineering at ISEN Lille before pursuing cinematic studies at 3iS in Nantes. Prior to joining JSL, he worked across camera and post-production departments at Pernel Media in Paris, a CANAL+ subsidiary, and founded NOS REVERB, an audiovisual music production company specializing in music videos and concert films. At JSL, Théodore oversees post-production across campaigns, commercials, fashion films and feature cinema, while also supporting French production operations. His technical expertise spans editing, DIT, live production, camera and post-production workflows.',
+  },
+  martinCornuMansuy: {
+    name: 'Martin Cornu-Mansuy',
+    photo: { src: '/assets/team/martin-cornu-mansuy.webp', alt: 'Martin Cornu-Mansuy — portrait' },
+    bio: 'Martin Cornu-Mansuy brings a highly versatile combination of technology, production and on-set expertise to JSL Studios. Holding a Master\'s degree in IT Project Management, he began his career as a developer and IT project manager, specializing in UX/UI design. Since joining JSL in 2024, his role has expanded across technical, creative and production departments. He has contributed to Back to the Present! through production logistics, wardrobe, stunt coordination, sword choreography and on-set support, while also working across Fashion Week productions in technical and production roles. A guitarist and active musician, Martin combines technical precision with a strong creative instinct, making him a uniquely adaptable member of JSL\'s international production team.',
+  },
+  emmaKremer: {
+    name: 'Emma Kremer',
+    photo: { src: '/assets/team/emma-kremer.webp', alt: 'Emma Kremer — portrait' },
+  },
+  garySpringer: {
+    name: 'Gary Springer',
+    photo: { src: '/assets/team/gary-springer.webp', alt: 'Gary Springer — portrait' },
+    bio: 'Gary Springer is a veteran entertainment professional whose career spans film, theatre, publicity, sales, distribution and awards strategy. An entertainment publicist representing film, theatre and events, he has worked extensively with independent and international cinema, representing films at festivals across the United States and abroad and advising on sales, distribution and awards campaigns. His theatre experience includes representation of more than 25 Broadway productions, alongside numerous Off-Broadway companies and productions. Gary began his career as an actor, appearing in films including Dog Day Afternoon, Jaws 2 and A Small Circle of Friends. A voting member of the Academy Awards and founding member of The Creative Coalition, he brings JSL decades of industry relationships and expertise in positioning independent cinema for international audiences.',
+  },
+  marvinJayLevy: {
+    name: 'Marvin Jay Levy',
+  },
+  perryKatz: {
+    name: 'Perry Katz',
+  },
+  martinWeisberg: {
+    name: 'Martin Weisberg',
+  },
+  marcJacobson: {
+    name: 'Marc Jacobson',
+  },
+} satisfies Record<string, Omit<TeamMember, 'role'>>
+
+const member = (person: Omit<TeamMember, 'role'>, role: string): TeamMember => ({ ...person, role })
+
 export const TEAM_STATIC: TeamGroup[] = [
   {
     id: 'board',
     title: 'Our Board',
+    // Names only, the chairman first (components/TeamGroup.tsx).
+    compact: true,
     members: [
-      {
-        name: 'Justin Souriau-Levine',
-        role: 'Chairman',
-        photo: { src: '/assets/team/justin-souriau-levine.webp', alt: 'Justin Souriau-Levine — portrait' },
-        bio: 'Justin Souriau-Levine is an award-winning director, producer, writer, cinematographer and actor, and the Founder & CEO of JSL Studios. Since establishing the company in New York in 2020, he has led its growth across independent feature films, commercial production, fashion and branded content. His work has earned three New York Emmy Awards as Executive Producer, alongside recognition from film festivals and industry institutions. Before cinema, Justin performed for American Ballet Theatre at major venues including the Metropolitan Opera House, Lincoln Center and the Kennedy Center. Today, he leads JSL\'s international development, bringing together filmmaking, creative production and global partnerships with a distinctly cinematic vision.',
-      },
-      {
-        name: 'Gordon Caplan',
-        role: 'Board Member · Investor',
-        photo: { src: '/assets/team/gordon-caplan.webp', alt: 'Gordon Caplan — portrait' },
-        bio: 'Gordon R. Caplan is a seasoned investor, strategic advisor and business leader, and the Founder & CEO of Dutchess Management, a strategic advisory firm focused on complex transactions, investments and corporate transformation. Previously, he served as Co-Chairman of Willkie Farr & Gallagher, where he led the firm\'s Private Equity Practice and helped build one of the world\'s leading private equity practices. His career spans private equity, venture capital, M&A, corporate governance and technology transactions, with board experience across leading growth companies. Named "Dealmaker of the Year" by American Lawyer in 2018, Gordon brings JSL a wealth of strategic, financial and investment expertise as a Board Member, Partner and Investor.',
-      },
-      {
-        name: 'François Grunenwald',
-        role: 'Board Member · Investor',
-        photo: { src: '/assets/team/francois-grunenwald.webp', alt: 'François Grunenwald — portrait' },
-        bio: 'François Grunenwald brings more than two decades of senior financial and corporate experience to JSL Studios. He currently serves as Chief Accounting Officer and Head of Treasury–Cash Management at Ocwen Financial Corporation in the United States, following a 23-year career at PwC that culminated in his appointment as Partner. His academic background spans economics, finance, banking and capital markets, complemented by additional professional certifications. At JSL, François works closely with Justin Souriau-Levine as a trusted advisor and financial consultant, contributing strategic and financial expertise to the company\'s development. He has also supported the production of JSL\'s feature film Back to the Present!.',
-      },
-      {
-        name: 'Franck Sineau',
-        role: 'Board Member · Partner',
-        photo: { src: '/assets/team/franck-sineau.webp', alt: 'Franck Sineau — portrait' },
-        bio: 'Franck Sineau brings more than two decades of international expertise in luxury marketing, media, communications and brand development to JSL Studios. He currently serves as Group Marketing Deputy Director and Global Media Director at Richemont, where he has held senior leadership positions for more than sixteen years, working across strategy, planning, media and global brand development. Prior to Richemont, Franck was Managing Partner at Mindshare and held communications leadership roles with Alfa Romeo and Saab. A graduate of Université Paris 2 Panthéon-Assas, where he earned Master\'s degrees in Communication and Political Science, he brings JSL extensive strategic, marketing and luxury-industry expertise as a Board Member, Partner and Investor.',
-      },
-      {
-        name: 'Bruce D. Levine',
-        role: 'Board Member · Investor',
-        photo: { src: '/assets/team/bruce-d-levine.webp', alt: 'Bruce D. Levine — portrait' },
-        bio: 'Bruce D. Levine brings extensive financial leadership and cultural-sector management experience to JSL Studios. He holds a BA from Connecticut College and an MBA from Boston University, and currently serves as Chief Financial Officer and Chief Operating Officer at Building for the Arts NY in New York City, while also sitting on the Board of Queens Theatre. Previously, he served as Chief Financial Officer at Theatre Row Studios and 42nd Street Development. As JSL\'s Financial Advisor, Bruce works closely with the company\'s leadership on financial strategy, management and long-term development. He is also an active partner and supporter of JSL\'s feature film Back to the Present!.',
-      },
-      {
-        name: 'Louise Vilepellet',
-        role: 'Board Member · Investor',
-        photo: { src: '/assets/team/louise-vilepellet.webp', alt: 'Louise Vilepellet — portrait' },
-        bio: 'Louise Villepelet brings more than a decade of experience in strategy consulting, luxury and investment to JSL Studios. She is the Co-Founder of WAW, a strategic consulting firm dedicated to the luxury Wine & Spirits sector, where she advises leading Houses on growth, brand elevation, customer experience and long-term strategy. Previously a Manager at Kearney, she led transformation projects for major consumer and luxury brands, following five years at MAD, a specialist strategy consultancy in the luxury sector. Earlier in her career, she worked in Private Equity at Linklaters in London and Paris. A graduate of HEC Paris, Cambridge University and Université Paris-Panthéon-Assas, Louise brings JSL a powerful combination of strategic, luxury and investment expertise.',
-      },
-      {
-        name: 'Christopher Kondoleon',
-        role: 'Board Member · Partner',
-        photo: { src: '/assets/team/chris-kondoleon.webp', alt: 'Christopher Kondoleon — portrait' },
-        bio: 'Christopher Kondoleon combines finance, production, fashion and talent management expertise within JSL Studios. A graduate of the University of Wisconsin with a B.B.A. in Finance and Real Estate, he began his professional career in corporate development at Hudson\'s Bay Company, supporting initiatives across its retail and real estate portfolio. His experience later expanded into fashion, marketing and talent management in New York, Los Angeles and Paris. At JSL, Christopher supports budgeting, operations, fundraising, marketing and production strategy, while also contributing creatively through photography, social media and drone operations. He has played a significant role in Back to the Present! and JSL\'s commercial productions.',
-      },
-      {
-        name: 'Antoine Bonnefoy',
-        role: 'Board Member · Partner',
-        photo: { src: '/assets/team/antoine-bonnefoy.webp', alt: 'Antoine Bonnefoy — portrait' },
-        bio: 'Antoine Bonnefoy is a Production Manager at JSL Studios, contributing to the company\'s film and production activities across France and internationally. With an academic background spanning economics, business management and international business, including studies in New York and Paris, he brings a strong understanding of both European and American environments. Antoine\'s career at JSL began on Planet of the Astronauts, where he worked across production and camera operations and also made his screen debut. He has since taken on increasingly strategic responsibilities across pre-production, casting and production management, playing an integral role in the development and execution of JSL\'s feature films and expanding French operations.',
-      },
+      member(PEOPLE.justinSouriauLevine, 'Chairman'),
+      member(PEOPLE.gordonCaplan, 'Board Member'),
+      member(PEOPLE.francoisGrunenwald, 'Board Member'),
+      member(PEOPLE.franckSineau, 'Board Member'),
+      member(PEOPLE.dianeJaffee, 'Board Member'),
+      member(PEOPLE.bruceDLevine, 'Board Member'),
+      member(PEOPLE.brunoDumont, 'Board Member'),
+      member(PEOPLE.louiseVilepellet, 'Board Member'),
+      member(PEOPLE.mikhailMuyingo, 'Board Member'),
+      member(PEOPLE.quentinHenry, 'Board Member'),
+      member(PEOPLE.williamJThurley, 'Board Member'),
+      member(PEOPLE.antoineBonnefoy, 'Board Member'),
+      member(PEOPLE.christopherKondoleon, 'Board Member'),
+      member(PEOPLE.robertALevine, 'Board Member'),
+      member(PEOPLE.kennethLevine, 'Board Member'),
+      member(PEOPLE.magaliSouriau, 'Board Member'),
+      member(PEOPLE.emilyHobbs, 'Board Member'),
+      member(PEOPLE.johnDima, 'Board Member'),
+      member(PEOPLE.marwanBachir, 'Board Member'),
     ],
   },
   {
     id: 'team',
     title: 'Our Team',
+    compact: false,
     members: [
-      {
-        name: 'Justin Souriau-Levine',
-        role: 'CEO',
-        photo: { src: '/assets/team/justin-souriau-levine.webp', alt: 'Justin Souriau-Levine — portrait' },
-        bio: 'Justin Souriau-Levine is an award-winning director, producer, writer, cinematographer and actor, and the Founder & CEO of JSL Studios. Since establishing the company in New York in 2020, he has led its growth across independent feature films, commercial production, fashion and branded content. His work has earned three New York Emmy Awards as Executive Producer, alongside recognition from film festivals and industry institutions. Before cinema, Justin performed for American Ballet Theatre at major venues including the Metropolitan Opera House, Lincoln Center and the Kennedy Center. Today, he leads JSL\'s international development, bringing together filmmaking, creative production and global partnerships with a distinctly cinematic vision.',
-      },
-      {
-        name: 'John Dima',
-        role: 'Chief of Staff',
-        photo: { src: '/assets/team/john-dima.webp', alt: 'John Dima — portrait' },
-      },
-      {
-        name: 'Hugo Bonnain',
-        role: 'Head of Communications',
-        photo: { src: '/assets/team/hugo-bonnain.webp', alt: 'Hugo Bonnain — portrait' },
-        bio: 'Holding a Master\'s degree in International Business & Communication Strategy from AMOS and Pace University, Hugo Bonnain is the Head of Communications at JSL Studios, where he leads the company\'s communications strategy across cinema, fashion and commercial production. Before joining JSL, he served as Communications Manager and Press Officer at OGC Nice, one of France\'s leading professional football clubs, gaining extensive experience in media relations, corporate communications, reputation and public-facing strategy within a major international sports organization. Since joining JSL in 2024, Hugo has expanded the company\'s communications across its films, campaigns and fashion productions, strengthening its presence across social, digital and industry channels while helping position JSL for its next phase as an international studio.',
-      },
-      {
-        name: 'Theodore Verzat',
-        role: 'Head of Post-Production',
-        photo: { src: '/assets/team/theodore-verzat.webp', alt: 'Theodore Verzat — portrait' },
-        bio: 'Théodore Verzat brings a multidisciplinary combination of engineering, filmmaking, production and post-production expertise to JSL Studios. Raised in Cannes, France, he studied engineering at ISEN Lille before pursuing cinematic studies at 3iS in Nantes. Prior to joining JSL, he worked across camera and post-production departments at Pernel Media in Paris, a CANAL+ subsidiary, and founded NOS REVERB, an audiovisual music production company specializing in music videos and concert films. At JSL, Théodore oversees post-production across campaigns, commercials, fashion films and feature cinema, while also supporting French production operations. His technical expertise spans editing, DIT, live production, camera and post-production workflows.',
-      },
-      {
-        name: 'Martin Cornu-Mansuy',
-        role: 'Head of IT Department',
-        photo: { src: '/assets/team/martin-cornu-mansuy.webp', alt: 'Martin Cornu-Mansuy — portrait' },
-        bio: 'Martin Cornu-Mansuy brings a highly versatile combination of technology, production and on-set expertise to JSL Studios. Holding a Master\'s degree in IT Project Management, he began his career as a developer and IT project manager, specializing in UX/UI design. Since joining JSL in 2024, his role has expanded across technical, creative and production departments. He has contributed to Back to the Present! through production logistics, wardrobe, stunt coordination, sword choreography and on-set support, while also working across Fashion Week productions in technical and production roles. A guitarist and active musician, Martin combines technical precision with a strong creative instinct, making him a uniquely adaptable member of JSL\'s international production team.',
-      },
-      {
-        name: 'Christopher Kondoleon',
-        role: 'Project Manager (US)',
-        photo: { src: '/assets/team/chris-kondoleon.webp', alt: 'Christopher Kondoleon — portrait' },
-        bio: 'Christopher Kondoleon combines finance, production, fashion and talent management expertise within JSL Studios. A graduate of the University of Wisconsin with a B.B.A. in Finance and Real Estate, he began his professional career in corporate development at Hudson\'s Bay Company, supporting initiatives across its retail and real estate portfolio. His experience later expanded into fashion, marketing and talent management in New York, Los Angeles and Paris. At JSL, Christopher supports budgeting, operations, fundraising, marketing and production strategy, while also contributing creatively through photography, social media and drone operations. He has played a significant role in Back to the Present! and JSL\'s commercial productions.',
-      },
-      {
-        name: 'Antoine Bonnefoy',
-        role: 'Project Manager (FR)',
-        photo: { src: '/assets/team/antoine-bonnefoy.webp', alt: 'Antoine Bonnefoy — portrait' },
-        bio: 'Antoine Bonnefoy is a Production Manager at JSL Studios, contributing to the company\'s film and production activities across France and internationally. With an academic background spanning economics, business management and international business, including studies in New York and Paris, he brings a strong understanding of both European and American environments. Antoine\'s career at JSL began on Planet of the Astronauts, where he worked across production and camera operations and also made his screen debut. He has since taken on increasingly strategic responsibilities across pre-production, casting and production management, playing an integral role in the development and execution of JSL\'s feature films and expanding French operations.',
-      },
-      {
-        name: 'Emma Kremer',
-        role: 'Personal Assistant',
-        photo: { src: '/assets/team/emma-kremer.webp', alt: 'Emma Kremer — portrait' },
-      },
-      { name: 'Yves Philippe', role: 'Personal Assistant' },
+      member(PEOPLE.justinSouriauLevine, 'CEO & Founder'),
+      member(PEOPLE.johnDima, 'Chief of Staff'),
+      member(PEOPLE.christopherKondoleon, 'General Manager (US)'),
+      member(PEOPLE.antoineBonnefoy, 'General Manager (FR)'),
+      member(PEOPLE.hugoBonnain, 'Head of Communications & PR'),
+      member(PEOPLE.theodoreVerzat, 'Head of Post-Production'),
+      member(PEOPLE.martinCornuMansuy, 'Head of IT Department'),
+      member(PEOPLE.emmaKremer, 'Executive Assistant'),
     ],
   },
   {
     id: 'consultants',
     title: 'Our Consultants',
+    compact: false,
     members: [
-      {
-        name: 'Robert A. Levine',
-        role: 'Film Production Consultant',
-        photo: { src: '/assets/team/robert-a-levine.webp', alt: 'Robert A. Levine — portrait' },
-        bio: 'Robert A. Levine brings more than five decades of Hollywood experience to JSL Studios. A member of the Academy of Motion Picture Arts and Sciences, the Publicists Guild and the Writers Guild of America, he has worked across screenwriting, publicity, production, marketing and film history. His career includes senior positions at Columbia Pictures, 20th Century Fox and Interscope Communications, as well as work on major productions including The China Syndrome, Tess, Gandhi, Tootsie, Romancing the Stone and more than thirty studio films. He has collaborated with acclaimed filmmakers and leading international talent, while also lecturing at NYU\'s Tisch School of the Arts.',
-      },
-      {
-        name: 'Gary Springer',
-        role: 'Film Sales Consultant',
-        photo: { src: '/assets/team/gary-springer.webp', alt: 'Gary Springer — portrait' },
-        bio: 'Gary Springer is a veteran entertainment professional whose career spans film, theatre, publicity, sales, distribution and awards strategy. An entertainment publicist representing film, theatre and events, he has worked extensively with independent and international cinema, representing films at festivals across the United States and abroad and advising on sales, distribution and awards campaigns. His theatre experience includes representation of more than 25 Broadway productions, alongside numerous Off-Broadway companies and productions. Gary began his career as an actor, appearing in films including Dog Day Afternoon, Jaws 2 and A Small Circle of Friends. A voting member of the Academy Awards and founding member of The Creative Coalition, he brings JSL decades of industry relationships and expertise in positioning independent cinema for international audiences.',
-      },
-      { name: 'Marvin Jay Levy', role: 'Film Strategy Consultant' },
-      {
-        name: 'Magali Souriau',
-        role: 'Artistic Advisor & Music Consultant',
-        photo: { src: '/assets/team/magali-souriau.webp', alt: 'Magali Souriau — portrait' },
-        bio: 'Magali Souriau is an acclaimed French jazz pianist, composer, conductor and educator whose career spans music, performance and film. A graduate of the Marseille Conservatory and Berklee College of Music, where she graduated Summa Cum Laude, she has received prestigious distinctions including the Woody Herman Jazz Master Award and the Gil Evans Fellowship. She has performed internationally and at renowned New York jazz venues, while composing extensively for orchestras, ensembles and film. Magali has also served as an Artist in Residence at MIT and worked with American Ballet Theatre. At JSL, she advises on artistic direction and musical composition, shaping the distinctive musical identity of the studio\'s productions.',
-      },
+      member(PEOPLE.robertALevine, 'Film Production & Marketing Consultant'),
+      member(PEOPLE.garySpringer, 'Film Sales Consultant'),
+      member(PEOPLE.marvinJayLevy, 'Film Development Consultant'),
+      member(PEOPLE.perryKatz, 'Film Marketing Consultant'),
+      member(PEOPLE.magaliSouriau, 'Artistic Advisor & Music Consultant'),
+      member(PEOPLE.martinWeisberg, 'Film Finance Consultant'),
+      member(PEOPLE.marcJacobson, 'Film Legal Consultant'),
     ],
   },
 ]

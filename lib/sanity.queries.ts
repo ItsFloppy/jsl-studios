@@ -166,7 +166,7 @@ function normaliseTeam(raw: unknown): TeamGroup[] {
       ]
     })
     if (!members.length) return []
-    return [{ id, title, members }]
+    return [{ id, title, compact: g.compact === true, members }]
   })
 }
 
@@ -236,7 +236,7 @@ export function getTeamGroups(): Promise<TeamGroup[]> {
   return fetchOr(
     'team',
     `*[_type == "teamGroup"] | ${ORDER} {
-      "id": _id, title,
+      "id": _id, title, compact,
       "members": members[]{ role, "person": person->{ name, bio, "photo": photo${IMAGE_PROJ} } }
     }`,
     normaliseTeam,

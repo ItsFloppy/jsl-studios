@@ -61,6 +61,9 @@ export type TeamMember = {
 export type TeamGroup = {
   id: string
   title: string
+  /** Names only: the first member with their role, the others as a grid of names, with no
+   *  portrait or bio. For a long list such as the board. */
+  compact: boolean
   members: TeamMember[]
 }
 

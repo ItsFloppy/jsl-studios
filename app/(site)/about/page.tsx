@@ -187,7 +187,9 @@ export default async function AboutPage() {
       <div className="team-portrait" title="Click to open the bio">
       <div className="portrait-layers">
       <div className="portrait-layer active" data-person-layer="">
-      <img loading="lazy" decoding="async" src={ceoPortrait} alt="Justin Souriau-Levine — portrait" />
+      {/* Not lazy: it sits in a tab that is hidden on load, and must be there the moment the
+          tab opens. */}
+      <img decoding="async" src={ceoPortrait} alt="Justin Souriau-Levine — portrait" />
       </div>
       </div>
       <div className="team-bio" id="team-bio" tabIndex={-1}>
@@ -198,6 +200,8 @@ export default async function AboutPage() {
       <p className="team-bio-text"></p>
       <span className="team-bio-close">click to close</span>
       </div>
+      {/* Shown while the person on screen has a bio to open (lib/behaviors/about.ts). */}
+      <span className="team-portrait-hint" aria-hidden="true">Learn more<span className="hint-plus">+</span></span>
       </div>
       <div className="team-viewer-meta" aria-hidden="true">
       <span data-active-group="">Founder &amp; CEO</span>

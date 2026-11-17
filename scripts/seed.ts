@@ -120,7 +120,7 @@ async function buildDocuments(): Promise<SanityDocumentStub[]> {
     }
   }
 
-  // One person per name: Justin, Christopher and Antoine each sit in two groups.
+  // One person per name: Justin, Christopher, Antoine and others sit in several groups.
   const people = new Map<string, SanityDocumentStub>()
   for (const g of TEAM_STATIC) {
     for (const m of g.members) {
@@ -140,6 +140,7 @@ async function buildDocuments(): Promise<SanityDocumentStub[]> {
       _id: `teamGroup-${g.id}`,
       _type: 'teamGroup',
       title: g.title,
+      compact: g.compact,
       members: g.members.map((m, k) => ({
         _key: `member${k}`,
         _type: 'teamMember',
