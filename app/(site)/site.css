@@ -246,7 +246,7 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 /* ---------- Home: sections ---------- */
 
 .home-intro { border-top: 1px solid var(--line-soft); }
-.home-intro-inner { padding-top: clamp(70px, 9vw, 140px); padding-bottom: clamp(70px, 9vw, 140px); display: flex; flex-wrap: wrap; gap: clamp(28px, 5vw, 90px); }
+.home-intro-inner { padding-top: clamp(56px, 7vw, 104px); padding-bottom: clamp(56px, 7vw, 104px); display: flex; flex-wrap: wrap; gap: clamp(28px, 5vw, 90px); }
 .home-intro-col { flex: 2 1 460px; display: flex; flex-direction: column; align-items: flex-start; gap: clamp(24px, 3vw, 40px); justify-content: flex-start; }
 .home-intro-copy { margin: 0; font-size: clamp(21px, 2.5vw, 34px); font-weight: 400; line-height: 1.32; letter-spacing: -.015em; text-align: justify; text-wrap: pretty; }
 /* Justified, a phone-width column of this size opens wide gaps between the words. */
@@ -278,12 +278,12 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .reel-fade-r { right: 0; background: linear-gradient(270deg, var(--paper), rgba(255, 255, 255, 0)); }
 
 .home-quote-sec { border-top: 1px solid var(--line-soft); }
-.home-quote-inner { padding-top: clamp(76px, 10vw, 164px); padding-bottom: clamp(76px, 10vw, 164px); display: flex; flex-direction: column; align-items: center; gap: clamp(20px, 2.4vw, 34px); text-align: center; }
+.home-quote-inner { padding-top: clamp(60px, 7.5vw, 120px); padding-bottom: clamp(60px, 7.5vw, 120px); display: flex; flex-direction: column; align-items: center; gap: clamp(20px, 2.4vw, 34px); text-align: center; }
 .home-quote { margin: 0; max-width: 18ch; font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(38px, 6.4vw, 96px); line-height: 1.02; letter-spacing: -.02em; text-wrap: balance; }
 .home-quote-bar { width: 46px; height: 2px; background: var(--gold); }
 
 .newsletter-sec { border-top: 1px solid var(--line-soft); background: var(--paper-soft); }
-.newsletter-inner { padding-top: clamp(56px, 6.4vw, 96px); padding-bottom: clamp(56px, 6.4vw, 96px); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: clamp(26px, 3.4vw, 56px); }
+.newsletter-inner { padding-top: clamp(48px, 5.4vw, 80px); padding-bottom: clamp(48px, 5.4vw, 80px); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: clamp(26px, 3.4vw, 56px); }
 .newsletter-head { display: flex; flex-direction: column; gap: 14px; flex: 1 1 420px; min-width: 0; }
 .newsletter-head h2 { margin: 0; max-width: 22ch; font-size: clamp(26px, 3.2vw, 46px); font-weight: 700; line-height: 1.08; letter-spacing: -.02em; text-wrap: balance; }
 .newsletter-form { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; flex: 0 1 460px; min-width: min(100%, 300px); }
@@ -313,7 +313,7 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 @media (max-width: 480px) { .newsletter-form button { flex: 1 1 100%; } }
 
 .contact-sec { border-top: 1px solid var(--line-soft); }
-.contact-inner { padding-top: clamp(66px, 8vw, 120px); padding-bottom: clamp(66px, 8vw, 120px); }
+.contact-inner { padding-top: clamp(52px, 6vw, 92px); padding-bottom: clamp(52px, 6vw, 92px); }
 .contact-kicker { margin-bottom: clamp(16px, 1.8vw, 24px); }
 .contact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 3vw, 48px); }
 .contact-city { display: flex; flex-direction: column; gap: 12px; padding-top: 18px; padding-right: clamp(14px, 2vw, 30px); border-right: 1px solid var(--ink-72); }
@@ -338,7 +338,11 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
   min-height: min(56.25vw, calc(100svh - var(--head-h)));
   display: flex; flex-direction: column; justify-content: flex-end;
   padding: clamp(90px, 11vw, 150px) var(--gutter) clamp(56px, 6vw, 96px);
-  background: linear-gradient(180deg, rgba(10, 10, 10, .12) 35%, rgba(10, 10, 10, .8)), url('/assets/crop/feat-tall-ship.webp') 50% 70%/cover no-repeat;
+  /* Darker on the left, where the title sits over bright sky; the ship, centred, stays clear. */
+  background:
+    linear-gradient(90deg, rgba(10, 10, 10, .5), rgba(10, 10, 10, 0) 62%),
+    linear-gradient(180deg, rgba(10, 10, 10, .18) 30%, rgba(10, 10, 10, .8)),
+    url('/assets/crop/feat-tall-ship.webp') 50% 70%/cover no-repeat;
   color: var(--paper);
 }
 .studios-hero-inner { width: 100%; max-width: 1440px; margin: 0 auto; }
@@ -349,8 +353,15 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .studios-hero-copy { flex: 1 1 440px; max-width: 580px; display: flex; flex-direction: column; gap: 12px; }
 .studios-hero-copy p { margin: 0; font-size: clamp(15px, 1.25vw, 18px); line-height: 1.6; color: rgba(255, 255, 255, .88); text-wrap: pretty; }
 
-.features-sec { padding-top: clamp(56px, 7vw, 110px); padding-bottom: clamp(60px, 8vw, 120px); display: flex; flex-direction: column; gap: clamp(56px, 7vw, 120px); }
-.features-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.features-sec { padding-top: clamp(44px, 5.4vw, 84px); padding-bottom: clamp(48px, 6vw, 92px); display: flex; flex-direction: column; gap: clamp(44px, 5.4vw, 88px); }
+.features-head { position: relative; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+/* A short stroke of the page's accent where a grey rule starts: the site's recurring
+   gold (Studios) or sky (Productions) touch. */
+.features-head::after, .prod-group-head::after, .feature-facts::before {
+  content: ''; position: absolute; left: 0; width: 56px; height: 2px; background: var(--accent);
+}
+.features-head::after, .prod-group-head::after { bottom: -1px; }
+.feature-facts::before { top: -1px; width: 32px; }
 .features-head h2 { margin: 0; font-size: clamp(22px, 2.4vw, 32px); font-weight: 500; letter-spacing: -.02em; }
 
 .feature-card { display: flex; flex-wrap: wrap; gap: clamp(22px, 3.4vw, 56px); align-items: flex-start; }
@@ -368,7 +379,7 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 }
 .feature-title { margin: 0; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(30px, 3.2vw, 42px); line-height: 1.08; letter-spacing: -.02em; text-wrap: balance; }
 .feature-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-.feature-facts { width: 100%; display: flex; flex-direction: column; gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); }
+.feature-facts { position: relative; width: 100%; display: flex; flex-direction: column; gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); }
 .feature-fact { display: flex; flex-direction: column; gap: 5px; }
 .feature-fact dt { font-size: 9.5px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: rgba(10, 10, 10, .66); }
 .feature-fact dd { margin: 0; font-family: var(--mono); font-size: 10.5px; color: var(--ink-45); }
@@ -377,7 +388,7 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 
 /* ---------- Production page ---------- */
 
-.prod-hero { padding-top: clamp(56px, 7vw, 110px); padding-bottom: clamp(44px, 5vw, 80px); }
+.prod-hero { padding-top: clamp(44px, 5.4vw, 84px); padding-bottom: clamp(36px, 4vw, 60px); }
 .prod-hero .kicker { margin-bottom: clamp(22px, 2.6vw, 38px); }
 .prod-hero-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: clamp(20px, 4vw, 60px); }
 .prod-hero h1 { margin: 0; max-width: 16ch; font-size: clamp(38px, 5.8vw, 92px); font-weight: 500; line-height: 1; letter-spacing: -.04em; text-wrap: balance; }
@@ -387,9 +398,9 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 /* The 404 page (app/not-found.tsx) borrows the Production head above. */
 .not-found-actions { padding-bottom: clamp(80px, 10vw, 160px); }
 
-.prod-groups { padding-bottom: clamp(60px, 8vw, 120px); display: flex; flex-direction: column; gap: clamp(50px, 6vw, 96px); }
+.prod-groups { padding-bottom: clamp(48px, 6vw, 92px); display: flex; flex-direction: column; gap: clamp(40px, 4.6vw, 72px); }
 .prod-group { display: flex; flex-direction: column; gap: clamp(20px, 2.6vw, 36px); }
-.prod-group-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.prod-group-head { position: relative; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
 .prod-group-head h2 { margin: 0; font-size: clamp(22px, 2.4vw, 32px); font-weight: 500; letter-spacing: -.02em; }
 .prod-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: clamp(18px, 2.6vw, 40px); }
 .prod-card {
@@ -429,7 +440,7 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 
 /* ---------- About page ---------- */
 
-.about-head { padding-top: clamp(56px, 7vw, 110px); padding-bottom: clamp(28px, 3vw, 44px); }
+.about-head { padding-top: clamp(44px, 5.4vw, 84px); padding-bottom: clamp(24px, 2.6vw, 36px); }
 .about-head .kicker { margin-bottom: clamp(22px, 2.6vw, 38px); }
 .about-head h1 { margin: 0; max-width: 13ch; font-size: clamp(40px, 6.4vw, 100px); font-weight: 500; line-height: .98; letter-spacing: -.04em; text-wrap: balance; }
 
@@ -476,11 +487,11 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .story-hero h2 { margin: 0; font-size: clamp(42px, 7.6vw, 124px); font-weight: 600; line-height: .9; letter-spacing: -.05em; text-transform: uppercase; }
 
 /* The studio in one sentence, under the hero, across the full width of the page. */
-.story-statement { padding-top: clamp(40px, 5vw, 76px); }
+.story-statement { padding-top: clamp(36px, 4.4vw, 64px); }
 .story-statement p { margin: 0; font-size: clamp(22px, 2.6vw, 38px); font-weight: 500; line-height: 1.28; letter-spacing: -.02em; color: var(--sky-ink); text-wrap: pretty; }
-.story-statement + .story-body { padding-top: clamp(40px, 5vw, 76px); }
+.story-statement + .story-body { padding-top: clamp(36px, 4.4vw, 64px); }
 
-.story-body { padding-top: clamp(56px, 7vw, 110px); padding-bottom: clamp(56px, 7vw, 110px); display: flex; flex-direction: column; gap: clamp(48px, 6vw, 90px); }
+.story-body { padding-top: clamp(44px, 5.4vw, 84px); padding-bottom: clamp(44px, 5.4vw, 84px); display: flex; flex-direction: column; gap: clamp(40px, 4.6vw, 68px); }
 .story-cols { display: flex; flex-wrap: wrap; gap: clamp(24px, 4vw, 72px); }
 .story-cols-title { flex: 1 1 220px; max-width: 360px; display: flex; flex-direction: column; gap: 8px; }
 .story-cols-title span { font-size: clamp(28px, 3.2vw, 46px); font-weight: 500; line-height: 1.05; letter-spacing: -.035em; text-wrap: balance; }
@@ -497,6 +508,10 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .two-worlds-head .tw-dash { margin: 0 .2em; }
 .two-worlds-head .tw-dash.d-gold { color: var(--gold); }
 .two-worlds-head .tw-dash.d-sky { color: var(--sky); }
+.two-worlds-head::before, .vision-close .vision-close-big::before {
+  content: ''; display: block; width: 1px; height: clamp(28px, 3vw, 44px);
+  margin: 0 auto clamp(10px, 1.2vw, 16px); background: linear-gradient(var(--gold), var(--sky));
+}
 .two-worlds-head .tw-sub { font-size: clamp(15px, 1.2vw, 17.5px); color: var(--ink-72); }
 .two-worlds-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(24px, 3vw, 44px); }
 .world-card { display: flex; flex-direction: column; gap: 14px; padding-top: 18px; border-top: 2px solid var(--gold); }
@@ -508,7 +523,7 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .story-divider { position: relative; width: 100%; height: clamp(300px, 50vh, 560px); height: clamp(300px, 50svh, 560px); background: var(--tile); }
 .story-divider img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
-.vision-sec { padding-top: clamp(56px, 7vw, 110px); display: flex; flex-direction: column; gap: clamp(32px, 4vw, 64px); }
+.vision-sec { padding-top: clamp(44px, 5.4vw, 84px); display: flex; flex-direction: column; gap: clamp(28px, 3.2vw, 48px); }
 .vision-head { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(16px, 2vw, 28px); }
 .vision-head .vision-title { font-size: clamp(36px, 5vw, 84px); font-weight: 500; line-height: .95; letter-spacing: -.045em; }
 .vision-head p { margin: 0; max-width: 64ch; font-size: clamp(16px, 1.35vw, 19px); line-height: 1.65; color: var(--ink-72); text-wrap: pretty; }
@@ -528,7 +543,7 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .vision-close p { margin: 0; font-size: clamp(15px, 1.2vw, 17.5px); line-height: 1.7; color: var(--ink-72); text-wrap: pretty; }
 .vision-close .vision-close-big { margin-top: clamp(8px, 1.4vw, 20px); font-size: clamp(22px, 2.4vw, 34px); line-height: 1.3; letter-spacing: -.02em; color: var(--ink); text-wrap: balance; }
 
-.world-sec { padding-top: clamp(56px, 7vw, 110px); padding-bottom: clamp(56px, 7vw, 110px); display: flex; flex-direction: column; gap: clamp(28px, 3.4vw, 52px); }
+.world-sec { padding-top: clamp(44px, 5.4vw, 84px); padding-bottom: clamp(44px, 5.4vw, 84px); display: flex; flex-direction: column; gap: clamp(28px, 3.4vw, 52px); }
 .world-line { display: flex; flex-wrap: nowrap; white-space: nowrap; column-gap: clamp(12px, 2vw, 36px); font-size: clamp(22px, 4.6vw, 76px); font-weight: 600; line-height: .95; letter-spacing: -.05em; text-transform: uppercase; }
 /* Below ~480px the three place names no longer fit on one line and would scroll the page. */
 @media (max-width: 479px) { .world-line { flex-wrap: wrap; white-space: normal; row-gap: 2px; } }
@@ -539,7 +554,7 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .world-cols .w-big { color: var(--ink); font-size: clamp(18px, 1.7vw, 24px); line-height: 1.4; letter-spacing: -.015em; }
 
 /* About — team (credits layout) */
-.team-sec { padding-top: clamp(48px, 6vw, 96px); padding-bottom: clamp(60px, 8vw, 120px); display: flex; flex-direction: column; gap: clamp(48px, 6vw, 88px); }
+.team-sec { padding-top: clamp(40px, 4.6vw, 72px); padding-bottom: clamp(48px, 6vw, 92px); display: flex; flex-direction: column; gap: clamp(40px, 4.6vw, 68px); }
 .team-layout { display: flex; flex-wrap: wrap; gap: clamp(28px, 4vw, 72px); align-items: flex-start; }
 .team-viewer {
   position: sticky; top: calc(var(--head-h) + var(--tabs-h)); flex: 1 1 280px; max-width: 420px;
@@ -586,7 +601,7 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .team-bio-text { margin: 0; font-size: clamp(13.5px, 1.05vw, 15.5px); line-height: 1.6; text-wrap: pretty; }
 .team-viewer-meta { display: flex; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; color: var(--ink-45); }
 
-.team-lists { flex: 2 1 400px; display: flex; flex-direction: column; gap: clamp(40px, 5vw, 72px); }
+.team-lists { flex: 2 1 400px; display: flex; flex-direction: column; gap: clamp(36px, 4vw, 56px); }
 .ceo-block { display: flex; flex-direction: column; gap: 18px; }
 .ceo-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 14px; padding-bottom: 14px; border-bottom: 2px solid var(--gold); }
 .ceo-head h2, .team-group-head h2 { margin: 0; font-size: clamp(22px, 2.4vw, 32px); font-weight: 500; letter-spacing: -.02em; }
@@ -635,7 +650,7 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 }
 
 /* About — network */
-.network-sec { padding-top: clamp(48px, 6vw, 96px); padding-bottom: clamp(60px, 8vw, 120px); display: flex; flex-direction: column; gap: clamp(48px, 6vw, 88px); }
+.network-sec { padding-top: clamp(40px, 4.6vw, 72px); padding-bottom: clamp(48px, 6vw, 92px); display: flex; flex-direction: column; gap: clamp(36px, 4.4vw, 64px); }
 .network-head { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(18px, 2.2vw, 30px); }
 .network-head h2 { margin: 0; font-size: clamp(36px, 5vw, 80px); font-weight: 500; line-height: .98; letter-spacing: -.04em; text-wrap: balance; }
 .network-copy { display: flex; flex-direction: column; gap: 14px; max-width: 72ch; }
@@ -712,7 +727,7 @@ div.net-tile { cursor: default; }
 }
 
 /* About — contact */
-.about-contact-sec { padding-top: clamp(48px, 6vw, 96px); padding-bottom: clamp(60px, 8vw, 120px); display: flex; flex-direction: column; gap: clamp(40px, 5vw, 72px); }
+.about-contact-sec { padding-top: clamp(40px, 4.6vw, 72px); padding-bottom: clamp(48px, 6vw, 92px); display: flex; flex-direction: column; gap: clamp(32px, 4vw, 56px); }
 .about-contact-lede { margin: 0; max-width: 20ch; font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(34px, 5vw, 72px); line-height: 1.05; letter-spacing: -.02em; }
 .about-contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
 .contact-card { display: flex; flex-direction: column; gap: 14px; padding: clamp(28px, 3.4vw, 44px) clamp(20px, 2.6vw, 32px) clamp(28px, 3.4vw, 44px) 0; }
@@ -759,8 +774,12 @@ div.net-tile { cursor: default; }
 
 /* ---------- Footer ---------- */
 
-.site-foot { background: var(--ink); color: var(--paper); }
-.foot-inner { width: 100%; max-width: 1440px; margin: 0 auto; padding: clamp(52px, 6.5vw, 100px) var(--gutter) 28px; }
+.site-foot { position: relative; background: var(--ink); color: var(--paper); }
+.site-foot::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold) 0 50%, var(--sky) 50% 100%);
+}
+.foot-inner { width: 100%; max-width: 1440px; margin: 0 auto; padding: clamp(44px, 5vw, 80px) var(--gutter) 28px; }
 .foot-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: clamp(28px, 4vw, 64px); }
 .foot-brand { display: flex; align-items: center; gap: clamp(16px, 2vw, 30px); align-self: flex-start; color: var(--paper); }
 .foot-brand:hover { text-decoration: none; }
