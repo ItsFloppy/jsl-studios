@@ -10,7 +10,7 @@ import { getNetwork, getTeamGroups } from '@/lib/sanity.queries'
 export const metadata: Metadata = {
   title: 'About — JSL Studios',
   description:
-    'JSL Studios is an independent film studio built to bring the magic, scale and craft of cinema to a new generation of audiences. Founded in New York, 2020.',
+    'JSL Studios is an independent film production studio built to deliver the magic, scale and craft of classical cinema to a new generation of audiences. New York City, 2020.',
   alternates: { canonical: '/about' },
 }
 
@@ -59,7 +59,7 @@ export default async function AboutPage() {
       <div className="about-tabs-inner" role="tablist" aria-label="About sections">
       {/* Only the selected tab is in the Tab order; the arrow keys move between tabs
           (lib/behaviors/about.ts). */}
-      <button className="tab-btn" id="tab-story" data-tab="story" role="tab" aria-selected="true" aria-controls="panel-story" tabIndex={0}>Know more about us</button>
+      <button className="tab-btn" id="tab-story" data-tab="story" role="tab" aria-selected="true" aria-controls="panel-story" tabIndex={0}>Learn more about us</button>
       <button className="tab-btn" id="tab-team" data-tab="team" role="tab" aria-selected="false" aria-controls="panel-team" tabIndex={-1}>Team</button>
       <button className="tab-btn" id="tab-network" data-tab="network" role="tab" aria-selected="false" aria-controls="panel-network" tabIndex={-1}>Network</button>
       <button className="tab-btn" id="tab-contact" data-tab="contact" role="tab" aria-selected="false" aria-controls="panel-contact" tabIndex={-1}>Contact</button>
@@ -73,36 +73,39 @@ export default async function AboutPage() {
       <img src="/assets/crop/feat-cowgirls.webp" alt="Feature still" fetchPriority="high" />
       <div className="story-hero-grad"></div>
       <div className="story-hero-inner">
-      <h2>We make<br />cinema.</h2>
-      <p>JSL Studios is an independent film studio built to bring the magic, scale and craft of cinema to a new generation of audiences.</p>
+      <h2>We make<br />absolute cinema.</h2>
       </div>
+      </section>
+
+      <section className="wrap story-statement">
+      <p data-reveal="">JSL Studios is an independent film production studio built to deliver the magic, scale and craft of classical cinema to a new generation of audiences.</p>
       </section>
 
       <section className="wrap story-body">
       <div className="story-cols">
       <div className="story-cols-title">
-      <span>Founded in New York, 2020.</span>
+      <span>New York City, 2020.</span>
       </div>
       <div className="story-cols-body">
-      <p data-reveal="">Founded in New York in 2020, JSL began with independent feature films and has since grown into a multidisciplinary studio working across cinema, fashion, advertising and entertainment.</p>
-      <p data-reveal="" data-delay="80">Our work ranges from original feature films and stories in development to high-end campaigns, fashion films, runway films, commercials and branded content.</p>
-      <p data-reveal="" data-delay="160">Across every format, our ambition remains the same: to create work with the imagination, emotion and production value of cinema.</p>
+      <p data-reveal="">Founded in 2020 at the heart of New York City, JSL Studios began with the development and production of independent feature films and has since grown into a multi-disciplinary studio working across cinema, fashion, advertising and entertainment.</p>
+      <p data-reveal="" data-delay="80">Our work ranges from original narrative epic-scale feature films to high-end cinematic campaigns, fashion films, runway content and commercials.</p>
+      <p data-reveal="" data-delay="160">Across every format, our ambition remains the same: to bring fantastic stories to life by the magic, beauty, emotion, and production value of cinema.</p>
       </div>
       </div>
 
       <div className="two-worlds">
       <div className="two-worlds-head">
-      <span className="tw-title">A studio. A production house. A creative platform.</span>
+      <span className="tw-title"><span className="tw-part">A studio</span> <span className="tw-dash d-gold">—</span> <span className="tw-part">A production house</span> <span className="tw-dash d-sky">—</span> <span className="tw-part">A creative platform</span></span>
       <span className="tw-sub">JSL operates across two complementary worlds.</span>
       </div>
       <div className="two-worlds-grid">
       <div className="world-card" data-reveal="">
       <span className="world-name">JSL Studios</span>
-      <p>JSL STUDIOS develops, write and produce our own films — building original stories, characters and worlds with the ambition to grow JSL into a distinctive international film studio. It is the creative engine behind the worlds, characters and stories we want to bring to audiences.</p>
+      <p>JSL Studios writes, develops, and produces original narrative feature films — creating stories, characters, and worlds with the ambition to grow into a distinctive industry-leading film studio. It is the creative engine behind films made to captivate audiences around the world.</p>
       </div>
       <div className="world-card sky" data-reveal="" data-delay="120">
       <span className="world-name">JSL Productions</span>
-      <p>JSL PRODUCTIONS is where that same cinematic vision meets the world of brands, fashion and culture. We work with fashion houses, luxury brands, cultural partners and entertainment companies to create campaigns, commercials, fashion films, runway films, branded content and short-form productions designed with the scale and attention to detail of cinema.</p>
+      <p>JSL Productions brings that same cinematic vision to brands, fashion and culture. We partner with fashion houses, luxury brands, cultural institutions and entertainment companies to create campaigns, short films, runway films and commercial work with the scale and attention to detail of cinema.</p>
       </div>
       </div>
       </div>
@@ -110,13 +113,13 @@ export default async function AboutPage() {
 
       <div className="story-cols">
       <div className="story-cols-title">
-      <span>From independent film to global studio</span>
+      <span>From independent films to global studio</span>
       </div>
       <div className="story-cols-body">
-      <p className="lede" data-reveal="">JSL was born independently, but our ambition has never been small.</p>
-      <p data-reveal="" data-delay="80">Our first productions established the foundation. Each project has allowed us to grow our teams, our capabilities, our network and the scale of what we can create.</p>
-      <p data-reveal="" data-delay="160">Today, JSL is building toward something larger: an international studio capable of developing original cinema, producing at scale and creating lasting relationships across the global entertainment and creative industries.</p>
-      <p data-reveal="" data-delay="240">We are building a company designed to move between worlds — from the theatrical screen to fashion, from advertising to entertainment, from New York and Europe to new international markets.</p>
+      <p className="lede" data-reveal="">Born independent, JSL has always aimed for the stars.</p>
+      <p data-reveal="" data-delay="80">Our first productions established the foundation. Each project has allowed us to grow our financial architecture, corporate teams, capabilities, network and the scale of what we create.</p>
+      <p data-reveal="" data-delay="160">Today, JSL is building toward something larger: a globally recognized studio capable of developing original cinema, producing at scale and creating lasting relationships across the global entertainment and creative industries.</p>
+      <p data-reveal="" data-delay="240">The company is designed to move between worlds — from the theatrical screen to fashion, from advertising to entertainment, from New York and Paris to new international markets.</p>
       </div>
       </div>
       </section>
@@ -128,7 +131,7 @@ export default async function AboutPage() {
       <section className="wrap vision-sec">
       <div className="vision-head">
       <span className="vision-title">Our vision</span>
-      <p>JSL Studios aims to become a global reference for independent, story-driven cinema — combining the creative freedom of an independent studio with the ambition, craft and production value traditionally associated with major studios.</p>
+      <p>JSL Studios aims to become a global reference for independent, story-driven cinema — combining the creative freedom of an independent studio with the ambition, craft and production value traditionally associated with major Hollywood studios.</p>
       </div>
       <div className="vision-grid">
       <figure className="vision-card" data-reveal="">
@@ -151,17 +154,15 @@ export default async function AboutPage() {
       <img loading="lazy" decoding="async" src="/assets/crop/fash-hats-crew.webp" alt="Feature still" />
       <div className="vision-grad"></div>
       <figcaption>
-      <span className="v-label">Contemporary</span>
+      <span className="v-label">Modern</span>
       <span className="v-line">without losing the timeless magic.</span>
       </figcaption>
       </figure>
       </div>
       <div className="vision-close">
-      <p data-reveal="">We believe cinema can be spectacular without losing its soul, ambitious without losing its independence, and contemporary without losing the timeless magic that made audiences fall in love with movies in the first place. JSL draws from the golden age of Hollywood — its sense of spectacle, storytelling and movie magic — and reimagines it through a contemporary, international lens.</p>
-      <div className="vision-close-col">
-      <p className="v-small" data-reveal="" data-delay="100">At the same time, we seek to push fashion, advertising and entertainment toward a more cinematic standard of visual storytelling.</p>
-      <p className="v-big" data-reveal="" data-delay="200">Our work is ultimately about one thing: creating moments of joy, entertainment, escapism and movie magic for audiences around the world.</p>
-      </div>
+      <p data-reveal="">JSL draws on Hollywood&rsquo;s golden age, whose spell made generations fall in love with cinema. We carry that feeling into the present, reimagining the sweep and romance of classical cinema through a contemporary, international lens — inviting audiences to be transported all over again.</p>
+      <p data-reveal="" data-delay="100">At the same time, we seek to push the fashion, advertising and entertainment industries toward a more cinematic standard of visual storytelling.</p>
+      <p className="vision-close-big" data-reveal="" data-delay="200">At its heart, our work is about creating moments of joy, entertainment, escapism and movie magic for audiences around the world.</p>
       </div>
       </section>
 
@@ -170,8 +171,8 @@ export default async function AboutPage() {
       <span>New York</span><span className="d-gold">—</span><span>Paris</span><span className="d-sky">—</span><span>The world</span>
       </div>
       <div className="world-cols">
-      <p>Born between France and the United States, JSL has always been international by nature. Today, our network is expanding into new territories, including Saudi Arabia, where we are building new relationships and creative opportunities across film, fashion and entertainment.</p>
-      <p className="w-big">We believe the future of cinema and creative production is increasingly global — and JSL intends to be part of that future.</p>
+      <p>Born between the United States and France, JSL has always been international by nature. Today, our network is expanding into new territories, including Saudi Arabia, where we are building new relationships and creative opportunities across film, fashion and entertainment.</p>
+      <p className="w-big">We believe the future of cinema and creative production is increasingly global — and JSL Studios intends to be a part of that exciting future.</p>
       </div>
       </section>
 

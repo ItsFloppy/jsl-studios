@@ -17,6 +17,8 @@
   --paper: #FFFFFF;
   --gold: #F8C43A;
   --sky: #5FB8DC;
+  /* The sky blue deepened for text on white: #5FB8DC reads at 2.2:1, this at 5.2:1. */
+  --sky-ink: #237A9F;
   --paper-soft: #F6F5F3;
   --tile: #F2F1EF;
   --line: rgba(10, 10, 10, .14);
@@ -471,8 +473,12 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
   padding: clamp(56px, 7vw, 110px) var(--gutter) clamp(40px, 5vw, 72px);
   display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: clamp(24px, 3vw, 48px);
 }
-.story-hero h2 { margin: 0; font-size: clamp(48px, 9vw, 150px); font-weight: 600; line-height: .9; letter-spacing: -.05em; text-transform: uppercase; }
-.story-hero-inner p { margin: 0; max-width: 34ch; font-size: clamp(16px, 1.4vw, 20px); line-height: 1.5; color: rgba(255, 255, 255, .82); text-wrap: pretty; }
+.story-hero h2 { margin: 0; font-size: clamp(42px, 7.6vw, 124px); font-weight: 600; line-height: .9; letter-spacing: -.05em; text-transform: uppercase; }
+
+/* The studio in one sentence, under the hero, across the full width of the page. */
+.story-statement { padding-top: clamp(40px, 5vw, 76px); }
+.story-statement p { margin: 0; font-size: clamp(22px, 2.6vw, 38px); font-weight: 500; line-height: 1.28; letter-spacing: -.02em; color: var(--sky-ink); text-wrap: pretty; }
+.story-statement + .story-body { padding-top: clamp(40px, 5vw, 76px); }
 
 .story-body { padding-top: clamp(56px, 7vw, 110px); padding-bottom: clamp(56px, 7vw, 110px); display: flex; flex-direction: column; gap: clamp(48px, 6vw, 90px); }
 .story-cols { display: flex; flex-wrap: wrap; gap: clamp(24px, 4vw, 72px); }
@@ -483,8 +489,14 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .story-cols-body .lede { color: var(--ink); font-size: clamp(18px, 1.7vw, 24px); line-height: 1.4; letter-spacing: -.015em; }
 
 .two-worlds { display: flex; flex-direction: column; gap: clamp(24px, 3vw, 40px); }
-.two-worlds-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; align-items: flex-end; }
-.two-worlds-head .tw-title { max-width: 22ch; font-size: clamp(28px, 3.2vw, 46px); font-weight: 500; line-height: 1.05; letter-spacing: -.035em; text-wrap: balance; }
+.two-worlds-head { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+/* One centred line on a wide screen; on a phone it wraps, balanced. */
+.two-worlds-head .tw-title { font-size: clamp(17px, 2.1vw, 30px); font-weight: 600; line-height: 1.25; letter-spacing: .02em; text-transform: uppercase; text-wrap: balance; }
+/* Each phrase keeps together: a narrow screen breaks the line at a dash, never inside one. */
+.two-worlds-head .tw-part { white-space: nowrap; }
+.two-worlds-head .tw-dash { margin: 0 .2em; }
+.two-worlds-head .tw-dash.d-gold { color: var(--gold); }
+.two-worlds-head .tw-dash.d-sky { color: var(--sky); }
 .two-worlds-head .tw-sub { font-size: clamp(15px, 1.2vw, 17.5px); color: var(--ink-72); }
 .two-worlds-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(24px, 3vw, 44px); }
 .world-card { display: flex; flex-direction: column; gap: 14px; padding-top: 18px; border-top: 2px solid var(--gold); }
@@ -497,9 +509,9 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .story-divider img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
 .vision-sec { padding-top: clamp(56px, 7vw, 110px); display: flex; flex-direction: column; gap: clamp(32px, 4vw, 64px); }
-.vision-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: clamp(20px, 3vw, 48px); }
+.vision-head { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(16px, 2vw, 28px); }
 .vision-head .vision-title { font-size: clamp(36px, 5vw, 84px); font-weight: 500; line-height: .95; letter-spacing: -.045em; }
-.vision-head p { margin: 0; max-width: 52ch; font-size: clamp(15px, 1.15vw, 16.5px); line-height: 1.7; color: var(--ink-72); text-wrap: pretty; }
+.vision-head p { margin: 0; max-width: 64ch; font-size: clamp(16px, 1.35vw, 19px); line-height: 1.65; color: var(--ink-72); text-wrap: pretty; }
 .vision-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 4px; }
 .vision-card { margin: 0; position: relative; aspect-ratio: 3/4; overflow: hidden; background: var(--tile); display: flex; align-items: flex-end; }
 .vision-card > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
@@ -509,13 +521,12 @@ body[data-reveal-ready] [data-reveal]:not([data-shown]) { opacity: 0; transform:
 .vision-card .vision-grad { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 10, 10, 0) 40%, rgba(10, 10, 10, .82) 100%); }
 .vision-card figcaption { position: relative; padding: clamp(20px, 2.4vw, 34px); display: flex; flex-direction: column; gap: 8px; color: var(--paper); }
 .vision-card figcaption .v-label { font-size: 11px; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; }
-.vision-card figcaption .v-line { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(26px, 2.6vw, 42px); line-height: 1; letter-spacing: -.02em; text-wrap: balance; }
-.vision-close { display: flex; flex-wrap: wrap; gap: clamp(24px, 4vw, 72px); }
-.vision-close > p { flex: 1 1 300px; margin: 0; font-size: clamp(15px, 1.15vw, 16.5px); line-height: 1.7; color: var(--ink-72); text-wrap: pretty; }
-.vision-close-col { flex: 1 1 300px; display: flex; flex-direction: column; gap: 18px; }
-.vision-close-col p { margin: 0; }
-.vision-close-col .v-small { font-size: clamp(15px, 1.15vw, 16.5px); line-height: 1.7; color: var(--ink-72); text-wrap: pretty; }
-.vision-close-col .v-big { font-size: clamp(20px, 2.2vw, 30px); line-height: 1.3; letter-spacing: -.02em; text-wrap: pretty; }
+/* Two lines' height whatever the wording, so the three labels above them line up. */
+.vision-card figcaption .v-line { min-height: 2em; font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(26px, 2.6vw, 42px); line-height: 1; letter-spacing: -.02em; text-wrap: balance; }
+/* One centred column, ending on a larger closing line. */
+.vision-close { align-self: center; max-width: 780px; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+.vision-close p { margin: 0; font-size: clamp(15px, 1.2vw, 17.5px); line-height: 1.7; color: var(--ink-72); text-wrap: pretty; }
+.vision-close .vision-close-big { margin-top: clamp(8px, 1.4vw, 20px); font-size: clamp(22px, 2.4vw, 34px); line-height: 1.3; letter-spacing: -.02em; color: var(--ink); text-wrap: balance; }
 
 .world-sec { padding-top: clamp(56px, 7vw, 110px); padding-bottom: clamp(56px, 7vw, 110px); display: flex; flex-direction: column; gap: clamp(28px, 3.4vw, 52px); }
 .world-line { display: flex; flex-wrap: nowrap; white-space: nowrap; column-gap: clamp(12px, 2vw, 36px); font-size: clamp(22px, 4.6vw, 76px); font-weight: 600; line-height: .95; letter-spacing: -.05em; text-transform: uppercase; }
